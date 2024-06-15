@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/models/character.dart';
 import 'package:palink_v2/views/components/appbar_perferred_size.dart';
@@ -11,10 +10,11 @@ import '../../controller/user_controller.dart';
 import 'componenets/messages.dart';
 import 'componenets/profile_image.dart';
 import 'componenets/tip_button.dart';
+
 class ChatScreen extends StatelessWidget {
   final ChatViewModel viewModel;
   final UserController userController = Get.put(UserController());
-  final TipButtonViewModel tipViewModel = Get.put(TipButtonViewModel()); // ViewModel 추가
+  final TipButtonViewModel tipViewModel = Get.put(TipButtonViewModel());
 
   ChatScreen({
     super.key,
@@ -62,45 +62,49 @@ class ChatScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: false,
         body: Stack(
-          children:[
-            Column(
           children: [
-            Expanded(
+            Column(
+              children: [
+                Expanded(
+                  child: Obx(() {
+                    if (viewModel.isLoading.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return viewModel.messages.isEmpty
+                        ? const Center(
+                      child: Text(
+                        'No messages yet.',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                        : Messages(
+                      messages: viewModel.messages,
+                      userId: userController.userId.value,
+                      characterImg: viewModel.character.image,
+                      likingLevels: viewModel.likingLevels.value,
+                    );
+                  }),
+                ),
+                _sendMessageField(viewModel),
+              ],
+            ),
+            Positioned(
+              bottom: 110,
+              left: 20,
               child: Obx(() {
-                if (viewModel.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return viewModel.messages.isEmpty
-                    ? const Center(
-                  child: Text(
-                    'No messages yet.',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-                    : Messages(
-                  messages: viewModel.messages,
-                  userId: userController.userId.value,
-                  characterImg: viewModel.character.image,
-                  likingLevels: viewModel.likingLevels.value,
+                return TipButton(
+                  tipContent: viewModel.tipContent.value,
+                  isExpanded: tipViewModel.isExpanded.value,
+                  isLoading: tipViewModel.isLoading.value,
+                  onToggle: tipViewModel.toggle,
                 );
               }),
             ),
-
-            _sendMessageField(viewModel),
           ],
         ),
-        Positioned(
-          bottom: 110,
-          left: 20,
-          child: TipButton(),  // 팁 버튼 추가
-        ),
-    ],
-      ),
       ),
     );
   }
-
-
 
   Widget _sendMessageField(ChatViewModel viewModel) => SafeArea(
     child: Container(
@@ -115,49 +119,49 @@ class ChatScreen extends StatelessWidget {
         children: [
           const SizedBox(width: 10),
           Expanded(
-              child: TextField(
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                textCapitalization: TextCapitalization.sentences,
-                controller: viewModel.textController,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      if (viewModel.textController.text.isNotEmpty) {
-                        viewModel.sendMessage();
-                        viewModel.textController.clear();
-                      }
-                    },
-                    icon: const Icon(Icons.send),
-                    color: Colors.blue,
-                    iconSize: 25,
+            child: TextField(
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              textCapitalization: TextCapitalization.sentences,
+              controller: viewModel.textController,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    if (viewModel.textController.text.isNotEmpty) {
+                      viewModel.sendMessage();
+                      viewModel.textController.clear();
+                    }
+                  },
+                  icon: const Icon(Icons.send),
+                  color: Colors.blue,
+                  iconSize: 25,
+                ),
+                hintText: "여기에 메시지를 입력하세요",
+                hintMaxLines: 1,
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal: 0.02.sw, vertical: 0.01.sh),
+                hintStyle: const TextStyle(
+                  fontSize: 16,
+                ),
+                fillColor: Colors.white,
+                filled: true,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: const BorderSide(
+                    color: Colors.white,
+                    width: 0.2,
                   ),
-                  hintText: "여기에 메시지를 입력하세요",
-                  hintMaxLines: 1,
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10),
-                  hintStyle: const TextStyle(
-                    fontSize: 16,
-                  ),
-                  fillColor: Colors.white,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: const BorderSide(
-                      color: Colors.white,
-                      width: 0.2,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: const BorderSide(
-                      color: Colors.black26,
-                      width: 0.2,
-                    ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: const BorderSide(
+                    color: Colors.black26,
+                    width: 0.2,
                   ),
                 ),
               ),
             ),
+          ),
         ],
       ),
     ),
