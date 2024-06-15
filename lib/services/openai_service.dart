@@ -5,12 +5,10 @@ import 'package:langchain_chroma/langchain_chroma.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:palink_v2/constants/prompts.dart';
 import '../constants/app_url.dart';
-import '../controller/tip_viewmodel.dart';
 import '../controller/user_controller.dart';
 import '../models/chat/ai_response.dart';
 import '../models/chat/message.dart';
 import '../models/tip.dart';
-
 
 class OpenAIService {
   String? get apiKey => AppUrl().apiKey;
@@ -23,8 +21,6 @@ class OpenAIService {
   late final ConversationChain chain;
   late final LLMChain tip;
   final UserController userController = Get.put(UserController());
-  final TipButtonViewModel tipButtonViewModel = Get.put(TipButtonViewModel()); // ViewModel 추가
-
 
   final tipPromptTemplate = ChatPromptTemplate.fromTemplate('''
     당신은 다음 설명에 해당하는 적절한 답변을 해야합니다. 
@@ -48,6 +44,7 @@ class OpenAIService {
   }
 
   void _initializeChat() {
+
     llm = ChatOpenAI(apiKey: apiKey, defaultOptions: const ChatOpenAIOptions(
       temperature: 0.8,
       model: 'gpt-4-turbo',
@@ -110,9 +107,8 @@ class OpenAIService {
 
       final Map<String, dynamic> contentMap = jsonDecode(aiChatMessage.content);
       AIResponse aiResponse = AIResponse.fromJson(contentMap);
-      invokeTip(aiResponse);
-
       return aiResponse;
+
     } catch (e) {
       print('Failed to invoke chain: $e');
       return null;
@@ -121,13 +117,16 @@ class OpenAIService {
 
   Future<AIResponse?> proceedRolePlaying() async {
     try {
-      return await invokeChain('당신이 먼저 부탁을 하며 대화를 시작하세요.');
+      AIResponse? aiResponse = await invokeChain('당신이 먼저 부탁을 하며 대화를 시작하세요.');
+      invokeTip(aiResponse!);
+      return aiResponse;
     } catch (e) {
       print('Error in proceedRolePlaying: $e');
+      return null;
     }
   }
 
-  Future<void> invokeTip(AIResponse aiResponse) async {
+  Future<Map?> invokeTip(AIResponse aiResponse) async {
     final inputs = {
       'input': "${Prompt.tipPrompt}\n${aiResponse.text}", // 단일 input 키로 구성된 텍스트
     };
@@ -138,13 +137,10 @@ class OpenAIService {
       print('팁 이렇게 나옴');
 
       final AIChatMessage aiChatMessage = result['output'] as AIChatMessage;
-      final Map<String, dynamic> contentMap = jsonDecode(aiChatMessage.content);
-      String tipAnswer = contentMap['answer'];
-      String reason = contentMap['reason'];
-
-      // ViewModel 업데이트
-      tipButtonViewModel.updateTip(tipAnswer);
-      print('업데이트됨');
+      final Map<String, dynamic> tipMap = jsonDecode(aiChatMessage.content);
+      String tipAnswer = tipMap['answer'];
+      String reason = tipMap['reason'];
+      return tipMap;
 
     } catch (e) {
       print('Failed to invoke tip: $e');
