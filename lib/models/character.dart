@@ -9,6 +9,7 @@ class Character {
   final String prompt;
   final String description;
   final String image;
+  final String anaylzePrompt;
 
   Character({
     required this.characterId,
@@ -18,6 +19,7 @@ class Character {
     required this.prompt,
     required this.description,
     required this.image,
+    required this.anaylzePrompt,
   });
 
   Map<String, dynamic> toJson() {
@@ -27,6 +29,8 @@ class Character {
       'requestStrength' : requestStrength,
       'prompt': prompt,
       'description': description,
+      'image': image,
+      'anaylzePrompt': anaylzePrompt,
     };
   }
 

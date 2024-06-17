@@ -4,11 +4,12 @@ import 'package:palink_v2/models/character.dart';
 import 'package:sizing/sizing.dart';
 
 import '../../constants/app_fonts.dart';
+import '../../controller/conversation_end_controller.dart';
 
 class ConversationEndLoadingView extends StatelessWidget {
-  final Character character;
+  final ConversationEndController controller;
 
-  ConversationEndLoadingView({required this.character});
+  ConversationEndLoadingView({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class ConversationEndLoadingView extends StatelessWidget {
       padding: EdgeInsets.all(10),
       width: 150,
       height: 150,
-      child: Image.asset(character.image),  // 실제 이미지 경로로 수정 필요
+      child: Image.asset(controller.character.image),  // 실제 이미지 경로로 수정 필요
     );
   }
 }

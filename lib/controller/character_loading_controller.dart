@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:palink_v2/controller/tip_viewmodel.dart';
 import 'package:palink_v2/controller/user_controller.dart';
 import 'package:palink_v2/models/character.dart';
 import 'package:palink_v2/models/chat/ai_response.dart';
@@ -15,6 +16,7 @@ class CharacterLoadingController extends GetxController {
   final Character character;
   final UserController userController = Get.put(UserController());
   final ChatRepository chatRepository = ChatRepository();
+  final TipButtonViewModel tipButtonViewModel = TipButtonViewModel();
 
 
 
@@ -35,8 +37,9 @@ class CharacterLoadingController extends GetxController {
       );
 
       Conversation conversation = await chatRepository.createConversation(conversationDto);
-      OpenAIService openAIService = OpenAIService(character.prompt, conversation.conversationId);
+      OpenAIService openAIService = OpenAIService(character, conversation.conversationId);
       AIResponse aiResponse = await openAIService.proceedRolePlaying() as AIResponse;
+
 
       // AI 응답 메시지를 MessageDto로 변환
       MessageDto botMessageDto = MessageUtils.convertAIMessageToMessageDto(aiResponse, conversation.conversationId);
@@ -47,7 +50,6 @@ class CharacterLoadingController extends GetxController {
       if (sentBotMessage != null) {
         chatViewModel.messages.insert(0, sentBotMessage);
       }
-
 
 
       Get.off(() => ChatScreen(viewModel: chatViewModel));

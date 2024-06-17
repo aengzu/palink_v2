@@ -4,6 +4,7 @@ import 'package:langchain/langchain.dart';
 import 'package:langchain_chroma/langchain_chroma.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:palink_v2/constants/prompts.dart';
+import 'package:palink_v2/models/character.dart';
 import '../constants/app_url.dart';
 import '../controller/user_controller.dart';
 import '../models/chat/ai_response.dart';
@@ -13,33 +14,46 @@ import '../models/tip.dart';
 class OpenAIService {
   String? get apiKey => AppUrl().apiKey;
 
-  final String prompt;
+  final Character character;
   final int conversationId;
   late final ChatOpenAI llm;
   late final ConversationBufferMemory memory;
   late final ConversationBufferMemory tipMemory;
   late final ConversationChain chain;
   late final LLMChain tip;
+  late final LLMChain analyze;
   final UserController userController = Get.put(UserController());
 
   final tipPromptTemplate = ChatPromptTemplate.fromTemplate('''
     당신은 다음 설명에 해당하는 적절한 답변을 해야합니다. 
     답변으로 'answer', 'reason' 을 반드시 JSON 객체로 리턴하세요.
+    당신의 대화 상대는 AI 캐릭터입니다. 당신은 USER의 입장에서 대답을 해야합니다.
     
     {input}
   ''');
 
   final promptTemplate = ChatPromptTemplate.fromTemplate('''
-    당신은 미연입니다. 다음은 미연에 대한 설명입니다. 당신은 USER 를 {userName}으로 부르세요.
+    당신은 미연입니다. 다음은 미연에 대한 설명입니다. 당신은 USER 를 {userName}으로 부르세요. rejection_score는 누적되어야하고 만약 -5보다 이하면 is_end를 1로 설정하세요.
     {description}
-    답변으로 'text', 'feeling', 'expected_emotion', 'rejection_score', 'affinity_score', 'is_ending'을 반드시 JSON 객체로 리턴하세요.
+    답변으로 'text', 'feeling', 'expected_emotion', 'rejection_score', 'affinity_score', 'is_end'을 반드시 JSON 객체로 리턴하세요.
     
     {chat_history}
     {userName}: {input}
     AI: 
   ''');
 
-  OpenAIService(this.prompt, this.conversationId) {
+  final analyzeTemplate = ChatPromptTemplate.fromTemplate('''
+    당신은 다음의 거절 점수 표와 대화 기록들을 보고, 사용자의 대화 능력을 평가해야합니다. 거절 점수 표는 캐릭터마다 다릅니다.
+    반드시 한국어로 하며, AI 캐릭터의 말투를 사용해서 평가해주세요.
+    {input}
+    
+    답변으로 'evaluation', 'used_rejection', 'final_rejection_score' 을 반드시 JSON 객체로 리턴하세요.
+    'used_rejection'은 사용자가 '사용한 거절 능력(해당 능력의 점수)'를 나타냅니다.
+    'final_rejction_score'은 총 거절 점수입니다.
+    
+  ''');
+
+  OpenAIService(this.character, this.conversationId) {
     _initializeChat();
   }
 
@@ -91,7 +105,7 @@ class OpenAIService {
       'input': userInput,
       'chat_history': chatHistory,
       'userName': userController.name,
-      'description': prompt,
+      'description': character.prompt,
     };
 
     try {
@@ -103,10 +117,10 @@ class OpenAIService {
       );
 
       final AIChatMessage aiChatMessage = result['response'] as AIChatMessage;
-      print(aiChatMessage.content);
 
       final Map<String, dynamic> contentMap = jsonDecode(aiChatMessage.content);
       AIResponse aiResponse = AIResponse.fromJson(contentMap);
+      print(aiResponse.rejectionScore);
       return aiResponse;
 
     } catch (e) {
@@ -118,7 +132,6 @@ class OpenAIService {
   Future<AIResponse?> proceedRolePlaying() async {
     try {
       AIResponse? aiResponse = await invokeChain('당신이 먼저 부탁을 하며 대화를 시작하세요.');
-      invokeTip(aiResponse!);
       return aiResponse;
     } catch (e) {
       print('Error in proceedRolePlaying: $e');
@@ -134,16 +147,44 @@ class OpenAIService {
     try {
       final result = await tip.invoke({'input': inputs});
       print(result['output']);
-      print('팁 이렇게 나옴');
 
       final AIChatMessage aiChatMessage = result['output'] as AIChatMessage;
       final Map<String, dynamic> tipMap = jsonDecode(aiChatMessage.content);
-      String tipAnswer = tipMap['answer'];
-      String reason = tipMap['reason'];
       return tipMap;
 
     } catch (e) {
       print('Failed to invoke tip: $e');
     }
   }
+
+  Future<Map?> invokeAnalyze(String input) async {
+    analyze = LLMChain(
+      prompt: analyzeTemplate,
+      llm: llm,
+    );
+    final inputs = {
+      'input': "${character.anaylzePrompt}\n${input}",
+    };
+    try {
+      final result = await analyze.invoke({'input': inputs});
+
+      // JSON 문자열이 올바르게 반환되었는지 확인
+      AIChatMessage aiChatMessage = result['output'] as AIChatMessage;
+      String jsonString = aiChatMessage.content;
+      print(jsonString);
+
+      // JSON 문자열을 디코딩하기 전에 포맷 확인
+      if (jsonString.startsWith('```json') && jsonString.endsWith('```')) {
+        jsonString = jsonString.substring(7, jsonString.length - 3).trim();
+      }
+
+      final Map<String, dynamic> analyzeMap = jsonDecode(jsonString);
+      return analyzeMap;
+
+    } catch (e) {
+      print('Failed to invoke analyze: $e');
+      return null;
+    }
+
+}
 }
