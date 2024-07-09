@@ -51,7 +51,6 @@ class CharacterLoadingController extends GetxController {
         chatViewModel.messages.insert(0, sentBotMessage);
       }
 
-
       Get.off(() => ChatScreen(viewModel: chatViewModel));
     } catch (e) {
       print('Failed to create conversation or get AI response: $e');

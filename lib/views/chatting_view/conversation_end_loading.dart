@@ -30,10 +30,15 @@ class ConversationEndLoadingView extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
-            child: Text(
-              "현실적으로 생각해도 못하겠으면 빨리 거절해야 상대방이 다른 방법을 찾을 수 있다. 따라서 이 경우 거절이 좋은 배려이다.",
-              style: textTheme().bodyMedium,
+            child: Text.rich(
               textAlign: TextAlign.center,
+              TextSpan(
+                text: '\n',
+              children: <TextSpan>[
+                TextSpan(text: '  모든 사람을 만족시킬 수는 없다.\n', style: textTheme().titleMedium),
+                TextSpan(text: '\n모든 사람을 만족시키려 하면 자신을 잃게 됩니다. 스스로를 우선시하는 것이 중요합니다. 이는 우리의 정신적, 감정적 건강을\n 지키는 데 필요합니다.', style: textTheme().bodyMedium),
+              ],
+          ),
             ),
           ),
           CircularProgressIndicator(color: Colors.blue),

@@ -59,49 +59,53 @@ class ChatScreen extends StatelessWidget {
           centerTitle: true,
           elevation: 0,
         ),
-        backgroundColor: Colors.white,
         extendBodyBehindAppBar: false,
-        body: Stack(
-          children: [
-            Column(
+        body: Obx(() {
+          return Container(
+            color: viewModel.backgroundColor.value, // Update background color based on emotion
+            child: Stack(
               children: [
-                Expanded(
+                Column(
+                  children: [
+                    Expanded(
+                      child: Obx(() {
+                        if (viewModel.isLoading.value) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                        return viewModel.messages.isEmpty
+                            ? const Center(
+                          child: Text(
+                            'No messages yet.',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        )
+                            : Messages(
+                          messages: viewModel.messages,
+                          userId: userController.userId.value,
+                          characterImg: viewModel.character.image,
+                          likingLevels: viewModel.likingLevels.value,
+                        );
+                      }),
+                    ),
+                    _sendMessageField(viewModel),
+                  ],
+                ),
+                Positioned(
+                  bottom: 110,
+                  left: 20,
                   child: Obx(() {
-                    if (viewModel.isLoading.value) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return viewModel.messages.isEmpty
-                        ? const Center(
-                      child: Text(
-                        'No messages yet.',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )
-                        : Messages(
-                      messages: viewModel.messages,
-                      userId: userController.userId.value,
-                      characterImg: viewModel.character.image,
-                      likingLevels: viewModel.likingLevels.value,
+                    return TipButton(
+                      tipContent: viewModel.tipContent.value,
+                      isExpanded: tipViewModel.isExpanded.value,
+                      isLoading: tipViewModel.isLoading.value,
+                      onToggle: tipViewModel.toggle,
                     );
                   }),
                 ),
-                _sendMessageField(viewModel),
               ],
             ),
-            Positioned(
-              bottom: 110,
-              left: 20,
-              child: Obx(() {
-                return TipButton(
-                  tipContent: viewModel.tipContent.value,
-                  isExpanded: tipViewModel.isExpanded.value,
-                  isLoading: tipViewModel.isLoading.value,
-                  onToggle: tipViewModel.toggle,
-                );
-              }),
-            ),
-          ],
-        ),
+          );
+        }),
       ),
     );
   }

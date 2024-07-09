@@ -101,7 +101,7 @@ class ChatService {
 
   Future<Likability> sendLikingLevel(String userId, int characterId, int likingLevel, int messageId) async {
     try {
-      print(userId);
+
       final response = await _dio.post(
         '/api/liking/create',
         data: {

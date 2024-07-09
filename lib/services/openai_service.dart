@@ -33,9 +33,10 @@ class OpenAIService {
   ''');
 
   final promptTemplate = ChatPromptTemplate.fromTemplate('''
-    당신은 미연입니다. 다음은 미연에 대한 설명입니다. 당신은 USER 를 {userName}으로 부르세요. rejection_score는 누적되어야하고 만약 -5보다 이하면 is_end를 1로 설정하세요.
+    당신은 USER 를 {userName}으로 부르세요. rejection_score는 누적되어야하고 만약 -5 이하면 is_end를 즉시 1로 설정하세요.
+    다음은 당신에 대한 설명입니다.
     {description}
-    답변으로 'text', 'feeling', 'expected_emotion', 'rejection_score', 'affinity_score', 'is_end'을 반드시 JSON 객체로 리턴하세요.
+    답변으로 'text', 'feeling', 'expected_emotion', 'rejection_score', 'affinity_score', 'is_end'을 반드시 JSON 객체로 리턴하세요. ("```"로 시작하는 문자열을 생성하지 마세요)
     
     {chat_history}
     {userName}: {input}
@@ -47,10 +48,10 @@ class OpenAIService {
     반드시 한국어로 하며, AI 캐릭터의 말투를 사용해서 평가해주세요.
     {input}
     
-    답변으로 'evaluation', 'used_rejection', 'final_rejection_score' 을 반드시 JSON 객체로 리턴하세요.
-    'used_rejection'은 사용자가 '사용한 거절 능력(해당 능력의 점수)'를 나타냅니다.
+    답변으로 'evaluation' (string), 'used_rejection' (string), 'final_rejection_score' (int) 을 반드시 JSON 객체로 리턴하세요.
+    'evaluation'은 사용자의 대화 능력을 AI의 입장에서 100자 이내로 평가한 문자열입니다.
+    'used_rejection'은 사용자가 대화에서 '사용한 거절 능력(해당 능력의 점수)'의 목록을 나타냅니다.
     'final_rejction_score'은 총 거절 점수입니다.
-    
   ''');
 
   OpenAIService(this.character, this.conversationId) {
@@ -121,6 +122,10 @@ class OpenAIService {
       final Map<String, dynamic> contentMap = jsonDecode(aiChatMessage.content);
       AIResponse aiResponse = AIResponse.fromJson(contentMap);
       print(aiResponse.rejectionScore);
+      String jsonString = aiChatMessage.content;
+      print(jsonString);
+
+
       return aiResponse;
 
     } catch (e) {
