@@ -8,17 +8,20 @@ import 'package:palink_v2/services/openai_service.dart';
 import 'package:palink_v2/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import '../models/character.dart';
+import '../models/emotion_vibration.dart';
 import '../models/likability.dart';
 import '../models/liking_level.dart';
 import '../repository/chat_repository.dart';
 import '../utils/message_utils.dart';
 import '../views/chatting_view/conversation_end_loading.dart';
+import 'package:vibration/vibration.dart';
 
 class ChatViewModel extends GetxController {
   final int chatRoomId;
   final Character character;
-  final OpenAIService openAIService;
+  final OpenAIService  openAIService;
   final UserController userController = Get.put(UserController());
+  final EmotionVibration emotionVibration = EmotionVibration();
 
   final ChatRepository chatRepository = ChatRepository();
   TextEditingController textController = TextEditingController();
@@ -27,6 +30,7 @@ class ChatViewModel extends GetxController {
   var isLoading = false.obs;
   var likingLevels = <LikingLevel>[].obs;
   var tipContent = ''.obs;
+  var backgroundColor = Colors.white.obs;
 
   ChatViewModel(this.chatRoomId, this.character, this.openAIService);
 
@@ -54,7 +58,6 @@ class ChatViewModel extends GetxController {
     }
   }
 
-  // 메시지 전송 및 응답 처리 (+호감도, 팁 업데이트)
   Future<void> sendMessage() async {
     String text = textController.text;
     if (text.isEmpty) return;
@@ -88,10 +91,15 @@ class ChatViewModel extends GetxController {
           // ai의 호감도 화면에 표시
           likingLevels.insert(0, LikingLevel(
               likingLevel: aiResponse.affinityScore, messageId: sentBotMessage.messageId) as LikingLevel);
+          // AI의 감정에 따른 배경색 변경
+          print(aiResponse.expectedEmotion);
+          backgroundColor.value = emotionVibration.getColorForEmotion(aiResponse.expectedEmotion);
+          // AI의 감정에 따른 진동 실행
+          emotionVibration.vibrateForEmotion(aiResponse.expectedEmotion);
           // 호감도 db 서버에 전송하기
           chatRepository.sendLikingLevel(
               userController.userId.value, character.characterId,
-              aiResponse.affinityScore, sentBotMessage!.messageId);
+              aiResponse.affinityScore, sentBotMessage.messageId);
           // 팁 업데이트
           Map? tipResponse = await openAIService.invokeTip(aiResponse);
 

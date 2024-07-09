@@ -16,6 +16,7 @@ class CharacterLoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // CharacterLoadingController를 초기화합니다.
+    print('CharacterLoadingView: character: ${character.name}');
     Get.put(CharacterLoadingController(character));
 
     return Scaffold(
