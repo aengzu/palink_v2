@@ -12,7 +12,8 @@ class ChatService {
     _dio.options.headers['Content-Type'] = 'application/json';
   }
 
-  Future<Conversation> createConversation(ConversationDto conversationDto) async {
+  Future<Conversation> createConversation(
+      ConversationDto conversationDto) async {
     try {
       final response = await _dio.post(
         '/api/conversation/create',
@@ -99,9 +100,9 @@ class ChatService {
     }
   }
 
-  Future<Likability> sendLikingLevel(String userId, int characterId, int likingLevel, int messageId) async {
+  Future<Likability> sendLikingLevel(
+      String userId, int characterId, int likingLevel, int messageId) async {
     try {
-
       final response = await _dio.post(
         '/api/liking/create',
         data: {

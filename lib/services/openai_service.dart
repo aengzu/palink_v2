@@ -6,7 +6,7 @@ import 'package:langchain_openai/langchain_openai.dart';
 import 'package:palink_v2/constants/prompts.dart';
 import 'package:palink_v2/models/character.dart';
 import '../constants/app_url.dart';
-import '../controller/user_controller.dart';
+import '../controllers/user_controller.dart';
 import '../models/chat/ai_response.dart';
 import '../models/chat/message.dart';
 import '../models/tip.dart';
@@ -50,7 +50,7 @@ class OpenAIService {
     
     답변으로 'evaluation' (string), 'used_rejection' (string), 'final_rejection_score' (int) 을 반드시 JSON 객체로 리턴하세요.
     'evaluation'은 사용자의 대화 능력을 AI의 입장에서 100자 이내로 평가한 문자열입니다.
-    'used_rejection'은 사용자가 대화에서 '사용한 거절 능력(해당 능력의 점수)'의 목록을 나타냅니다.
+    'used_rejection'은 사용자가 대화에서 '사용한 거절 능력(해당 능력의 점수)'의 목록을 나타냅니다. 아이템의 구분은 ',' 로 나타냅니다. 
     'final_rejction_score'은 총 거절 점수입니다.
   ''');
 
@@ -59,12 +59,13 @@ class OpenAIService {
   }
 
   void _initializeChat() {
-
-    llm = ChatOpenAI(apiKey: apiKey, defaultOptions: const ChatOpenAIOptions(
-      temperature: 0.8,
-      model: 'gpt-4-turbo',
-      maxTokens: 600,
-    ));
+    llm = ChatOpenAI(
+        apiKey: apiKey,
+        defaultOptions: const ChatOpenAIOptions(
+          temperature: 0.8,
+          model: 'gpt-4-turbo',
+          maxTokens: 600,
+        ));
 
     memory = ConversationBufferMemory(
       memoryKey: 'history',
@@ -125,9 +126,7 @@ class OpenAIService {
       String jsonString = aiChatMessage.content;
       print(jsonString);
 
-
       return aiResponse;
-
     } catch (e) {
       print('Failed to invoke chain: $e');
       return null;
@@ -156,7 +155,6 @@ class OpenAIService {
       final AIChatMessage aiChatMessage = result['output'] as AIChatMessage;
       final Map<String, dynamic> tipMap = jsonDecode(aiChatMessage.content);
       return tipMap;
-
     } catch (e) {
       print('Failed to invoke tip: $e');
     }
@@ -185,11 +183,9 @@ class OpenAIService {
 
       final Map<String, dynamic> analyzeMap = jsonDecode(jsonString);
       return analyzeMap;
-
     } catch (e) {
       print('Failed to invoke analyze: $e');
       return null;
     }
-
-}
+  }
 }

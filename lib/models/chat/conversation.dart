@@ -1,7 +1,6 @@
-
 import 'message.dart';
 
-class Conversation{
+class Conversation {
   int conversationId;
   String day;
   String userId;
@@ -58,7 +57,4 @@ class ConversationDto {
       'character_id': characterId,
     };
   }
-
-
-
 }
