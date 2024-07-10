@@ -1,4 +1,4 @@
-class LikingLevel{
+class LikingLevel {
   final int likingLevel;
   final int messageId;
 
@@ -6,17 +6,10 @@ class LikingLevel{
 
   factory LikingLevel.fromJson(Map<String, dynamic> json) {
     return LikingLevel(
-        likingLevel: json['liking_level'],
-        messageId: json['message_id']
-    );
+        likingLevel: json['liking_level'], messageId: json['message_id']);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'liking_level': likingLevel,
-      'message_id': messageId
-    };
+    return {'liking_level': likingLevel, 'message_id': messageId};
   }
 }
-
-

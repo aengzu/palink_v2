@@ -1,4 +1,3 @@
-
 class ExpectedResponse {
   final String answer;
   final String reason;
@@ -26,6 +25,7 @@ class AIResponse {
   final String expectedEmotion;
   final int rejectionScore;
   final int affinityScore;
+
 //  final List<ExpectedResponse> expectedResponses;
   final int isEnd;
 
@@ -35,7 +35,7 @@ class AIResponse {
     required this.expectedEmotion,
     required this.rejectionScore,
     required this.affinityScore,
-  //  required this.expectedResponses,
+    //  required this.expectedResponses,
     required this.isEnd,
   });
 
@@ -50,7 +50,7 @@ class AIResponse {
       rejectionScore: json['rejection_score'],
       affinityScore: json['affinity_score'],
       isEnd: json['is_end'],
-    //  expectedResponses: expectedResponsesList,
+      //  expectedResponses: expectedResponsesList,
     );
   }
 
@@ -62,7 +62,7 @@ class AIResponse {
       'rejection_score': rejectionScore,
       'affinity_score': affinityScore,
       'is_end': isEnd,
-   //   'expected_responses': expectedResponses.map((response) => response.toJson()).toList(),
+      //   'expected_responses': expectedResponses.map((response) => response.toJson()).toList(),
     };
   }
 }

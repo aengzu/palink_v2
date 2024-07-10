@@ -1,21 +1,24 @@
-
-class Rejection{
+class Rejection {
   final int rejectionId;
   final String userId;
   final int characterId;
   final int rejectionLevel;
   final int messageId;
 
-  Rejection({required this.rejectionId, required this.userId, required this.characterId, required this.rejectionLevel, required this.messageId});
+  Rejection(
+      {required this.rejectionId,
+      required this.userId,
+      required this.characterId,
+      required this.rejectionLevel,
+      required this.messageId});
 
   factory Rejection.fromJson(Map<String, dynamic> json) {
     return Rejection(
-      rejectionId: json['rejection_id'],
-      userId: json['user_id'],
-      characterId: json['character_id'],
-      rejectionLevel: json['rejection_level'],
-      messageId: json['message_id']
-    );
+        rejectionId: json['rejection_id'],
+        userId: json['user_id'],
+        characterId: json['character_id'],
+        rejectionLevel: json['rejection_level'],
+        messageId: json['message_id']);
   }
 
   Map<String, dynamic> toJson() {
@@ -35,15 +38,18 @@ class RejectionDto {
   final int rejectionLevel;
   final int messageId;
 
-  RejectionDto({required this.userId, required this.characterId, required this.rejectionLevel, required this.messageId});
+  RejectionDto(
+      {required this.userId,
+      required this.characterId,
+      required this.rejectionLevel,
+      required this.messageId});
 
   factory RejectionDto.fromJson(Map<String, dynamic> json) {
     return RejectionDto(
-      userId: json['user_id'],
-      characterId: json['character_id'],
-      rejectionLevel: json['rejection_level'],
-      messageId: json['message_id']
-    );
+        userId: json['user_id'],
+        characterId: json['character_id'],
+        rejectionLevel: json['rejection_level'],
+        messageId: json['message_id']);
   }
 
   Map<String, dynamic> toJson() {
@@ -54,6 +60,4 @@ class RejectionDto {
       'message_id': messageId
     };
   }
-
-
 }

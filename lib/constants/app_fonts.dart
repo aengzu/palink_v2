@@ -19,8 +19,7 @@ AppBarTheme appTheme() {
       centerTitle: false,
       color: Colors.white,
       elevation: 0.0,
-      titleTextStyle: textTheme().titleMedium
-  );
+      titleTextStyle: textTheme().titleMedium);
 }
 
 // 사용자 정의 폰트 (Noto Sans Korean)
@@ -29,16 +28,25 @@ TextTheme textTheme() {
     // DisplayLarge 텍스트 스타일. 기본 버튼
     // displayLarge: TextStyle(fontFamily: 'NotoSansKR', fontSize: 24, color: Colors.white),
     // 기본 버튼
-    displayMedium: TextStyle(fontFamily: 'NotoSansKR', fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),
+    displayMedium: TextStyle(
+        fontFamily: 'NotoSansKR',
+        fontSize: 20,
+        color: Colors.white,
+        fontWeight: FontWeight.w300),
     // 미니 버튼
-    displaySmall: TextStyle(fontFamily: 'NotoSansKR', fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400),
+    displaySmall: TextStyle(
+        fontFamily: 'NotoSansKR',
+        fontSize: 13,
+        color: Colors.white,
+        fontWeight: FontWeight.w400),
     // BodyLarge 텍스트 스타일.
     bodyLarge: TextStyle(
       fontFamily: 'NotoSansKR',
       fontWeight: FontWeight.w400,
       fontSize: 20.0,
       color: Colors.black,
-    ),    // BodyMedium 텍스트 스타일.
+    ),
+    // BodyMedium 텍스트 스타일.
     bodyMedium: TextStyle(
       fontFamily: 'NotoSansKR',
       fontWeight: FontWeight.w400,
@@ -52,9 +60,20 @@ TextTheme textTheme() {
       color: Colors.black,
     ),
     // TitleLarge 텍스트 스타일.
-    titleSmall: TextStyle(fontFamily: 'NotoSansKR', fontSize: 17, color: Colors.black, fontWeight: FontWeight.bold),
-    titleMedium: TextStyle(fontFamily: 'NotoSansKR', fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
-    titleLarge: TextStyle(fontFamily: 'NotoSansKR', fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
-
+    titleSmall: TextStyle(
+        fontFamily: 'NotoSansKR',
+        fontSize: 17,
+        color: Colors.black,
+        fontWeight: FontWeight.bold),
+    titleMedium: TextStyle(
+        fontFamily: 'NotoSansKR',
+        fontSize: 20,
+        color: Colors.black,
+        fontWeight: FontWeight.bold),
+    titleLarge: TextStyle(
+        fontFamily: 'NotoSansKR',
+        fontSize: 25,
+        color: Colors.black,
+        fontWeight: FontWeight.bold),
   );
 }

@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'character_select_view/character_select_view.dart';
-import 'mypage_view/mypage_view.dart';
-
+import 'character_select/character_select_view.dart';
+import 'mypage/mypage_view.dart';
 
 class MainScreens extends StatefulWidget {
   const MainScreens({super.key});
@@ -33,7 +32,8 @@ class _MainScreensState extends State<MainScreens> {
         selectedItemColor: Colors.blue,
         items: const [
           BottomNavigationBarItem(label: '홈', icon: Icon(CupertinoIcons.home)),
-          BottomNavigationBarItem(label: '내 정보', icon: Icon(CupertinoIcons.person_crop_circle_fill))
+          BottomNavigationBarItem(
+              label: '내 정보', icon: Icon(CupertinoIcons.person_crop_circle_fill))
         ],
         onTap: (index) {
           setState(() {

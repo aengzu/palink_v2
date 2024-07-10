@@ -32,7 +32,8 @@ class MessageUtils {
   }
 
   // AIResponse 객체를 MessageDto 로 변환
-  static MessageDto convertAIMessageToMessageDto(AIResponse aiResponse, int conversationId) {
+  static MessageDto convertAIMessageToMessageDto(
+      AIResponse aiResponse, int conversationId) {
     return MessageDto(
       sender: false,
       messageText: aiResponse.text,
@@ -40,5 +41,4 @@ class MessageUtils {
       conversationId: conversationId,
     );
   }
-
 }

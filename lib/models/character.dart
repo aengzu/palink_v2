@@ -26,12 +26,11 @@ class Character {
     return {
       'name': name,
       'type': type,
-      'requestStrength' : requestStrength,
+      'requestStrength': requestStrength,
       'prompt': prompt,
       'description': description,
       'image': image,
       'anaylzePrompt': anaylzePrompt,
     };
   }
-
 }
