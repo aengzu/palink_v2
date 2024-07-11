@@ -1,4 +1,11 @@
 ## PALINK 
+## Team
+|<img src="https://avatars.githubusercontent.com/u/113099494?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/102356873?v=4" width="150" height="150"/>|![image](https://github.com/aengzu/palink_v2/assets/102356873/dbaf358d-723b-4a7b-8831-aab77cf7c04a)
+|
+|:-:|:-:|
+|minkyung<br/>[@Smingaeng](https://github.com/Smingaeng)|aengzu<br/>[@aengzu](https://github.com/aengzu)|Hyeongtaek
+| Backend | Frontend | PM
+
 ![014](https://github.com/aengzu/palink_v2/assets/102356873/f6633bd2-c3a9-4ad8-a0cb-b4b86bbeabb7)
 
 ## Background
