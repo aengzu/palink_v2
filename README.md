@@ -13,6 +13,8 @@
 
 ## Content
 ![015](https://github.com/aengzu/palink_v2/assets/102356873/a4d9b79d-6694-4d0c-b440-03f87384969f)
+
+## Stack
 ![016](https://github.com/aengzu/palink_v2/assets/102356873/1873440f-7c14-4ba1-a122-302ced4330fb)
 
 ## Feedback
