@@ -22,10 +22,10 @@
 
 ## SHOWCASES
 <p float="left">
-  <img src="https://github.com/user-attachments/assets/84fedde7-3dfa-4a6d-9bb4-d30e57fb10e0" width="400" />
-  <img src="https://github.com/user-attachments/assets/04e520b3-e6bb-457f-84e0-2adbba3424fa" width="400" /> 
-  <img src="https://github.com/user-attachments/assets/e14a2c98-b841-453c-9722-2327c8322dd9" width="400" /> 
-  <img src="https://github.com/user-attachments/assets/d63e1aad-ac73-4455-b2a5-142246a18a67" width="400" /> 
+  <img src="https://github.com/user-attachments/assets/84fedde7-3dfa-4a6d-9bb4-d30e57fb10e0" width="200" />
+  <img src="https://github.com/user-attachments/assets/04e520b3-e6bb-457f-84e0-2adbba3424fa" width="200" /> 
+  <img src="https://github.com/user-attachments/assets/e14a2c98-b841-453c-9722-2327c8322dd9" width="200" /> 
+  <img src="https://github.com/user-attachments/assets/d63e1aad-ac73-4455-b2a5-142246a18a67" width="200" /> 
 </p>
 
 
