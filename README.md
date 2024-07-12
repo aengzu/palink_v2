@@ -20,6 +20,13 @@
 ## Feedback
 ![018](https://github.com/aengzu/palink_v2/assets/102356873/bbdc07bd-149b-48a2-9b37-e93ce682c4b0)
 
+## SHOWCASES
+![1](https://github.com/user-attachments/assets/84fedde7-3dfa-4a6d-9bb4-d30e57fb10e0)
+![2](https://github.com/user-attachments/assets/04e520b3-e6bb-457f-84e0-2adbba3424fa)
+![3](https://github.com/user-attachments/assets/e14a2c98-b841-453c-9722-2327c8322dd9)
+![4](https://github.com/user-attachments/assets/d63e1aad-ac73-4455-b2a5-142246a18a67)
+
+
 
 ## Getting Started
 My flutter version : Flutter 3.23.0-8.0.pre.3
