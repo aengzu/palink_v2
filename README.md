@@ -21,6 +21,9 @@
 ![018](https://github.com/aengzu/palink_v2/assets/102356873/bbdc07bd-149b-48a2-9b37-e93ce682c4b0)
 
 ## SHOWCASES
+
+시연 영상 : https://www.youtube.com/watch?v=K5g2jtDPIS0
+
 <p float="left">
   <img src="https://github.com/user-attachments/assets/84fedde7-3dfa-4a6d-9bb4-d30e57fb10e0" width="200" />
   <img src="https://github.com/user-attachments/assets/04e520b3-e6bb-457f-84e0-2adbba3424fa" width="200" /> 
@@ -33,8 +36,6 @@
   <img src="https://github.com/user-attachments/assets/e9852056-13c9-474a-8515-7c89e4fb5c98" width="200" /> 
   <img src="https://github.com/user-attachments/assets/0e24434d-f988-4808-9584-b32b328220a4" width="200" /> 
 </p>
-
-시연 영상 : https://www.youtube.com/watch?v=K5g2jtDPIS0
 
 
 ## Getting Started
