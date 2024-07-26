@@ -56,4 +56,4 @@ build/
 
 
 # Asset config
-assets/config
+lib/config

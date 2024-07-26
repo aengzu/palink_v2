@@ -1,7 +1,7 @@
 // lib/utils/message_utils.dart
 
-import 'package:palink_v2/models/chat/ai_response.dart';
-import 'package:palink_v2/models/chat/message.dart';
+import 'package:palink_v2/domain/models/chat/ai_response.dart';
+import 'package:palink_v2/domain/models/chat/message.dart';
 import 'package:uuid/uuid.dart';
 
 class MessageUtils {
