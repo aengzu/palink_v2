@@ -1,4 +1,5 @@
-// User 엔티티 클래스
+import 'package:json_annotation/json_annotation.dart';
+
 class User {
   final String name;
   final String userId;
@@ -31,7 +32,10 @@ class User {
   }
 }
 
+
+
 // UserSignDto 클래스
+@JsonSerializable()
 class UserSignDto {
   final String userId;
   final String name;
@@ -91,6 +95,7 @@ extension UserToDto on User {
   }
 }
 
+@JsonSerializable()
 class LoginDto {
   final String userId;
   final String password;

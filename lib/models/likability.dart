@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+
+@JsonSerializable()
 class Likability {
   final int likingId;
   final String userId;
@@ -52,12 +56,10 @@ class LikabilityDto {
         messageId: json['message_id']);
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'user_id': userId,
-      'character_id': characterId,
-      'liking_level': likingLevel,
-      'message_id': messageId
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'user_id': userId,
+        'character_id': characterId,
+        'liking_level': likingLevel,
+        'message_id': messageId
+      };
 }

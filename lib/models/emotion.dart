@@ -1,3 +1,8 @@
+
+import 'package:json_annotation/json_annotation.dart';
+part 'emotion.g.dart';
+
+@JsonSerializable()
 class Emotion {
   final String emotionType;
   final String vibrationPattern;
@@ -8,18 +13,7 @@ class Emotion {
       required this.vibrationPattern,
       required this.backgroundColor});
 
-  factory Emotion.fromJson(Map<String, dynamic> json) {
-    return Emotion(
-        emotionType: json['emotion_type'],
-        vibrationPattern: json['vibration_pattern'],
-        backgroundColor: json['background_color']);
-  }
+  factory Emotion.fromJson(Map<String, dynamic> json) => _$EmotionFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'emotion_type': emotionType,
-      'vibration_pattern': vibrationPattern,
-      'background_color': backgroundColor,
-    };
-  }
+  Map<String, dynamic> toJson() => _$EmotionToJson(this);
 }

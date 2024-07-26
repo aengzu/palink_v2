@@ -1,15 +1,14 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'liking_level.g.dart';
+
+@JsonSerializable()
 class LikingLevel {
   final int likingLevel;
   final int messageId;
 
   LikingLevel({required this.likingLevel, required this.messageId});
 
-  factory LikingLevel.fromJson(Map<String, dynamic> json) {
-    return LikingLevel(
-        likingLevel: json['liking_level'], messageId: json['message_id']);
-  }
+  factory LikingLevel.fromJson(Map<String, dynamic> json) => _$LikingLevelFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {'liking_level': likingLevel, 'message_id': messageId};
-  }
+  Map<String, dynamic> toJson() => _$LikingLevelToJson(this);
 }

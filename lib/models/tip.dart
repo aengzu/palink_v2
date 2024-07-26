@@ -1,4 +1,7 @@
-// 팁 모델
+import 'package:json_annotation/json_annotation.dart';
+part 'tip.g.dart';
+
+@JsonSerializable()
 class Tip {
   final int tipId;
   final String tipText;

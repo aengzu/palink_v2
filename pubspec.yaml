@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_dotenv: ^5.1.0
   google_fonts: ^6.2.1
+  build_runner:
   sizing: ^1.1.2
   get: ^4.6.6
   flutter_chat_types: ^3.6.2
@@ -51,6 +52,9 @@ dependencies:
   langchain: ^0.7.2
   langchain_openai: ^0.6.2
   langchain_chroma: ^0.2.0+5
+  flutter_animate: ^4.5.0
+  animated_text_kit: ^4.2.2
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +66,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  json_serializable: ^6.8.0
+  build_runner: ^2.4.11
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

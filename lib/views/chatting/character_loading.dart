@@ -36,7 +36,7 @@ class CharacterLoadingView extends StatelessWidget {
           Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
-            child: _buildStyledDescription(character.description),
+            child: _buildStyledDescription(character.description!),
           ),
           CircularProgressIndicator(color: Colors.blue),
         ],
