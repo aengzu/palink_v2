@@ -30,31 +30,3 @@ class Conversation {
     };
   }
 }
-
-class ConversationDto {
-  String day;
-  String userId;
-  int characterId;
-
-  ConversationDto({
-    required this.day,
-    required this.userId,
-    required this.characterId,
-  });
-
-  factory ConversationDto.fromJson(Map<String, dynamic> json) {
-    return ConversationDto(
-      day: json['day'],
-      userId: json['user_id'],
-      characterId: json['character_id'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'day': day,
-      'user_id': userId,
-      'character_id': characterId,
-    };
-  }
-}

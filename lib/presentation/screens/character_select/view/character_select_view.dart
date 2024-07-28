@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
-import 'package:palink_v2/domain/controllers/character_controller.dart';
+import 'package:palink_v2/di/locator.dart';
+import 'package:palink_v2/presentation/screens/character_select/controller/character_select_viewmodel.dart';
+import 'package:palink_v2/presentation/screens/character_select/view/components/character_list.dart';
 import 'package:palink_v2/presentation/screens/common/appbar_perferred_size.dart';
 import 'package:sizing/sizing.dart';
-import 'components/character_list.dart';
 
 class CharacterSelectView extends StatelessWidget {
-  CharacterController characterController = CharacterController();
+  final CharacterSelectViewModel viewModel = Get.put(getIt<CharacterSelectViewModel>());
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,13 @@ class CharacterSelectView extends StatelessWidget {
             Text('아래의 친구들 중에서 선택해주세요.', style: textTheme().titleMedium),
             SizedBox(height: 0.05.sh),
             Expanded(
-              child: CharacterList(characters: characterController.characters),
+              child: Obx(() {
+                // characters가 RxList로 선언되어 있으므로 .value 접근 없이 직접 사용
+                if (viewModel.characters.isEmpty) {
+                  return Center(child: Text('No characters available.'));
+                }
+                return CharacterList(characters: viewModel.characters);
+              }),
             ),
           ],
         ),

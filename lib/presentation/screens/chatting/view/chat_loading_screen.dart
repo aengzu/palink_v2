@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
-import 'package:palink_v2/domain/controllers/character_loading_controller.dart';
 import 'package:palink_v2/domain/models/character.dart';
+import 'package:palink_v2/di/locator.dart';
+import 'package:palink_v2/domain/usecase/get_message_usecase.dart';
+import 'package:palink_v2/domain/usecase/get_user_info_usecase.dart';
+import 'package:palink_v2/domain/usecase/send_message_usecase.dart';
+import 'package:palink_v2/domain/usecase/start_conversation_usecase.dart';
+import 'package:palink_v2/presentation/screens/chatting/controller/chat_loading_viewmodel.dart';
 import 'package:sizing/sizing.dart';
 
-class CharacterLoadingView extends StatelessWidget {
+class ChatLoadingScreen extends StatelessWidget {
   final Character character;
 
-  CharacterLoadingView({Key? key})
-      : character = Get.arguments as Character,
+  // ChatLoadingViewModel 생성자 매개변수에 character를 전달
+  ChatLoadingScreen({required this.character, Key? key})
+      : viewModel = Get.put(ChatLoadingViewModel(
+    startConversationUseCase: getIt<StartConversationUseCase>(),
+    getMessagesUseCase: getIt<GetMessagesUseCase>(),
+    sendMessageUseCase: getIt<SendMessageUseCase>(),
+    getUserInfoUseCase: getIt<GetUserInfoUseCase>(),
+    character: character, // 여기에 character를 전달
+  )),
         super(key: key);
+
+  final ChatLoadingViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
-    // CharacterLoadingController를 초기화합니다.
-    print('CharacterLoadingView: character: ${character.name}');
-    Get.put(CharacterLoadingController(character));
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -33,8 +43,7 @@ class CharacterLoadingView extends StatelessWidget {
             ),
           ),
           Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
+            padding: EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
             child: _buildStyledDescription(character.description!),
           ),
           CircularProgressIndicator(color: Colors.blue),
@@ -53,7 +62,6 @@ class CharacterLoadingView extends StatelessWidget {
   }
 
   Widget _buildStyledDescription(String description) {
-    // Split description by new lines
     List<String> lines = description.split('\n');
 
     return Column(
@@ -62,17 +70,15 @@ class CharacterLoadingView extends StatelessWidget {
         Center(
           child: Text(
             lines[0],
-            style:
-                textTheme().titleSmall?.copyWith(fontWeight: FontWeight.bold),
+            style: textTheme().titleSmall?.copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 8.0), // 타이틀과 나머지 텍스트 간 간격
+        SizedBox(height: 8.0),
         RichText(
           text: TextSpan(
-            style: textTheme().bodyMedium?.copyWith(height: 1.5), // 줄 간격 추가
+            style: textTheme().bodyMedium?.copyWith(height: 1.5),
             children: [
-              // 나머지 줄은 체크 아이콘과 함께 표시
               for (var line in lines.skip(1))
                 TextSpan(
                   children: [

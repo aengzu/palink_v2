@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
-import 'package:palink_v2/domain/controllers/chatting_viewmodel.dart';
-import 'package:palink_v2/domain/controllers/tip_viewmodel.dart';
-import 'package:palink_v2/domain/controllers/user_controller.dart';
+import 'package:palink_v2/presentation/screens/chatting/controller/chat_viewmodel.dart';
 import 'package:sizing/sizing.dart';
 import 'components/messages.dart';
 import 'components/profile_image.dart';
 import 'components/tip_button.dart';
 
-
-
 class ChatScreen extends StatelessWidget {
   final ChatViewModel viewModel;
-  final UserController userController = Get.put(UserController());
-  final TipButtonViewModel tipViewModel = Get.put(TipButtonViewModel());
 
-  ChatScreen({
-    super.key,
-    required this.viewModel,
-  });
+  ChatScreen({required this.viewModel, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +53,7 @@ class ChatScreen extends StatelessWidget {
         extendBodyBehindAppBar: false,
         body: Obx(() {
           return Container(
-            color: viewModel.backgroundColor.value, // Update background color based on emotion
+            color: viewModel.backgroundColor.value,
             child: Stack(
               children: [
                 Column(
@@ -81,9 +72,9 @@ class ChatScreen extends StatelessWidget {
                         )
                             : Messages(
                           messages: viewModel.messages,
-                          userId: userController.userId.value,
+                          userId: viewModel.character.characterId.toString(),
                           characterImg: viewModel.character.image,
-                          likingLevels: viewModel.likingLevels.value,
+                          likingLevels: [], // Assuming liking levels are managed elsewhere
                         );
                       }),
                     ),
@@ -93,14 +84,12 @@ class ChatScreen extends StatelessWidget {
                 Positioned(
                   bottom: 110,
                   left: 20,
-                  child: Obx(() {
-                    return TipButton(
-                      tipContent: viewModel.tipContent.value,
-                      isExpanded: tipViewModel.isExpanded.value,
-                      isLoading: tipViewModel.isLoading.value,
-                      onToggle: tipViewModel.toggle,
-                    );
-                  }),
+                  child: TipButton(
+                    tipContent: viewModel.tipContent.value,
+                    isExpanded: false, // Expandable state management should be handled properly
+                    isLoading: false,  // Loading state management for the tip button
+                    onToggle: () {}, // Define toggle logic
+                  ),
                 ),
               ],
             ),
@@ -133,7 +122,6 @@ class ChatScreen extends StatelessWidget {
                   onPressed: () {
                     if (viewModel.textController.text.isNotEmpty) {
                       viewModel.sendMessage();
-                      viewModel.textController.clear();
                     }
                   },
                   icon: const Icon(Icons.send),

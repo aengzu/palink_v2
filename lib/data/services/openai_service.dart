@@ -1,15 +1,11 @@
 import 'dart:convert';
-import 'package:get/get.dart';
 import 'package:langchain/langchain.dart';
-import 'package:langchain_chroma/langchain_chroma.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:palink_v2/core/constants/app_url.dart';
 import 'package:palink_v2/core/constants/prompts.dart';
-import 'package:palink_v2/domain/controllers/user_controller.dart';
+import 'package:palink_v2/data/models/ai_response.dart';
 import 'package:palink_v2/domain/models/character.dart';
-import 'package:palink_v2/domain/models/chat/ai_response.dart';
-
-
+import 'package:palink_v2/domain/models/user.dart';
 
 class OpenAIService {
   String? get apiKey => AppUrl().apiKey;
@@ -22,7 +18,6 @@ class OpenAIService {
   late final ConversationChain chain;
   late final LLMChain tip;
   late final LLMChain analyze;
-  final UserController userController = Get.put(UserController());
 
   final tipPromptTemplate = ChatPromptTemplate.fromTemplate('''
     당신은 다음 설명에 해당하는 적절한 답변을 해야합니다. 
@@ -99,14 +94,14 @@ class OpenAIService {
     return variables;
   }
 
-  Future<AIResponse?> invokeChain(String userInput) async {
+  Future<AIResponse?> invokeChain(User user, String userInput) async {
     final memoryVariables = await loadMemory();
     final chatHistory = memoryVariables['history'] ?? '';
 
     final inputs = {
       'input': userInput,
       'chat_history': chatHistory,
-      'userName': userController.name,
+      'userName': user.name,
       'description': character.prompt,
     };
 
@@ -133,9 +128,9 @@ class OpenAIService {
     }
   }
 
-  Future<AIResponse?> proceedRolePlaying() async {
+  Future<AIResponse?> proceedRolePlaying(User user) async {
     try {
-      AIResponse? aiResponse = await invokeChain('당신이 먼저 부탁을 하며 대화를 시작하세요.');
+      AIResponse? aiResponse = await invokeChain(user, '당신이 먼저 부탁을 하며 대화를 시작하세요.');
       return aiResponse;
     } catch (e) {
       print('Error in proceedRolePlaying: $e');
@@ -184,6 +179,7 @@ class OpenAIService {
       final Map<String, dynamic> analyzeMap = jsonDecode(jsonString);
       return analyzeMap;
     } catch (e) {
+      print('여기서 발생한 에런가?');
       print('Failed to invoke analyze: $e');
       return null;
     }

@@ -1,6 +1,7 @@
 // lib/utils/message_utils.dart
 
-import 'package:palink_v2/domain/models/chat/ai_response.dart';
+import 'package:palink_v2/data/models/ai_response.dart';
+import 'package:palink_v2/data/models/message_request.dart';
 import 'package:palink_v2/domain/models/chat/message.dart';
 import 'package:uuid/uuid.dart';
 
@@ -9,8 +10,8 @@ class MessageUtils {
   // 서버에서 받은 메시지를 Message로 변환해서 사용해야함
 
   // text 와 conversationId 를 주면 알아서 MessageDto 만드는 것.
-  static MessageDto createUserMessageDto(String text, int conversationId) {
-    return MessageDto(
+  static MessageRequest createUserMessageDto(String text, int conversationId) {
+    return MessageRequest(
       sender: true,
       messageText: text,
       timestamp: DateTime.now().toIso8601String(),
@@ -32,9 +33,9 @@ class MessageUtils {
   }
 
   // AIResponse 객체를 MessageDto 로 변환
-  static MessageDto convertAIMessageToMessageDto(
+  static MessageRequest convertAIMessageToMessageDto(
       AIResponse aiResponse, int conversationId) {
-    return MessageDto(
+    return MessageRequest(
       sender: false,
       messageText: aiResponse.text,
       timestamp: DateTime.now().toIso8601String(),

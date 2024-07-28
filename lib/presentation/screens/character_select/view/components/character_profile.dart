@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
 import 'package:palink_v2/domain/models/character.dart';
-import 'package:palink_v2/presentation/screens/chatting/view/character_loading.dart';
+import 'package:palink_v2/presentation/screens/chatting/view/chat_loading_screen.dart';
 import 'package:sizing/sizing.dart';
-
 
 class CharacterProfile extends StatelessWidget {
   final Character character;
@@ -15,7 +14,7 @@ class CharacterProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => CharacterLoadingView(), arguments: character);
+        Get.to(() => ChatLoadingScreen(character: character));
       },
       child: Column(
         children: [
