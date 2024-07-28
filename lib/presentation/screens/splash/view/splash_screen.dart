@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:palink_v2/core/constants/app_images.dart';
+import 'package:palink_v2/core/theme/app_colors.dart';
 import 'package:palink_v2/domain/controllers/splash_controller.dart';
-import 'package:palink_v2/utils/constants/app_colors.dart';
-import 'package:palink_v2/utils/constants/app_images.dart';
 
 
 

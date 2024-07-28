@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
+import 'package:palink_v2/core/constants/app_images.dart';
+import 'package:palink_v2/core/constants/prompts.dart';
 import 'package:palink_v2/domain/models/character.dart';
-import 'package:palink_v2/utils/constants/app_images.dart';
-import 'package:palink_v2/utils/constants/prompts.dart';
+
 
 
 class CharacterController extends GetxController {

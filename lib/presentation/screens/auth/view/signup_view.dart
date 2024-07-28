@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:palink_v2/domain/controllers/auth/signup_controller.dart';
+import 'package:palink_v2/core/theme/app_fonts.dart';
+import 'package:palink_v2/di/locator.dart';
+import 'package:palink_v2/presentation/screens/auth/controller/signup_view_model.dart';
 import 'package:palink_v2/presentation/screens/common/custom_btn.dart';
-import 'package:palink_v2/utils/constants/app_fonts.dart';
 import 'package:sizing/sizing.dart';
-import 'package:flutter/services.dart'; // Import this package
+import 'package:flutter/services.dart';
 
 class SignupView extends StatelessWidget {
-  final SignUpController signUpController = Get.put(SignUpController());
+  final SignupViewModel signupViewModel = getIt<SignupViewModel>();
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController memberIdController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController ageController = TextEditingController();
+    final TextEditingController personalityTypeController = TextEditingController();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -21,27 +28,26 @@ class SignupView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Obx(() {
-          if (signUpController.errorMessage.value.isNotEmpty) {
-            return Center(
-                child: Text('Error: ${signUpController.errorMessage.value}'));
+          if (signupViewModel.errorMessage.value.isNotEmpty) {
+            return Center(child: Text('Error: ${signupViewModel.errorMessage.value}'));
           } else {
             return SingleChildScrollView(
               child: Column(
                 children: [
                   _buildTextField(
-                    controller: signUpController.memberIdController,
+                    controller: memberIdController,
                     labelText: '사용자 ID',
                     hintText: '사용자 ID를 입력하세요.',
                   ),
                   SizedBox(height: 0.03.sh),
                   _buildTextField(
-                    controller: signUpController.nameController,
+                    controller: nameController,
                     labelText: '사용자 이름',
                     hintText: '사용자 이름을 입력하세요.',
                   ),
                   SizedBox(height: 0.03.sh),
                   _buildTextField(
-                    controller: signUpController.passwordController,
+                    controller: passwordController,
                     labelText: '비밀번호',
                     hintText: '비밀번호를 입력하세요.',
                     isObscure: true,
@@ -51,21 +57,17 @@ class SignupView extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _buildTextField(
-                          controller: signUpController.ageController,
+                          controller: ageController,
                           labelText: '나이',
                           hintText: '나이를 입력하세요.',
                           keyboardType: TextInputType.number,
-                          // Set the keyboard type to number
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ], // Restrict input to digits
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         ),
                       ),
-                      SizedBox(width: 0.03.sw), // Space between the two fields
+                      SizedBox(width: 0.03.sw),
                       Expanded(
                         child: _buildTextField(
-                          controller:
-                              signUpController.personalityTypeController,
+                          controller: personalityTypeController,
                           labelText: 'MBTI',
                           hintText: 'MBTI를 입력하세요.',
                         ),
@@ -74,11 +76,17 @@ class SignupView extends StatelessWidget {
                   ),
                   SizedBox(height: 0.1.sh),
                   CustomButton(
-                    label: signUpController.isLoading.value
+                    label: signupViewModel.isLoading.value
                         ? '회원가입 중...'
                         : '회원가입하기',
                     onPressed: () {
-                      _signUp();
+                      signupViewModel.signUp(
+                        memberIdController.text,
+                        passwordController.text,
+                        nameController.text,
+                        int.tryParse(ageController.text) ?? 0,  // 정수로 변환, 오류 방지
+                        personalityTypeController.text,
+                      );
                     },
                   ),
                 ],
@@ -90,24 +98,6 @@ class SignupView extends StatelessWidget {
     );
   }
 
-  Future<void> _signUp() async {
-    await signUpController.signUp(
-      signUpController.memberIdController.text,
-      signUpController.nameController.text,
-      signUpController.passwordController.text,
-      int.parse(signUpController.ageController.text),
-      // Ensure age is parsed as int
-      signUpController.personalityTypeController.text,
-    );
-    if (signUpController.errorMessage.value.isNotEmpty) {
-      Get.snackbar('Error', signUpController.errorMessage.value,
-          snackPosition: SnackPosition.TOP);
-    } else {
-      Get.snackbar('Success', '회원가입이 성공적으로 완료되었습니다.',
-          snackPosition: SnackPosition.TOP);
-    }
-  }
-
   Widget _buildTextField({
     required TextEditingController controller,
     required String labelText,
@@ -117,29 +107,25 @@ class SignupView extends StatelessWidget {
     List<TextInputFormatter>? inputFormatters,
   }) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // 라벨과 텍스트 필드를 왼쪽 정렬
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           labelText,
-          style: textTheme().titleSmall,
+          style: const TextStyle(fontSize: 16),
         ),
-        SizedBox(height: 8), // 라벨과 텍스트 필드 사이의 간격 조정
+        const SizedBox(height: 8),
         TextField(
           controller: controller,
           obscureText: isObscure,
           keyboardType: keyboardType,
-          // Set the keyboard type
           inputFormatters: inputFormatters,
-          // Apply input formatters if any
           decoration: InputDecoration(
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Color(0xff134f91)),
             ),
             hintText: hintText,
-            hintStyle: textTheme().bodyMedium,
-            contentPadding:
-                EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            border: OutlineInputBorder(),
+            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            border: const OutlineInputBorder(),
           ),
         ),
       ],

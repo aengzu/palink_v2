@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:palink_v2/core/theme/app_fonts.dart';
 import 'package:palink_v2/domain/controllers/chatting_viewmodel.dart';
 import 'package:palink_v2/domain/controllers/tip_viewmodel.dart';
 import 'package:palink_v2/domain/controllers/user_controller.dart';
-import 'package:palink_v2/utils/constants/app_fonts.dart';
 import 'package:sizing/sizing.dart';
 import 'components/messages.dart';
 import 'components/profile_image.dart';

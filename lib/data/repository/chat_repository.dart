@@ -1,10 +1,11 @@
 
+import 'package:palink_v2/core/utils/message_utils.dart';
 import 'package:palink_v2/data/services/chat_service.dart';
 import 'package:palink_v2/domain/models/chat/ai_response.dart';
 import 'package:palink_v2/domain/models/chat/conversation.dart';
 import 'package:palink_v2/domain/models/chat/message.dart';
 import 'package:palink_v2/domain/models/likability.dart';
-import 'package:palink_v2/utils/message_utils.dart';
+
 
 
 class ChatRepository {

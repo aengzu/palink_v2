@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:palink_v2/core/constants/app_url.dart';
 import 'package:palink_v2/domain/models/chat/conversation.dart';
 import 'package:palink_v2/domain/models/chat/message.dart';
 import 'package:palink_v2/domain/models/likability.dart';
-import 'package:palink_v2/utils/constants/app_url.dart';
+
 
 
 

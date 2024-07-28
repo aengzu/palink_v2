@@ -3,11 +3,12 @@ import 'package:get/get.dart';
 import 'package:langchain/langchain.dart';
 import 'package:langchain_chroma/langchain_chroma.dart';
 import 'package:langchain_openai/langchain_openai.dart';
+import 'package:palink_v2/core/constants/app_url.dart';
+import 'package:palink_v2/core/constants/prompts.dart';
 import 'package:palink_v2/domain/controllers/user_controller.dart';
 import 'package:palink_v2/domain/models/character.dart';
 import 'package:palink_v2/domain/models/chat/ai_response.dart';
-import 'package:palink_v2/utils/constants/app_url.dart';
-import 'package:palink_v2/utils/constants/prompts.dart';
+
 
 
 class OpenAIService {

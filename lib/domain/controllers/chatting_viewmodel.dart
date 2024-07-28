@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:palink_v2/core/utils/message_utils.dart';
 import 'package:palink_v2/data/repository/chat_repository.dart';
 import 'package:palink_v2/data/services/openai_service.dart';
 import 'package:palink_v2/domain/controllers/user_controller.dart';
 import 'package:palink_v2/domain/models/chat/ai_response.dart';
 import 'package:palink_v2/domain/models/chat/message.dart';
 import 'package:palink_v2/presentation/screens/chatting/view/conversation_end_loading.dart';
-import 'package:palink_v2/utils/message_utils.dart';
 import '../models/character.dart';
 import '../models/emotion_vibration.dart';
 import '../models/liking_level.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:palink_v2/core/theme/app_fonts.dart';
 import 'package:palink_v2/domain/controllers/character_loading_controller.dart';
 import 'package:palink_v2/domain/models/character.dart';
-import 'package:palink_v2/utils/constants/app_fonts.dart';
 import 'package:sizing/sizing.dart';
 
 class CharacterLoadingView extends StatelessWidget {

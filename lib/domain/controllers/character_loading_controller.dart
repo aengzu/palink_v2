@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:palink_v2/core/utils/message_utils.dart';
 import 'package:palink_v2/data/repository/chat_repository.dart';
 import 'package:palink_v2/data/services/openai_service.dart';
 import 'package:palink_v2/domain/controllers/tip_viewmodel.dart';
@@ -8,7 +9,6 @@ import 'package:palink_v2/domain/models/chat/ai_response.dart';
 import 'package:palink_v2/domain/models/chat/conversation.dart';
 import 'package:palink_v2/domain/models/chat/message.dart';
 import 'package:palink_v2/presentation/screens/chatting/view/chat_screen.dart';
-import 'package:palink_v2/utils/message_utils.dart';
 import 'chatting_viewmodel.dart';
 
 class CharacterLoadingController extends GetxController {

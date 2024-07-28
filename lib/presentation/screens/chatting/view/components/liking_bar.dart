@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:palink_v2/utils/constants/app_colors.dart';
+import 'package:palink_v2/core/theme/app_colors.dart';
 
 
 class LikingBar extends StatelessWidget {

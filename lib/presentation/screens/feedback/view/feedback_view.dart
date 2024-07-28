@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:palink_v2/core/theme/app_colors.dart';
 import 'package:palink_v2/domain/controllers/conversation_end_controller.dart';
 import 'package:palink_v2/presentation/screens/chatting/view/components/liking_bar.dart';
 import 'package:palink_v2/presentation/screens/common/appbar_perferred_size.dart';
 import 'package:palink_v2/presentation/screens/common/custom_btn.dart';
 import 'package:palink_v2/presentation/screens/main_screens.dart';
-import 'package:palink_v2/utils/constants/app_colors.dart';
 import 'package:sizing/sizing.dart';
 
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:palink_v2/utils/constants/app_fonts.dart';
+import 'package:palink_v2/core/theme/app_fonts.dart';
 
 
 

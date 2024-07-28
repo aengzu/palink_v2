@@ -1,24 +1,24 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'user.g.dart';
+part 'signup_model.g.dart';
 
 @JsonSerializable()
-class User {
-  final String name;
+class SignupModel {
   @JsonKey(name: 'user_id')
   final String userId;
+  final String password;
+  final String name;
   final int age;
   @JsonKey(name: 'personality_type')
   final String personalityType;
 
-  User({
+  SignupModel({
     required this.userId,
+    required this.password,
     required this.name,
     required this.age,
     required this.personalityType,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  // SignupModel 인스턴스를 JSON으로 변환하는 메서드
+  Map<String, dynamic> toJson() => _$SignupModelToJson(this);
 }
-
