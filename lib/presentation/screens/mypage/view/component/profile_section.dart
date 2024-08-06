@@ -4,7 +4,7 @@ import 'package:palink_v2/core/constants/app_images.dart';
 import 'package:palink_v2/presentation/screens/mypage/controller/mypage_viewmodel.dart';
 
 class ProfileSection extends StatelessWidget {
-  final MypageViewmodel mypageViewmodel;
+  final MypageViewModel mypageViewmodel;
 
   ProfileSection({required this.mypageViewmodel});
 

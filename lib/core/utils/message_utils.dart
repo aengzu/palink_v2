@@ -28,7 +28,6 @@ class MessageUtils {
       sender: true,
       messageText: text,
       timestamp: DateTime.now().toIso8601String(),
-      conversationId: conversationId,
     );
   }
 

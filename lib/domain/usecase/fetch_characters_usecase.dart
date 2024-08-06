@@ -2,12 +2,12 @@
 import 'package:palink_v2/domain/models/character/character.dart';
 import 'package:palink_v2/domain/repository/character_repository.dart';
 
-class GetCharactersUseCase {
+class FetchCharactersUsecase {
   final CharacterRepository repository;
 
-  GetCharactersUseCase(this.repository);
+  FetchCharactersUsecase(this.repository);
 
-  Future<List<Character>> call() {
+  Future<List<Character>> execute() {
     return repository.getCharacters();
   }
 }

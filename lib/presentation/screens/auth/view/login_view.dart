@@ -53,18 +53,20 @@ class LoginView extends StatelessWidget {
               isObscure: true,
             ),
             SizedBox(height: 0.17.sh),
-            Obx(() {
-              // Obx는 Rx 변수의 상태를 관찰합니다.
-              return CustomButton(
-                label: loginViewModel.isLoading.value ? '로그인 중...' : '로그인하기',
-                onPressed: () {
-                  loginViewModel.login(
-                    memberIdController.text,
-                    passwordController.text,
-                  );
-                },
-              );
-            }),
+            Center(
+              child: Obx(() {
+                // Obx는 Rx 변수의 상태를 관찰합니다.
+                return CustomButton(
+                  label: loginViewModel.isLoading.value ? '로그인 중...' : '로그인하기',
+                  onPressed: () {
+                    loginViewModel.login(
+                      memberIdController.text,
+                      passwordController.text,
+                    );
+                  },
+                );
+              }),
+            ),
             SizedBox(height: 0.02.sh),
             Center(
               child: TextButton(

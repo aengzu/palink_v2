@@ -8,7 +8,7 @@ import 'package:palink_v2/presentation/screens/mypage/view/component/user_info_s
 import '../../common/appbar_perferred_size.dart';
 
 class MypageView extends StatelessWidget {
-  final MypageViewmodel mypageViewmodel = Get.put(getIt<MypageViewmodel>());
+  final MypageViewModel mypageViewmodel = Get.put(getIt<MypageViewModel>());
 
   @override
   Widget build(BuildContext context) {

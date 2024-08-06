@@ -1,30 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
-import 'package:palink_v2/domain/models/character.dart';
-import 'package:palink_v2/di/locator.dart';
-import 'package:palink_v2/domain/usecase/get_message_usecase.dart';
-import 'package:palink_v2/domain/usecase/get_user_info_usecase.dart';
-import 'package:palink_v2/domain/usecase/send_message_usecase.dart';
-import 'package:palink_v2/domain/usecase/start_conversation_usecase.dart';
 import 'package:palink_v2/presentation/screens/chatting/controller/chat_loading_viewmodel.dart';
 import 'package:sizing/sizing.dart';
 
+
 class ChatLoadingScreen extends StatelessWidget {
-  final Character character;
-
-  // ChatLoadingViewModel 생성자 매개변수에 character를 전달
-  ChatLoadingScreen({required this.character, Key? key})
-      : viewModel = Get.put(ChatLoadingViewModel(
-    startConversationUseCase: getIt<StartConversationUseCase>(),
-    getMessagesUseCase: getIt<GetMessagesUseCase>(),
-    sendMessageUseCase: getIt<SendMessageUseCase>(),
-    getUserInfoUseCase: getIt<GetUserInfoUseCase>(),
-    character: character, // 여기에 character를 전달
-  )),
-        super(key: key);
-
   final ChatLoadingViewModel viewModel;
+
+  // 생성자에서 Character 인자를 받도록 수정
+  const ChatLoadingScreen({super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +21,17 @@ class ChatLoadingScreen extends StatelessWidget {
           _buildProfileImage(),
           Center(
             child: Text(
-              character.name,
+              viewModel.character.name,
               style: textTheme().titleLarge,
               textAlign: TextAlign.center,
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
-            child: _buildStyledDescription(character.description!),
+            padding:
+            EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
+            child: _buildStyledDescription(viewModel.character.description!),
           ),
-          CircularProgressIndicator(color: Colors.blue),
+          const CircularProgressIndicator(color: Colors.blue),
         ],
       ),
     );
@@ -54,10 +39,10 @@ class ChatLoadingScreen extends StatelessWidget {
 
   Widget _buildProfileImage() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       width: 150,
       height: 150,
-      child: Image.asset(character.image),
+      child: Image.asset(viewModel.character.image),
     );
   }
 
@@ -70,15 +55,17 @@ class ChatLoadingScreen extends StatelessWidget {
         Center(
           child: Text(
             lines[0],
-            style: textTheme().titleSmall?.copyWith(fontWeight: FontWeight.bold),
+            style:
+            textTheme().titleSmall?.copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 8.0),
+        const SizedBox(height: 8.0), // 타이틀과 나머지 텍스트 간 간격
         RichText(
           text: TextSpan(
-            style: textTheme().bodyMedium?.copyWith(height: 1.5),
+            style: textTheme().bodyMedium?.copyWith(height: 1.5), // 줄 간격 추가
             children: [
+              // 나머지 줄은 체크 아이콘과 함께 표시
               for (var line in lines.skip(1))
                 TextSpan(
                   children: [

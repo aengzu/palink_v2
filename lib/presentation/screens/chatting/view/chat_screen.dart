@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
+import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/presentation/screens/chatting/controller/chat_viewmodel.dart';
+import 'package:palink_v2/presentation/screens/chatting/controller/tip_viewmodel.dart';
 import 'package:sizing/sizing.dart';
 import 'components/messages.dart';
 import 'components/profile_image.dart';
@@ -9,8 +11,11 @@ import 'components/tip_button.dart';
 
 class ChatScreen extends StatelessWidget {
   final ChatViewModel viewModel;
+  final TipViewModel tipViewModel = Get.put(getIt<TipViewModel>());
 
-  ChatScreen({required this.viewModel, Key? key}) : super(key: key);
+  ChatScreen({
+    super.key, required this.viewModel
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +58,13 @@ class ChatScreen extends StatelessWidget {
         extendBodyBehindAppBar: false,
         body: Obx(() {
           return Container(
-            color: viewModel.backgroundColor.value,
+            color: viewModel.backgroundColor.value, // Update background color based on emotion
             child: Stack(
               children: [
                 Column(
                   children: [
                     Expanded(
                       child: Obx(() {
-                        if (viewModel.isLoading.value) {
-                          return const Center(child: CircularProgressIndicator());
-                        }
                         return viewModel.messages.isEmpty
                             ? const Center(
                           child: Text(
@@ -72,9 +74,9 @@ class ChatScreen extends StatelessWidget {
                         )
                             : Messages(
                           messages: viewModel.messages,
-                          userId: viewModel.character.characterId.toString(),
+                          userId: viewModel.chatRoomId,
                           characterImg: viewModel.character.image,
-                          likingLevels: [], // Assuming liking levels are managed elsewhere
+                          likingLevels: viewModel.likingLevels.value,
                         );
                       }),
                     ),
@@ -84,12 +86,20 @@ class ChatScreen extends StatelessWidget {
                 Positioned(
                   bottom: 110,
                   left: 20,
-                  child: TipButton(
-                    tipContent: viewModel.tipContent.value,
-                    isExpanded: false, // Expandable state management should be handled properly
-                    isLoading: false,  // Loading state management for the tip button
-                    onToggle: () {}, // Define toggle logic
-                  ),
+                  child: Obx(() {
+                    return TipButton(
+                      tipContent: tipViewModel.tipContent.value,
+                      isExpanded: tipViewModel.isExpanded.value,
+                      isLoading: tipViewModel.isLoading.value,
+                      onToggle: tipViewModel.toggle,
+                      onRequestTip: () async {
+                        if (viewModel.messages.isNotEmpty) {
+                          final lastMessage = viewModel.messages.first;
+                          await tipViewModel.generateTip(lastMessage);
+                        }
+                      },
+                    );
+                  }),
                 ),
               ],
             ),
@@ -122,6 +132,7 @@ class ChatScreen extends StatelessWidget {
                   onPressed: () {
                     if (viewModel.textController.text.isNotEmpty) {
                       viewModel.sendMessage();
+                      viewModel.textController.clear();
                     }
                   },
                   icon: const Icon(Icons.send),
@@ -131,7 +142,7 @@ class ChatScreen extends StatelessWidget {
                 hintText: "여기에 메시지를 입력하세요",
                 hintMaxLines: 1,
                 contentPadding: EdgeInsets.symmetric(
-                    horizontal: 0.02.sw, vertical: 0.01.sh),
+                    horizontal: 0.05.sw, vertical: 0.01.sh),
                 hintStyle: const TextStyle(
                   fontSize: 16,
                 ),

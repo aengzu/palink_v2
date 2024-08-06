@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:palink_v2/domain/models/chat/message.dart';
 
 part 'message_response.g.dart';
 
@@ -23,4 +24,6 @@ class MessageResponse {
 
   factory MessageResponse.fromJson(Map<String, dynamic> json) => _$MessageResponseFromJson(json);
   Map<String, dynamic> toJson() => _$MessageResponseToJson(this);
+
+
 }

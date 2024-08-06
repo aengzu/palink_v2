@@ -1,14 +1,15 @@
+import 'package:palink_v2/data/api/auth_api.dart';
 import 'package:palink_v2/domain/models/auth/login_model.dart';
 import 'package:palink_v2/domain/models/auth/signup_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../domain/models/user.dart';
+import '../../domain/models/user/user.dart';
 import '../../domain/repository/auth_repository.dart';
-import '../services/auth_service.dart';
+
 
 class AuthRepositoryImpl implements AuthRepository {
 
-  final AuthService _authService;
+  final AuthApi _authService;
   final SharedPreferences _prefs;
   AuthRepositoryImpl(this._authService, this._prefs);
 

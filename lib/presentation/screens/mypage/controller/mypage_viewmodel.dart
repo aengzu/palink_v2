@@ -2,7 +2,7 @@
 import 'package:get/get.dart';
 import 'package:palink_v2/domain/usecase/get_user_usecase.dart';
 
-class MypageViewmodel extends GetxController {
+class MypageViewModel extends GetxController {
   final GetUserUseCase getUserUseCase;
 
   var userId = ''.obs;
@@ -10,7 +10,7 @@ class MypageViewmodel extends GetxController {
   var age = 0.obs;
   var personalityType = ''.obs;
 
-  MypageViewmodel({required this.getUserUseCase});
+  MypageViewModel({required this.getUserUseCase});
 
   @override
   void onInit() {

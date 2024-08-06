@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
-import 'package:palink_v2/domain/controllers/conversation_end_controller.dart';
+import 'package:palink_v2/presentation/screens/chatting/controller/conversation_end_controller.dart';
 import 'package:sizing/sizing.dart';
 
 
 class ConversationEndLoadingView extends StatelessWidget {
   final ConversationEndController controller;
 
-  ConversationEndLoadingView({super.key, required this.controller});
+  const ConversationEndLoadingView({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ConversationEndLoadingView extends StatelessWidget {
         children: [
           SizedBox(height: 0.2.sh),
           _buildProfileImage(),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Center(
             child: Text(
               ".. 대화 분석 중 ..",

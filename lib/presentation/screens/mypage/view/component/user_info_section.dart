@@ -4,7 +4,7 @@ import 'package:palink_v2/core/theme/app_fonts.dart';
 import 'package:palink_v2/presentation/screens/mypage/controller/mypage_viewmodel.dart';
 
 class UserInfoCard extends StatelessWidget {
-  final MypageViewmodel mypageViewmodel;
+  final MypageViewModel mypageViewmodel;
 
   UserInfoCard({required this.mypageViewmodel});
 

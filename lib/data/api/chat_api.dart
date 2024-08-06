@@ -1,3 +1,4 @@
+// data/api/chat_api.dart
 import 'package:dio/dio.dart';
 import 'package:palink_v2/data/models/conversation_request.dart';
 import 'package:palink_v2/data/models/conversation_response.dart';
@@ -5,16 +6,13 @@ import 'package:palink_v2/data/models/likinglevel_request.dart';
 import 'package:palink_v2/data/models/likinglevel_response.dart';
 import 'package:palink_v2/data/models/message_request.dart';
 import 'package:palink_v2/data/models/message_response.dart';
-import 'package:palink_v2/domain/models/chat/conversation.dart';
-import 'package:palink_v2/domain/models/chat/message.dart';
-import 'package:palink_v2/domain/models/likability/likability.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'chat_service.g.dart';
+part 'chat_api.g.dart';
 
 @RestApi()
-abstract class ChatService {
-  factory ChatService(Dio dio, {String baseUrl}) = _ChatService;
+abstract class ChatApi {
+  factory ChatApi(Dio dio, {String baseUrl}) = _ChatApi;
 
   @POST("/api/conversation/create")
   Future<ConversationResponse> createConversation(@Body() ConversationRequest conversationRequest);

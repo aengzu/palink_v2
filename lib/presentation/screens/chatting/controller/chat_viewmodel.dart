@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/models/chat/message.dart';
-import 'package:palink_v2/domain/usecase/get_message_usecase.dart';
-import 'package:palink_v2/domain/usecase/send_message_usecase.dart';
-import 'package:palink_v2/domain/models/character.dart';
+import 'package:palink_v2/domain/usecase/fetch_chat_history_usecase.dart';
+import 'package:palink_v2/domain/models/character/character.dart';
+import 'package:palink_v2/domain/usecase/send_user_message_usecase.dart';
+import '../../../../domain/models/likability/liking_level.dart';
 
 class ChatViewModel extends GetxController {
   final int chatRoomId;
   final Character character;
-  final GetMessagesUseCase getMessagesUseCase;
-  final SendMessageUseCase sendMessageUseCase;
+
+  final FetchChatHistoryUsecase fetchChatHistoryUsecase = getIt<FetchChatHistoryUsecase>();
+  final SendUserMessageUsecase sendMessageUsecase = getIt<SendUserMessageUsecase>();
 
   TextEditingController textController = TextEditingController();
   var messages = <Message>[].obs;
   var isLoading = false.obs;
+  var likingLevels = <LikingLevel>[].obs;
   var backgroundColor = Colors.white.obs;
-  var tipContent = ''.obs; // tipContent 속성 추가
 
   ChatViewModel({
     required this.chatRoomId,
     required this.character,
-    required this.getMessagesUseCase,
-    required this.sendMessageUseCase,
   });
 
   @override
   void onInit() {
     super.onInit();
-    loadMessages();
+    _loadMessages();
   }
 
   @override
@@ -36,10 +37,12 @@ class ChatViewModel extends GetxController {
     super.onClose();
   }
 
-  Future<void> loadMessages() async {
+  Future<void> _loadMessages() async {
     isLoading.value = true;
     try {
-      messages.value = await getMessagesUseCase.execute(chatRoomId);
+      var loadedMessages = await fetchChatHistoryUsecase.execute(chatRoomId);
+      messages.value = loadedMessages.reversed.toList(); // 역순으로 정렬
+      print('Loaded messages: $messages');
     } catch (e) {
       print('Failed to load messages: $e');
     } finally {
@@ -51,20 +54,21 @@ class ChatViewModel extends GetxController {
     if (textController.text.isEmpty) return;
     isLoading.value = true;
     try {
-      await sendMessageUseCase.execute(textController.text, chatRoomId);
+      var userMessage = await sendMessageUsecase.saveUserMessage(textController.text, chatRoomId);
+      if (userMessage != null) {
+        messages.insert(0, userMessage); // 사용자 메시지를 리스트에 추가
+      }
+
+      var aiResponseMessage = await sendMessageUsecase.generateAIResponse(chatRoomId, character);
+      if (aiResponseMessage != null) {
+        messages.insert(0, aiResponseMessage); // AI 응답 메시지를 리스트에 추가
+      }
+
       textController.clear();
-      loadMessages(); // 메시지 목록 업데이트
-      // 필요한 경우 tipContent 업데이트
-      updateTipContent();
     } catch (e) {
       print('Failed to send message: $e');
     } finally {
       isLoading.value = false;
     }
-  }
-
-  void updateTipContent() {
-    // 실제 구현에서는 대화 내용에 따라 tipContent 업데이트 로직을 구현
-    tipContent.value = "대화할 때 예의를 지키세요!";
   }
 }

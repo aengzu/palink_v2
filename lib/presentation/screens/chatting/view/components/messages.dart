@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:palink_v2/domain/models/chat/message.dart';
-import 'package:palink_v2/domain/models/liking_level.dart';
+import 'package:palink_v2/domain/models/likability/liking_level.dart';
 
 import 'chat_bubble.dart';
 
@@ -8,7 +8,7 @@ import 'chat_bubble.dart';
 class Messages extends StatelessWidget {
   final List<LikingLevel> likingLevels;
   final List<Message> messages;
-  final String userId;
+  final int userId;
   final String characterImg; // 캐릭터 이미지 추가
 
   Messages({

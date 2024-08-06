@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:palink_v2/core/theme/app_colors.dart';
 import 'package:sizing/sizing.dart';
 
-
-
 class TipButton extends StatelessWidget {
   final String tipContent;
   final bool isExpanded;
   final bool isLoading;
   final VoidCallback onToggle;
+  final VoidCallback onRequestTip;
 
   TipButton({
     required this.tipContent,
     required this.isExpanded,
     required this.isLoading,
     required this.onToggle,
+    required this.onRequestTip,
   });
 
   @override
@@ -29,7 +29,11 @@ class TipButton extends StatelessWidget {
 
   Widget _buildFloatingButton() {
     return FloatingActionButton(
-      onPressed: onToggle,
+      onPressed: () {
+        onToggle();
+        print('Floating button pressed'); // 로그 추가
+        onRequestTip();
+      },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       child: const Text("TIP",
           style: TextStyle(color: Colors.white, fontSize: 20)),
@@ -44,7 +48,7 @@ class TipButton extends StatelessWidget {
       children: [
         FloatingActionButton(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           onPressed: onToggle,
           child: const Icon(Icons.close, color: Colors.white),
           backgroundColor: AppColors.deepBlue,
@@ -53,7 +57,7 @@ class TipButton extends StatelessWidget {
         Container(
           width: 0.85.sw,
           padding:
-              EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.017.sh),
+          EdgeInsets.symmetric(horizontal: 0.05.sw, vertical: 0.017.sh),
           margin: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -64,7 +68,7 @@ class TipButton extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Text('이렇게 말할 수 있어요 😊',
+              const Text('이렇게 말할 수 있어요 😊',
                   style: TextStyle(
                       fontSize: 16,
                       color: Colors.black,
