@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:palink_v2/domain/models/user.dart';
+import 'package:palink_v2/domain/models/user/user.dart';
 import 'package:retrofit/http.dart';
 part 'auth_service.g.dart';
 

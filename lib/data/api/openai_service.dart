@@ -4,20 +4,24 @@ import 'package:langchain_openai/langchain_openai.dart';
 import 'package:palink_v2/core/constants/app_url.dart';
 import 'package:palink_v2/core/constants/prompts.dart';
 import 'package:palink_v2/data/models/ai_response.dart';
-import 'package:palink_v2/domain/models/character.dart';
-import 'package:palink_v2/domain/models/user.dart';
+import 'package:palink_v2/domain/models/character/character.dart';
+import 'package:palink_v2/domain/models/user/user.dart';
 
 class OpenAIService {
   String? get apiKey => AppUrl().apiKey;
 
   final Character character;
-  final int conversationId;
   late final ChatOpenAI llm;
   late final ConversationBufferMemory memory;
   late final ConversationBufferMemory tipMemory;
   late final ConversationChain chain;
   late final LLMChain tip;
   late final LLMChain analyze;
+  late final User user;
+
+  OpenAIService(this.character, this.user) {
+    _initializeChat();
+  }
 
   final tipPromptTemplate = ChatPromptTemplate.fromTemplate('''
     당신은 다음 설명에 해당하는 적절한 답변을 해야합니다. 
@@ -49,9 +53,6 @@ class OpenAIService {
     'final_rejction_score'은 총 거절 점수입니다.
   ''');
 
-  OpenAIService(this.character, this.conversationId) {
-    _initializeChat();
-  }
 
   void _initializeChat() {
     llm = ChatOpenAI(
@@ -94,7 +95,7 @@ class OpenAIService {
     return variables;
   }
 
-  Future<AIResponse?> invokeChain(User user, String userInput) async {
+  Future<AIResponse?> invokeChain(String userInput) async {
     final memoryVariables = await loadMemory();
     final chatHistory = memoryVariables['history'] ?? '';
 
@@ -107,6 +108,8 @@ class OpenAIService {
 
     try {
       final result = await chain.invoke(inputs);
+      print(result);
+      print(result['response']);
 
       await memory.saveContext(
         inputValues: inputs,
@@ -117,10 +120,6 @@ class OpenAIService {
 
       final Map<String, dynamic> contentMap = jsonDecode(aiChatMessage.content);
       AIResponse aiResponse = AIResponse.fromJson(contentMap);
-      print(aiResponse.rejectionScore);
-      String jsonString = aiChatMessage.content;
-      print(jsonString);
-
       return aiResponse;
     } catch (e) {
       print('Failed to invoke chain: $e');
@@ -128,9 +127,9 @@ class OpenAIService {
     }
   }
 
-  Future<AIResponse?> proceedRolePlaying(User user) async {
+  Future<AIResponse?> proceedRolePlaying() async {
     try {
-      AIResponse? aiResponse = await invokeChain(user, '당신이 먼저 부탁을 하며 대화를 시작하세요.');
+      AIResponse? aiResponse = await invokeChain('당신이 먼저 부탁을 하며 대화를 시작하세요.');
       return aiResponse;
     } catch (e) {
       print('Error in proceedRolePlaying: $e');
@@ -145,8 +144,6 @@ class OpenAIService {
 
     try {
       final result = await tip.invoke({'input': inputs});
-      print(result['output']);
-
       final AIChatMessage aiChatMessage = result['output'] as AIChatMessage;
       final Map<String, dynamic> tipMap = jsonDecode(aiChatMessage.content);
       return tipMap;
@@ -179,7 +176,6 @@ class OpenAIService {
       final Map<String, dynamic> analyzeMap = jsonDecode(jsonString);
       return analyzeMap;
     } catch (e) {
-      print('여기서 발생한 에런가?');
       print('Failed to invoke analyze: $e');
       return null;
     }

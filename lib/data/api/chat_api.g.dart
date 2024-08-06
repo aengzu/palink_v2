@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'chat_service.dart';
+part of 'chat_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'chat_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
-class _ChatService implements ChatService {
-  _ChatService(
+class _ChatApi implements ChatApi {
+  _ChatApi(
     this._dio, {
     this.baseUrl,
   });
@@ -19,15 +19,15 @@ class _ChatService implements ChatService {
   String? baseUrl;
 
   @override
-  Future<Conversation> createConversation(
+  Future<ConversationResponse> createConversation(
       ConversationRequest conversationRequest) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(conversationRequest.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<Conversation>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ConversationResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -43,18 +43,18 @@ class _ChatService implements ChatService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = Conversation.fromJson(_result.data!);
+    final _value = ConversationResponse.fromJson(_result.data!);
     return _value;
   }
 
   @override
-  Future<Conversation> getChatRoomById(int chatRoomId) async {
+  Future<ConversationResponse> getConversationById(int chatRoomId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'conversation_id': chatRoomId};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<Conversation>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ConversationResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -70,18 +70,19 @@ class _ChatService implements ChatService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = Conversation.fromJson(_result.data!);
+    final _value = ConversationResponse.fromJson(_result.data!);
     return _value;
   }
 
   @override
-  Future<List<Conversation>> getConversationsByUserId(String userId) async {
+  Future<List<ConversationResponse>> getConversationsByUserId(
+      String userId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'user_id': userId};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<Conversation>>(Options(
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<List<ConversationResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -98,20 +99,21 @@ class _ChatService implements ChatService {
               baseUrl,
             ))));
     var _value = _result.data!
-        .map((dynamic i) => Conversation.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) =>
+            ConversationResponse.fromJson(i as Map<String, dynamic>))
         .toList();
     return _value;
   }
 
   @override
-  Future<Message?> sendMessage(MessageRequest messageRequest) async {
+  Future<MessageResponse?> saveMessage(MessageRequest messageRequest) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(messageRequest.toJson());
-    final _result =
-        await _dio.fetch<Map<String, dynamic>?>(_setStreamType<Message>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>?>(_setStreamType<MessageResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -128,20 +130,21 @@ class _ChatService implements ChatService {
               baseUrl,
             ))));
     final _value =
-        _result.data == null ? null : Message.fromJson(_result.data!);
+        _result.data == null ? null : MessageResponse.fromJson(_result.data!);
     return _value;
   }
 
   @override
-  Future<List<Message>> getMessagesByChatRoomId(int conversationId) async {
+  Future<List<MessageResponse>> getMessagesByChatRoomId(
+      int conversationId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'conversation_id': conversationId
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Message>>(Options(
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<MessageResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -158,29 +161,21 @@ class _ChatService implements ChatService {
               baseUrl,
             ))));
     var _value = _result.data!
-        .map((dynamic i) => Message.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => MessageResponse.fromJson(i as Map<String, dynamic>))
         .toList();
     return _value;
   }
 
   @override
-  Future<Likability> sendLikingLevel(
-    String userId,
-    int characterId,
-    int likingLevel,
-    int messageId,
-  ) async {
+  Future<LikinglevelResponse> saveLikingLevel(
+      LikinglevelRequest likinglevelRequest) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {
-      'user_id': userId,
-      'character_id': characterId,
-      'liking_level': likingLevel,
-      'message_id': messageId,
-    };
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<Likability>(Options(
+    final _data = <String, dynamic>{};
+    _data.addAll(likinglevelRequest.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<LikinglevelResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -196,7 +191,7 @@ class _ChatService implements ChatService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = Likability.fromJson(_result.data!);
+    final _value = LikinglevelResponse.fromJson(_result.data!);
     return _value;
   }
 

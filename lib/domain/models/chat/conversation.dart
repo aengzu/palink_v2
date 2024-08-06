@@ -1,4 +1,4 @@
-import 'message.dart';
+import 'package:palink_v2/data/models/conversation_response.dart';
 
 class Conversation {
   int conversationId;
@@ -13,20 +13,13 @@ class Conversation {
     required this.characterId,
   });
 
-  factory Conversation.fromJson(Map<String, dynamic> json) {
+  // fromResponse 메서드 추가
+  factory Conversation.fromResponse(ConversationResponse response) {
     return Conversation(
-      conversationId: json['conversation_id'],
-      day: json['day'],
-      userId: json['user_id'],
-      characterId: json['character_id'],
+      conversationId: response.conversationId,
+      day: response.day,
+      userId: response.userId,
+      characterId: response.characterId,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'day': day,
-      'user_id': userId,
-      'character_id': characterId,
-    };
   }
 }
