@@ -48,10 +48,9 @@ class ChatLoadingViewModel extends GetxController {
       if (conversation.value != null && user.value != null) {
         final conversationId = conversation.value!.conversationId;
 
-        // Generate Initial Message
+        // 첫 메시지 생성하기
         await _createInitialMessage(conversationId, user.value!.name);
 
-        // Navigate to ChatScreen
         Get.off(() => ChatScreen(viewModel: Get.put(ChatViewModel(chatRoomId: conversationId, character: character))));
       }
     } catch (e) {

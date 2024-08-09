@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:palink_v2/data/models/ai_response.dart';
 import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/models/chat/message.dart';
 import 'package:palink_v2/domain/usecase/fetch_chat_history_usecase.dart';
 import 'package:palink_v2/domain/models/character/character.dart';
 import 'package:palink_v2/domain/usecase/send_user_message_usecase.dart';
+import 'package:palink_v2/presentation/screens/chatting/view/chat_end_loading_screen.dart';
 import '../../../../domain/models/likability/liking_level.dart';
+import 'chat_end_loading_viewmodel.dart';
 
 class ChatViewModel extends GetxController {
   final int chatRoomId;
@@ -19,6 +22,7 @@ class ChatViewModel extends GetxController {
   var isLoading = false.obs;
   var likingLevels = <LikingLevel>[].obs;
   var backgroundColor = Colors.white.obs;
+
 
   ChatViewModel({
     required this.chatRoomId,
@@ -60,9 +64,14 @@ class ChatViewModel extends GetxController {
       }
 
       var aiResponseMessage = await sendMessageUsecase.generateAIResponse(chatRoomId, character);
-      if (aiResponseMessage != null) {
-        messages.insert(0, aiResponseMessage); // AI 응답 메시지를 리스트에 추가
+
+
+      var aiMessage = convertAIResponseToMessage(aiResponseMessage!);
+      if (aiMessage != null) {
+        messages.insert(0, aiMessage); // AI 응답 메시지를 리스트에 추가
       }
+
+      _handleConversationEnd(aiResponseMessage);
 
       textController.clear();
     } catch (e) {
@@ -71,4 +80,20 @@ class ChatViewModel extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Message? convertAIResponseToMessage(AIResponse aiResponse) {
+    return Message(
+        sender: false,
+        messageText: aiResponse.text,
+        timestamp: DateTime.now().toIso8601String(),
+        affinityScore: aiResponse.affinityScore, // 매핑
+        rejectionScore: aiResponse.rejectionScore // 매핑
+    );
+  }
+  void _handleConversationEnd(AIResponse aiResponse) {
+    if (aiResponse.isEnd == 1) {
+      Get.off(() => ChatEndLoadingView(chatEndLoadingViewModel: Get.put(ChatEndLoadingViewModel(character: character, chatHistory: messages.toList()))));
+    }
+  }
+
 }

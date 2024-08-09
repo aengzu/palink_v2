@@ -19,17 +19,6 @@ class MessageUtils {
     );
   }
 
-  // text 와 conversatioId 를 주면 Message 를 만듬
-  // 이때 생성되는 메시지객체는 더미 메시지(messageId를 임의로 부여한 것)
-  static Message createUserMessage(String text, int conversationId) {
-    return Message(
-      // 더미 메시지 아이디 생성
-      messageId: const Uuid().v4().hashCode,
-      sender: true,
-      messageText: text,
-      timestamp: DateTime.now().toIso8601String(),
-    );
-  }
 
   // AIResponse 객체를 MessageDto 로 변환
   static MessageRequest convertAIMessageToMessageDto(

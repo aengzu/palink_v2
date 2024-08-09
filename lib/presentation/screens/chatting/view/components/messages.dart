@@ -27,15 +27,9 @@ class Messages extends StatelessWidget {
         itemCount: messages.length,
         itemBuilder: (context, index) {
           final message = messages[index];
-
-          // Check if likingLevels has an entry for the current message index
-          int like = 50;
-          if (index < likingLevels.length &&
-              likingLevels[index].messageId == message.messageId) {
-            like = likingLevels[index].likingLevel;
-          }
-
+          final like = messages[index].affinityScore;
           final isSender = message.sender;
+
           return ChatBubbles(
             message,
             isSender,

@@ -76,7 +76,7 @@ class ChatScreen extends StatelessWidget {
                           messages: viewModel.messages,
                           userId: viewModel.chatRoomId,
                           characterImg: viewModel.character.image,
-                          likingLevels: viewModel.likingLevels.value,
+                          likingLevels: viewModel.likingLevels,
                         );
                       }),
                     ),
@@ -92,12 +92,6 @@ class ChatScreen extends StatelessWidget {
                       isExpanded: tipViewModel.isExpanded.value,
                       isLoading: tipViewModel.isLoading.value,
                       onToggle: tipViewModel.toggle,
-                      onRequestTip: () async {
-                        if (viewModel.messages.isNotEmpty) {
-                          final lastMessage = viewModel.messages.first;
-                          await tipViewModel.generateTip(lastMessage);
-                        }
-                      },
                     );
                   }),
                 ),

@@ -3,6 +3,8 @@ import 'package:langchain/langchain.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:palink_v2/core/constants/prompts.dart';
 import 'package:palink_v2/data/models/ai_response.dart';
+import 'package:palink_v2/data/models/message_request.dart';
+import 'package:palink_v2/domain/models/analysis_dto/analysis_dto.dart';
 import 'package:palink_v2/domain/models/chat/message.dart';
 import 'package:palink_v2/domain/models/tip/tip_dto.dart';
 import 'package:palink_v2/domain/repository/ai_repository.dart';
@@ -15,7 +17,8 @@ class AIRepositoryImpl implements AIRepository {
   final LLMChain tipChain;
   final LLMChain analyzeChain;
 
-  AIRepositoryImpl(this.openAI, this.memoryBuffer, this.tipMemoryBuffer, this.chatChain, this.tipChain, this.analyzeChain);
+  AIRepositoryImpl(this.openAI, this.memoryBuffer, this.tipMemoryBuffer,
+      this.chatChain, this.tipChain, this.analyzeChain);
 
   @override
   Future<Map<String, dynamic>> getMemory() async {
@@ -24,8 +27,10 @@ class AIRepositoryImpl implements AIRepository {
   }
 
   @override
-  Future<void> saveMemoryContext(Map<String, dynamic> inputValues, Map<String, dynamic> outputValues) async {
-    await memoryBuffer.saveContext(inputValues: inputValues, outputValues: outputValues);
+  Future<void> saveMemoryContext(Map<String, dynamic> inputValues,
+      Map<String, dynamic> outputValues) async {
+    await memoryBuffer.saveContext(
+        inputValues: inputValues, outputValues: outputValues);
   }
 
   @override
@@ -43,28 +48,16 @@ class AIRepositoryImpl implements AIRepository {
   }
 
   @override
-  Future<TipDto?> getTip(Message message) async {
+  Future<TipDto?> getTip(String message) async {
+    final inputs = {'input': "${Prompt.tipPrompt}\n${message}"};
     try {
-      final inputs = {'input': "${Prompt.tipPrompt}\n${message.messageText}"};
       print('getTip inputs: $inputs'); // 로그 추가
-      final result = await tipChain.invoke(inputs);
-      print('tipChain result: $result'); // 로그 추가
+      final result = await tipChain.invoke({'input': inputs, 'memory': tipMemoryBuffer});
 
-      if (result['output'] is String) {
-        final String aiChatMessage = result['output'] as String;
-        final Map<String, dynamic> tipMap = jsonDecode(aiChatMessage);
-        return TipDto.fromJson(tipMap);
-      } else if (result['output'] is List) {
-        final List<ChatMessage> aiChatMessages = result['output'] as List<ChatMessage>;
-        if (aiChatMessages.isNotEmpty) {
-          final aiChatMessage = aiChatMessages.first;
-          final Map<String, dynamic> tipMap = jsonDecode(aiChatMessage.contentAsString);
-          return TipDto.fromJson(tipMap);
-        }
-      } else {
-        print('Unexpected output type: ${result['output'].runtimeType}');
-        return null;
-      }
+      AIChatMessage aiChatMessage = result['output'] as AIChatMessage;
+      final Map<String, dynamic> tipMap = jsonDecode(aiChatMessage.content);
+      return TipDto.fromJson(tipMap);
+
     } catch (e) {
       print('Failed to get tip: $e');
       return null;
@@ -72,7 +65,7 @@ class AIRepositoryImpl implements AIRepository {
   }
 
   @override
-  Future<Map?> analyzeResponse(String input) async {
+  Future<AnalysisDto?> analyzeResponse(String input) async {
     try {
       final inputs = {'input': input};
       final result = await analyzeChain.invoke(inputs);
@@ -82,7 +75,7 @@ class AIRepositoryImpl implements AIRepository {
         jsonString = jsonString.substring(7, jsonString.length - 3).trim();
       }
       final Map<String, dynamic> analyzeMap = jsonDecode(jsonString);
-      return analyzeMap;
+      return AnalysisDto.fromJson(analyzeMap);
     } catch (e) {
       print('Failed to analyze response: $e');
       return null;

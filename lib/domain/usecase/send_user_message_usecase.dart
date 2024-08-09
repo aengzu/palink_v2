@@ -20,22 +20,16 @@ class SendUserMessageUsecase {
       timestamp: DateTime.now().toIso8601String(),
       conversationId: chatRoomId,
     );
+
+    // 유저의 메시지를 서버에 저장
     MessageResponse? response = await chatRepository.saveMessage(messageRequest);
+    print(response);
     return response != null ? MessageMapper.toDomain(response) : null;
   }
 
-  Future<Message?> generateAIResponse(int chatRoomId, Character character) async {
+  Future<AIResponse?> generateAIResponse(int chatRoomId, Character character) async {
+    // AI의 응답을 생성
     AIResponse? aiResponse = await generateResponseUsecase.execute(chatRoomId, character);
-    if (aiResponse != null) {
-      MessageRequest messageRequest = MessageRequest(
-        sender: false,
-        messageText: aiResponse.text,
-        timestamp: DateTime.now().toIso8601String(),
-        conversationId: chatRoomId,
-      );
-      MessageResponse? response = await chatRepository.saveMessage(messageRequest);
-      return response != null ? MessageMapper.toDomain(response) : null;
-    }
-    return null;
+    return aiResponse;
   }
 }

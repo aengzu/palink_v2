@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
-import 'package:palink_v2/presentation/screens/chatting/controller/conversation_end_controller.dart';
+import 'package:palink_v2/presentation/screens/chatting/controller/chat_end_loading_viewmodel.dart';
 import 'package:sizing/sizing.dart';
 
 
-class ConversationEndLoadingView extends StatelessWidget {
-  final ConversationEndController controller;
+class ChatEndLoadingView extends StatelessWidget {
+  final ChatEndLoadingViewModel chatEndLoadingViewModel;
 
-  const ConversationEndLoadingView({super.key, required this.controller});
+  const ChatEndLoadingView({super.key, required this.chatEndLoadingViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +35,17 @@ class ConversationEndLoadingView extends StatelessWidget {
                 text: '\n',
                 children: <TextSpan>[
                   TextSpan(
-                      text: '  모든 사람을 만족시킬 수는 없다.\n',
+                    // 여기에 랜덤으로 마인드셋 하나 가져오고 싶음.
+                      text: chatEndLoadingViewModel.randomMindset?.content ?? '',
                       style: textTheme().titleMedium),
                   TextSpan(
-                      text:
-                          '\n모든 사람을 만족시키려 하면 자신을 잃게 됩니다. 스스로를 우선시하는 것이 중요합니다. 이는 우리의 정신적, 감정적 건강을\n 지키는 데 필요합니다.',
+                      text: chatEndLoadingViewModel.randomMindset?.reason ?? '',
                       style: textTheme().bodyMedium),
                 ],
               ),
             ),
           ),
-          CircularProgressIndicator(color: Colors.blue),
+          const CircularProgressIndicator(color: Colors.blue),
         ],
       ),
     );
@@ -53,10 +53,10 @@ class ConversationEndLoadingView extends StatelessWidget {
 
   Widget _buildProfileImage() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       width: 150,
       height: 150,
-      child: Image.asset(controller.character.image), // 실제 이미지 경로로 수정 필요
+      child: Image.asset(chatEndLoadingViewModel.character.image), // 실제 이미지 경로로 수정 필요
     );
   }
 }

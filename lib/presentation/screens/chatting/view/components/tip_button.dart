@@ -7,14 +7,12 @@ class TipButton extends StatelessWidget {
   final bool isExpanded;
   final bool isLoading;
   final VoidCallback onToggle;
-  final VoidCallback onRequestTip;
 
   TipButton({
     required this.tipContent,
     required this.isExpanded,
     required this.isLoading,
     required this.onToggle,
-    required this.onRequestTip,
   });
 
   @override
@@ -31,13 +29,11 @@ class TipButton extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () {
         onToggle();
-        print('Floating button pressed'); // 로그 추가
-        onRequestTip();
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      backgroundColor: AppColors.deepBlue,
       child: const Text("TIP",
           style: TextStyle(color: Colors.white, fontSize: 20)),
-      backgroundColor: AppColors.deepBlue,
     );
   }
 
@@ -62,7 +58,7 @@ class TipButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(color: Colors.black12, blurRadius: 10),
             ],
           ),

@@ -38,11 +38,11 @@ class _ChatBubblesState extends State<ChatBubbles> {
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
                         blurRadius: 4,
@@ -105,7 +105,7 @@ class _ChatBubblesState extends State<ChatBubbles> {
               Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 5.0),
+                    margin: const EdgeInsets.only(left: 5.0),
                     child: CircleAvatar(
                       backgroundColor: Colors.transparent,
                       radius: 30,
