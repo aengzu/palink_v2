@@ -45,16 +45,23 @@ dependencies:
   chat_bubbles: ^1.6.0
   provider: ^6.1.2
   uuid: ^4.4.0
+
   shared_preferences: ^2.2.3
   vibration: ^1.7.4
   http: ^1.2.1
   dio: ^5.4.3+1
   langchain: ^0.7.2
-  langchain_openai: ^0.6.2
+  langchain_openai: ^0.7.0
   langchain_chroma: ^0.2.0+5
   flutter_animate: ^4.5.0
   animated_text_kit: ^4.2.2
   json_annotation: ^4.9.0
+  get_it: ^7.7.0
+  envied: ^0.5.4+1
+  retrofit: ^4.1.0
+  floor: ^1.5.0
+  floor_generator: ^1.5.0
+  sqflite: ^2.3.3+1
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +75,9 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   json_serializable: ^6.8.0
   build_runner: ^2.4.11
+  envied_generator: ^0.5.4+1
+  retrofit_generator: ^8.1.2
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -81,7 +91,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - assets/config/.env
+    - lib/config/.env
   fonts:
     - family: NotoSansKR
       fonts:
