@@ -1,5 +1,6 @@
-import 'package:palink_v2/domain/models/auth/login_model.dart';
-import 'package:palink_v2/domain/models/user/user.dart';
+import 'package:palink_v2/domain/entities/auth/login_model.dart';
+import 'package:palink_v2/domain/entities/user/user.dart';
+
 
 import '../repository/auth_repository.dart';
 

@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 import 'package:palink_v2/data/models/ai_response.dart';
 import 'package:palink_v2/di/locator.dart';
+import 'package:palink_v2/domain/entities/character/character.dart';
+import 'package:palink_v2/domain/entities/chat/conversation.dart';
+import 'package:palink_v2/domain/entities/user/user.dart';
 import 'package:palink_v2/domain/usecase/generate_initial_message_usecase.dart';
 import 'package:palink_v2/domain/usecase/create_conversation_usecase.dart';
-import 'package:palink_v2/domain/models/character/character.dart';
-import 'package:palink_v2/domain/models/chat/conversation.dart';
 import 'package:palink_v2/presentation/screens/chatting/controller/chat_viewmodel.dart';
 import 'package:palink_v2/presentation/screens/chatting/view/chat_screen.dart';
-import 'package:palink_v2/domain/models/user/user.dart';
 import 'package:palink_v2/domain/usecase/get_user_info_usecase.dart';
 
 class ChatLoadingViewModel extends GetxController {

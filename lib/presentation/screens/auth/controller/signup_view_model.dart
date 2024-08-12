@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:palink_v2/domain/models/auth/signup_model.dart';
-import 'package:palink_v2/domain/models/user/user.dart';
+import 'package:palink_v2/domain/entities/auth/signup_model.dart';
+import 'package:palink_v2/domain/entities/user/user.dart';
 import 'package:palink_v2/domain/usecase/sign_up_usecase.dart';
 import 'package:palink_v2/presentation/screens/main_screens.dart';
 
@@ -13,9 +12,9 @@ class SignupViewModel extends GetxController {
 
   SignupViewModel({required this.signUpUseCase});
 
-  Future<void> signUp(String userId, String password, String name, int age,
+  Future<void> signUp(String accountId, String password, String name, int age,
       String personalityType) async {
-    if (userId.isEmpty || password.isEmpty) {
+    if (accountId.isEmpty || password.isEmpty) {
       _showError('아이디와 비밀번호를 입력해주세요!');
       return;
     }
@@ -25,7 +24,7 @@ class SignupViewModel extends GetxController {
 
     try {
       final result = await signUpUseCase.execute(SignupModel(
-          userId: userId,
+          accountId: accountId,
           password: password,
           name: name,
           age: age,

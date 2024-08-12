@@ -1,12 +1,14 @@
 // domain/usecases/create_conversation_usecase.dart
+
+
 import 'package:palink_v2/data/models/conversation_request.dart';
 import 'package:palink_v2/data/models/conversation_response.dart';
-import 'package:palink_v2/domain/models/character/character.dart';
-import 'package:palink_v2/domain/models/chat/conversation.dart';
-import 'package:palink_v2/domain/models/user/user.dart';
+import 'package:palink_v2/domain/entities/character/character.dart';
+import 'package:palink_v2/domain/entities/chat/conversation.dart';
+import 'package:palink_v2/domain/entities/user/user.dart';
 import 'package:palink_v2/domain/repository/chat_repository.dart';
-import 'package:palink_v2/domain/usecase/get_user_info_usecase.dart';
 
+import 'get_user_info_usecase.dart';
 
 class CreateConversationUseCase {
   final ChatRepository chatRepository;
@@ -18,7 +20,7 @@ class CreateConversationUseCase {
     User user = await getUserInfoUseCase.execute();
     var conversationRequest = ConversationRequest(
       day: DateTime.now().toIso8601String(),
-      userId: user.userId,
+      userId: user.accountId,
       characterId: character.characterId,
     );
     ConversationResponse response = await chatRepository.createConversation(conversationRequest);

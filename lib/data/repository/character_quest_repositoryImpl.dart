@@ -1,7 +1,7 @@
 // data/repositories/character_quest_repository_impl.dart
 
 import 'package:palink_v2/data/dao/character_quest_dao.dart';
-import 'package:palink_v2/domain/models/character/character_quest.dart';
+import 'package:palink_v2/domain/entities/character/character_quest.dart';
 import 'package:palink_v2/domain/repository/character_quest_repository.dart';
 
 class CharacterQuestRepositoryImpl implements CharacterQuestRepository {

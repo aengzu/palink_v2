@@ -44,7 +44,6 @@ import 'package:palink_v2/presentation/screens/feedback/controller/feedback_view
 import 'package:palink_v2/presentation/screens/mypage/controller/mypage_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common/sqlite_api.dart';
-
 import '../data/repository/ai_repositoryImpl.dart';
 import '../data/repository/mindset_repositoryImpl.dart';
 import '../domain/usecase/generate_tip_usecase.dart'; // Import GenerateTipUsecase

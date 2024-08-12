@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/data/models/ai_response.dart';
 import 'package:palink_v2/di/locator.dart';
-import 'package:palink_v2/domain/models/chat/message.dart';
+import 'package:palink_v2/domain/entities/character/character.dart';
+import 'package:palink_v2/domain/entities/chat/message.dart';
+import 'package:palink_v2/domain/entities/likability/liking_level.dart';
 import 'package:palink_v2/domain/usecase/fetch_chat_history_usecase.dart';
-import 'package:palink_v2/domain/models/character/character.dart';
 import 'package:palink_v2/domain/usecase/send_user_message_usecase.dart';
 import 'package:palink_v2/presentation/screens/chatting/view/chat_end_loading_screen.dart';
-import '../../../../domain/models/likability/liking_level.dart';
 import 'chat_end_loading_viewmodel.dart';
 
 class ChatViewModel extends GetxController {

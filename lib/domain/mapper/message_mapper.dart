@@ -1,5 +1,6 @@
 import 'package:palink_v2/data/models/message_response.dart';
-import 'package:palink_v2/domain/models/chat/message.dart';
+import 'package:palink_v2/domain/entities/chat/message.dart';
+
 
 class MessageMapper {
   static Message toDomain(MessageResponse response) {

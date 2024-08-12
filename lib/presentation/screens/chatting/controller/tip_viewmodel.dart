@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
-import 'package:palink_v2/data/models/message_request.dart';
 import 'package:palink_v2/di/locator.dart';
-import 'package:palink_v2/domain/models/chat/message.dart';
+import 'package:palink_v2/domain/entities/chat/message.dart';
 import 'package:palink_v2/domain/usecase/generate_tip_usecase.dart';
 
 class TipViewModel extends GetxController {
@@ -31,8 +30,8 @@ class TipViewModel extends GetxController {
     startLoading();
     final tip = await generateTipUsecase.execute(message.messageText);
     if (tip != null) {
-      print('Tip generated: ${tip.answer}'); // 로그 추가
-      updateTip(tip.answer);
+      print('Tip generated: ${tip.tipText}'); // 로그 추가
+      updateTip(tip.tipText);
     } else {
       print('No tip available'); // 로그 추가
       updateTip('No tip available.');

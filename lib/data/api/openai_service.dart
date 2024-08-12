@@ -4,8 +4,9 @@ import 'package:langchain_openai/langchain_openai.dart';
 import 'package:palink_v2/core/constants/app_url.dart';
 import 'package:palink_v2/core/constants/prompts.dart';
 import 'package:palink_v2/data/models/ai_response.dart';
-import 'package:palink_v2/domain/models/character/character.dart';
-import 'package:palink_v2/domain/models/user/user.dart';
+import 'package:palink_v2/domain/entities/character/character.dart';
+import 'package:palink_v2/domain/entities/user/user.dart';
+
 
 class OpenAIService {
   String? get apiKey => AppUrl().apiKey;

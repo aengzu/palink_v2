@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:palink_v2/domain/models/chat/message.dart';
-import 'package:palink_v2/domain/models/likability/liking_level.dart';
-
+import 'package:palink_v2/domain/entities/chat/message.dart';
+import 'package:palink_v2/domain/entities/likability/liking_level.dart';
 import 'chat_bubble.dart';
 
 

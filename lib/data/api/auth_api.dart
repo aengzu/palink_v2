@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:palink_v2/domain/models/user/user.dart';
+import 'package:palink_v2/data/models/user/user_create_request.dart';
+import 'package:palink_v2/data/models/user/user_login_request.dart';
+import 'package:palink_v2/data/models/user/user_response.dart';
 import 'package:retrofit/http.dart';
 part 'auth_api.g.dart';
 
@@ -8,15 +10,12 @@ part 'auth_api.g.dart';
 abstract class AuthApi {
   factory AuthApi(Dio dio, {String baseUrl}) = _AuthApi;
 
-  static const String _loginEndpoint = "/api/user/login";
-  static const String _registerEndpoint = "/api/user/register";
+
+  @POST("/login")
+  Future<UserResponse?> login(@Body() UserLoginRequest body);
 
 
-  @POST(_loginEndpoint)
-  Future<User?> login(@Body() Map<String, dynamic> body);
-
-
-  @POST(_registerEndpoint)
-  Future<User> signUp(@Body() Map<String, dynamic> body);
+  @POST("/users")
+  Future<UserResponse> signUp(@Body() UserCreateRequest body);
 
 }

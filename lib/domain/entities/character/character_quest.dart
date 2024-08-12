@@ -1,4 +1,4 @@
-// domain/models/character_quest.dart
+// domain/entities/character_quest.dart
 class CharacterQuest {
   final int characterId;
   final List<String> quests;

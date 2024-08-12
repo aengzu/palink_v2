@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/di/locator.dart';
-import 'package:palink_v2/domain/models/analysis_dto/analysis_dto.dart';
-import 'package:palink_v2/domain/models/character/character.dart';
-import 'package:palink_v2/domain/models/chat/message.dart';
-import 'package:palink_v2/domain/models/mindset/mindset.dart';
+import 'package:palink_v2/domain/entities/analysis/analysis_dto.dart';
+import 'package:palink_v2/domain/entities/character/character.dart';
+import 'package:palink_v2/domain/entities/chat/message.dart';
+import 'package:palink_v2/domain/entities/mindset/mindset.dart';
 import 'package:palink_v2/domain/usecase/generate_analyze_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_random_mindset_usecase.dart';
 import 'package:palink_v2/presentation/screens/feedback/controller/feedback_viewmodel.dart';

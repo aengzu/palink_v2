@@ -3,10 +3,8 @@ import 'package:langchain/langchain.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 import 'package:palink_v2/core/constants/prompts.dart';
 import 'package:palink_v2/data/models/ai_response.dart';
-import 'package:palink_v2/data/models/message_request.dart';
-import 'package:palink_v2/domain/models/analysis_dto/analysis_dto.dart';
-import 'package:palink_v2/domain/models/chat/message.dart';
-import 'package:palink_v2/domain/models/tip/tip_dto.dart';
+import 'package:palink_v2/domain/entities/analysis/analysis_dto.dart';
+import 'package:palink_v2/domain/entities/tip/tip.dart';
 import 'package:palink_v2/domain/repository/ai_repository.dart';
 
 class AIRepositoryImpl implements AIRepository {

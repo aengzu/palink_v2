@@ -1,15 +1,13 @@
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:palink_v2/data/models/ai_response.dart';
 import 'package:palink_v2/data/models/message_request.dart';
 import 'package:palink_v2/di/locator.dart';
-import 'package:palink_v2/domain/models/character/character.dart';
-import 'package:palink_v2/domain/models/chat/message.dart';
-import 'package:palink_v2/domain/models/user/user.dart';
+import 'package:palink_v2/domain/entities/character/character.dart';
+import 'package:palink_v2/domain/entities/tip/tip.dart';
+import 'package:palink_v2/domain/entities/user/user.dart';
 import 'package:palink_v2/domain/repository/ai_repository.dart';
 import 'package:palink_v2/domain/repository/chat_repository.dart';
 import 'package:palink_v2/presentation/screens/chatting/controller/tip_viewmodel.dart';
-
 import 'fetch_chat_history_usecase.dart';
 import 'generate_tip_usecase.dart';
 import 'get_user_info_usecase.dart';
@@ -52,7 +50,7 @@ class GenerateResponseUsecase {
 
       final tip = await generateTipUsecase.execute(aiResponse.text);
       if (tip != null) {
-        Get.find<TipViewModel>().updateTip(tip.answer);
+        Get.find<TipViewModel>().updateTip(tip.tipText);
       } else {
         Get.find<TipViewModel>().updateTip('팁 생성 전입니다!');
       }

@@ -1,6 +1,7 @@
 import 'package:palink_v2/data/models/ai_response.dart';
-import 'package:palink_v2/domain/models/analysis_dto/analysis_dto.dart';
-import 'package:palink_v2/domain/models/tip/tip_dto.dart';
+import 'package:palink_v2/domain/entities/analysis/analysis_dto.dart';
+import 'package:palink_v2/domain/entities/tip/tip.dart';
+
 
 
 abstract class AIRepository {

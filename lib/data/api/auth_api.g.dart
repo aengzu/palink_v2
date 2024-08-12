@@ -19,21 +19,21 @@ class _AuthApi implements AuthApi {
   String? baseUrl;
 
   @override
-  Future<User?> login(Map<String, dynamic> body) async {
+  Future<UserResponse?> login(UserLoginRequest body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(body);
-    final _result =
-        await _dio.fetch<Map<String, dynamic>?>(_setStreamType<User>(Options(
+    _data.addAll(body.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>?>(_setStreamType<UserResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/api/user/login',
+              '/login',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -42,26 +42,27 @@ class _AuthApi implements AuthApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = _result.data == null ? null : User.fromJson(_result.data!);
+    final _value =
+        _result.data == null ? null : UserResponse.fromJson(_result.data!);
     return _value;
   }
 
   @override
-  Future<User> signUp(Map<String, dynamic> body) async {
+  Future<UserResponse> signUp(UserCreateRequest body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(body);
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+    _data.addAll(body.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/api/user/register',
+              '/users',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -70,7 +71,7 @@ class _AuthApi implements AuthApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = User.fromJson(_result.data!);
+    final _value = UserResponse.fromJson(_result.data!);
     return _value;
   }
 

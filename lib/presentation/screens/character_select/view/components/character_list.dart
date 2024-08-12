@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:palink_v2/domain/models/character/character.dart';
-
+import 'package:palink_v2/domain/entities/character/character.dart';
 import 'package:sizing/sizing.dart';
 import 'character_profile.dart';
 

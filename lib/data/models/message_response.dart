@@ -1,6 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:palink_v2/domain/models/chat/message.dart';
-
 part 'message_response.g.dart';
 
 @JsonSerializable()
