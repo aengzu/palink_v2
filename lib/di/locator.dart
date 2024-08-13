@@ -61,6 +61,7 @@ Future<void> setupLocator() async {
   _setupUseCases();
   _setupViewModels();
 
+
   final database = await _setupDatabase();
   await _initializeDatabase(database.characterDao, database.mindsetDao);
 }

@@ -12,7 +12,7 @@ import 'di/locator.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: "lib/config/.env");
-  setupLocator();
+  await setupLocator();  // await 추가
   runApp(const MyApp());
 }
 
