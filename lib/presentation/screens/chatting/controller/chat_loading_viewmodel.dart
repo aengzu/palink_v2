@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:palink_v2/data/models/ai_response.dart';
+import 'package:palink_v2/data/models/ai_response/ai_response.dart';
 import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
 import 'package:palink_v2/domain/entities/chat/conversation.dart';
@@ -34,7 +34,6 @@ class ChatLoadingViewModel extends GetxController {
       user.value = await getUserInfoUseCase.execute();
       await _createConversationAndInitialMessage();
     } catch (e) {
-      print('Initialization failed: $e');
       errorMessage.value = 'Initialization failed: $e';
     } finally {
       isLoading.value = false;
@@ -51,6 +50,7 @@ class ChatLoadingViewModel extends GetxController {
         // 첫 메시지 생성하기
         await _createInitialMessage(conversationId, user.value!.name);
 
+        // ChatScreen으로 이동
         Get.off(() => ChatScreen(viewModel: Get.put(ChatViewModel(chatRoomId: conversationId, character: character))));
       }
     } catch (e) {

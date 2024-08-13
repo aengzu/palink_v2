@@ -1,35 +1,49 @@
-import 'package:palink_v2/data/models/ai_response.dart';
-import 'package:palink_v2/data/models/message_request.dart';
-import 'package:palink_v2/data/models/message_response.dart';
+import 'package:palink_v2/data/mapper/message_response_mapper.dart';
+import 'package:palink_v2/data/models/ai_response/ai_response.dart';
+import 'package:palink_v2/data/models/chat/message_request.dart';
+import 'package:palink_v2/data/models/chat/message_response.dart';
+import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
 import 'package:palink_v2/domain/entities/chat/message.dart';
-import 'package:palink_v2/domain/mapper/message_mapper.dart';
 import 'package:palink_v2/domain/repository/chat_repository.dart';
 import 'package:palink_v2/domain/usecase/generate_response_usecase.dart';
 
 class SendUserMessageUsecase {
-  final ChatRepository chatRepository;
+  final ChatRepository chatRepository = getIt<ChatRepository>();
   final GenerateResponseUsecase generateResponseUsecase;
 
-  SendUserMessageUsecase(this.chatRepository, this.generateResponseUsecase);
+  SendUserMessageUsecase(
+    this.generateResponseUsecase,
+  );
 
   Future<Message?> saveUserMessage(String text, int chatRoomId) async {
-    MessageRequest messageRequest = MessageRequest(
+    final messageRequest = _createMessageRequest(text);
+
+    final messageResponse =
+        await _saveMessageToServer(messageRequest, chatRoomId);
+
+    return _mapResponseToDomain(messageResponse);
+  }
+
+  Future<AIResponse?> generateAIResponse(
+      int chatRoomId, Character character) async {
+    return await generateResponseUsecase.execute(chatRoomId, character);
+  }
+
+  MessageRequest _createMessageRequest(String text) {
+    return MessageRequest(
       sender: true,
       messageText: text,
       timestamp: DateTime.now().toIso8601String(),
-      conversationId: chatRoomId,
     );
-
-    // 유저의 메시지를 서버에 저장
-    MessageResponse? response = await chatRepository.saveMessage(messageRequest);
-    print(response);
-    return response != null ? MessageMapper.toDomain(response) : null;
   }
 
-  Future<AIResponse?> generateAIResponse(int chatRoomId, Character character) async {
-    // AI의 응답을 생성
-    AIResponse? aiResponse = await generateResponseUsecase.execute(chatRoomId, character);
-    return aiResponse;
+  Future<MessageResponse?> _saveMessageToServer(
+      MessageRequest messageRequest, int chatRoomId) async {
+    return await chatRepository.saveMessage(chatRoomId, messageRequest);
+  }
+
+  Message? _mapResponseToDomain(MessageResponse? response) {
+    return response?.toDomain();
   }
 }

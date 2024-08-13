@@ -1,6 +1,6 @@
+import '../entities/user/user.dart';
+
 abstract class UserRepository {
-  Future<String> getUserId();
-  Future<String> getName();
-  Future<int> getAge();
-  Future<String> getPersonalityType();
+  int? getUserId();
+  Future<User?> getUser(int userId);
 }

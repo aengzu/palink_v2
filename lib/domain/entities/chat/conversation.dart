@@ -1,16 +1,16 @@
-import 'package:palink_v2/data/models/conversation_response.dart';
+import 'package:palink_v2/data/models/chat/conversation_response.dart';
 
 class Conversation {
-  int conversationId;
   String day;
-  String userId;
+  int userId;
   int characterId;
+  int conversationId;
 
   Conversation({
-    required this.conversationId,
     required this.day,
     required this.userId,
     required this.characterId,
+    required this.conversationId,
   });
 
   // fromResponse 메서드 추가

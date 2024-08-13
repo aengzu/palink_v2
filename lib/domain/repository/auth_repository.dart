@@ -6,4 +6,5 @@ import 'package:palink_v2/domain/entities/user/user.dart';
 abstract class AuthRepository {
   Future<User?> login(LoginModel loginModel);
   Future<User?> signUp(SignupModel signUpModel);
+  Future<User?> getUserFromPreferences();
 }

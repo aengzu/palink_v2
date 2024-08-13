@@ -1,5 +1,6 @@
 
-import 'package:palink_v2/data/api/auth_api.dart';
+import 'package:palink_v2/data/api/auth/auth_api.dart';
+import 'package:palink_v2/data/api/user/user_api.dart';
 import 'package:palink_v2/data/mapper/login_mapper.dart';
 import 'package:palink_v2/data/mapper/signup_mapper.dart';
 import 'package:palink_v2/data/mapper/user_mapper.dart';
@@ -14,8 +15,10 @@ import '../../domain/repository/auth_repository.dart';
 class AuthRepositoryImpl implements AuthRepository {
 
   final AuthApi _authApi;
+  final UserApi _userApi;
   final SharedPreferences _prefs;
-  AuthRepositoryImpl(this._authApi, this._prefs);
+
+  AuthRepositoryImpl(this._authApi, this._userApi, this._prefs);
 
 
   @override
@@ -23,11 +26,9 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await _authApi.login(loginModel.toData());
       if (response != null) {
-        // SharedPreferences에 사용자 정보 저장
-        await _prefs.setString('accountId', response.accountId);
-        await _prefs.setString('name', response.name);
-        await _prefs.setInt('age', response.age);
-        await _prefs.setString('personalityType', response.personalityType);
+        // SharedPreferences에 userId 와 로그인 여부 저장
+        await _prefs.setInt('userId', response.userId);
+        await _prefs.setBool('isLoggedIn', true);
 
         return response.toDomain();
       }
@@ -48,4 +49,27 @@ class AuthRepositoryImpl implements AuthRepository {
       return null;
     }
   }
+
+  @override
+  Future<User?> getUserFromPreferences() async {
+    try {
+      final userId = _prefs.getInt('userId');
+      final isLoggedIn = _prefs.getBool('isLoggedIn') ?? false;
+
+      if (isLoggedIn && userId != null) {
+        final userResponse = await _userApi.getUserById(userId);
+        return userResponse?.toDomain();
+      }
+      return null;
+    } catch (e) {
+      print('Error in getUserFromPreferences: $e');
+      return null;
+    }
+  }
+
+  Future<void> logout() async {
+    await _prefs.remove('userId');
+    await _prefs.remove('isLoggedIn');
+  }
+
 }

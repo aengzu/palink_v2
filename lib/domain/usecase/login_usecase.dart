@@ -12,4 +12,8 @@ class LoginUseCase {
   Future<User?> execute(LoginModel loginModel) {
     return repository.login(loginModel);
   }
+
+  Future<User?> checkAutoLogin() {
+    return repository.getUserFromPreferences();
+  }
 }

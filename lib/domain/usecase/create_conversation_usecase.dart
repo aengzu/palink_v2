@@ -1,8 +1,8 @@
 // domain/usecases/create_conversation_usecase.dart
 
 
-import 'package:palink_v2/data/models/conversation_request.dart';
-import 'package:palink_v2/data/models/conversation_response.dart';
+import 'package:palink_v2/data/models/chat/conversation_request.dart';
+import 'package:palink_v2/data/models/chat/conversation_response.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
 import 'package:palink_v2/domain/entities/chat/conversation.dart';
 import 'package:palink_v2/domain/entities/user/user.dart';
@@ -17,10 +17,10 @@ class CreateConversationUseCase {
   CreateConversationUseCase(this.chatRepository, this.getUserInfoUseCase);
 
   Future<Conversation?> execute(Character character) async {
-    User user = await getUserInfoUseCase.execute();
+    User? user = await getUserInfoUseCase.execute();
     var conversationRequest = ConversationRequest(
       day: DateTime.now().toIso8601String(),
-      userId: user.accountId,
+      userId: user!.userId!,
       characterId: character.characterId,
     );
     ConversationResponse response = await chatRepository.createConversation(conversationRequest);

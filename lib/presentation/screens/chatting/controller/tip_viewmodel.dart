@@ -30,8 +30,8 @@ class TipViewModel extends GetxController {
     startLoading();
     final tip = await generateTipUsecase.execute(message.messageText);
     if (tip != null) {
-      print('Tip generated: ${tip.tipText}'); // 로그 추가
-      updateTip(tip.tipText);
+      print('Tip generated: ${tip.answer}'); // 로그 추가
+      updateTip(tip.answer);
     } else {
       print('No tip available'); // 로그 추가
       updateTip('No tip available.');
