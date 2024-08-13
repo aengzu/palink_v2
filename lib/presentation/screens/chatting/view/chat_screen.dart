@@ -56,9 +56,8 @@ class ChatScreen extends StatelessWidget {
           elevation: 0,
         ),
         extendBodyBehindAppBar: false,
-        body: Obx(() {
-          return Container(
-            color: viewModel.backgroundColor.value, // Update background color based on emotion
+        body: Container(
+          color: Colors.white,
             child: Stack(
               children: [
                 Column(
@@ -66,9 +65,9 @@ class ChatScreen extends StatelessWidget {
                     Expanded(
                       child: Obx(() {
                         return viewModel.messages.isEmpty
-                            ? const Center(
+                            ? Center(
                           child: Text(
-                            'No messages yet.',
+                            '메시지가 없습니다.',
                             style: TextStyle(color: Colors.black),
                           ),
                         )
@@ -97,8 +96,7 @@ class ChatScreen extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        }),
+      )
       ),
     );
   }

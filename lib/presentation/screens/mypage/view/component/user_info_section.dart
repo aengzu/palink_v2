@@ -17,7 +17,7 @@ class UserInfoCard extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Obx(() => _buildUserInfo('내 아이디', mypageViewmodel.userId.value)),
+            Obx(() => _buildUserInfo('내 아이디', mypageViewmodel.accountId.value)),
             Obx(() => _buildUserInfo('내 나이', mypageViewmodel.age.value.toString())),
             Obx(() => _buildUserInfo('내 MBTI', mypageViewmodel.personalityType.value)),
           ],

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
-import 'package:palink_v2/domain/models/analysis_dto/analysis_dto.dart';
-import 'package:palink_v2/domain/models/character/character.dart';
+import 'package:palink_v2/domain/entities/analysis/analysis_dto.dart';
+import 'package:palink_v2/domain/entities/character/character.dart';
+
 
 class FeedbackViewmodel extends GetxController {
  final AnalysisDto analysisDto;

@@ -1,4 +1,5 @@
-import 'package:palink_v2/domain/models/mindset/mindset.dart';
+
+import 'package:palink_v2/domain/entities/mindset/mindset.dart';
 import 'package:palink_v2/domain/repository/mindset_repository.dart';
 
 

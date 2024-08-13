@@ -1,6 +1,6 @@
 // domain/usecases/get_chatroom_info_usecase.dart
 import 'package:palink_v2/domain/repository/chat_repository.dart';
-import 'package:palink_v2/data/models/conversation_response.dart';
+import 'package:palink_v2/data/models/chat/conversation_response.dart';
 
 class GetChatroomInfoUsecase {
   final ChatRepository chatRepository;

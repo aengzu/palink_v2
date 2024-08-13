@@ -1,37 +1,32 @@
-// data/repository/shared_pref_user_repository.dart
+
+
+import 'package:palink_v2/data/api/user/user_api.dart';
+import 'package:palink_v2/data/models/user/user_response.dart';
+import 'package:palink_v2/domain/entities/user/user.dart';
+import 'package:palink_v2/domain/repository/user_repository.dart';
+import 'package:palink_v2/data/mapper/user_mapper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../domain/repository/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final SharedPreferences prefs;
+  final UserApi _userApi;
 
-  UserRepositoryImpl(this.prefs);
+  UserRepositoryImpl(this.prefs, this._userApi);
+
 
   @override
-  Future<String> getUserId() async {
-    final userId = prefs.getString('userId') ?? '';
-    print('Retrieved userId: $userId');
-    return userId;
+  int? getUserId() {
+    return prefs.getInt('userId');
   }
 
   @override
-  Future<String> getName() async {
-    final name = prefs.getString('name') ?? '';
-    print('Retrieved name: $name');
-    return name;
-  }
-
-  @override
-  Future<int> getAge() async {
-    final age = prefs.getInt('age') ?? 0;
-    print('Retrieved age: $age');
-    return age;
-  }
-
-  @override
-  Future<String> getPersonalityType() async {
-    final personalityType = prefs.getString('personalityType') ?? '';
-    print('Retrieved personalityType: $personalityType');
-    return personalityType;
+  Future<User?> getUser(int userId) async {
+    try {
+      UserResponse? response = await _userApi.getUserById(userId);
+      return response?.toDomain();
+    } catch (e) {
+      print('Error in getUser: $e');
+      return null;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:palink_v2/core/theme/app_colors.dart';
-import 'package:palink_v2/domain/models/chat/message.dart';
+import 'package:palink_v2/domain/entities/chat/message.dart';
 import 'package:sizing/sizing.dart';
 import 'liking_bar.dart';
 

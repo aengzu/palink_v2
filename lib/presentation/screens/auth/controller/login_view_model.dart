@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:palink_v2/domain/models/auth/login_model.dart';
-import 'package:palink_v2/domain/models/user/user.dart';
+import 'package:palink_v2/domain/entities/auth/login_model.dart';
+import 'package:palink_v2/domain/entities/user/user.dart';
 import 'package:palink_v2/domain/usecase/login_usecase.dart';
 import 'package:palink_v2/presentation/screens/main_screens.dart';
 
@@ -12,8 +12,8 @@ class LoginViewModel extends GetxController {
 
   LoginViewModel({required this.loginUseCase});
 
-  Future<void> login(String userId, String password) async {
-    if (userId.isEmpty || password.isEmpty) {
+  Future<void> login(String accountId, String password) async {
+    if (accountId.isEmpty || password.isEmpty) {
       _showError('아이디와 비밀번호를 입력해주세요!');
       return;
     }
@@ -21,7 +21,7 @@ class LoginViewModel extends GetxController {
     errorMessage.value = '';
 
     try {
-      final result = await loginUseCase.execute(LoginModel(userId: userId, password: password));
+      final result = await loginUseCase.execute(LoginModel(accountId: accountId, password: password));
       if (result != null) {
         user.value = result;
         Get.off(() => const MainScreens());

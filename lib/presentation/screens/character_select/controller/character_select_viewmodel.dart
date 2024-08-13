@@ -1,6 +1,6 @@
 // presentation/screens/character_select/character_select_viewmodel.dart
 import 'package:get/get.dart';
-import 'package:palink_v2/domain/models/character/character.dart';
+import 'package:palink_v2/domain/entities/character/character.dart';
 import 'package:palink_v2/domain/usecase/fetch_characters_usecase.dart';
 import 'package:palink_v2/presentation/screens/chatting/controller/chat_loading_viewmodel.dart';
 import 'package:palink_v2/presentation/screens/chatting/view/chat_loading_screen.dart';
