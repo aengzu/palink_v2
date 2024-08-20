@@ -24,63 +24,65 @@ class LoginView extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              '로그인',
-              style: TextStyle(fontSize: 37, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.start,
-            ),
-             const SizedBox(height: 5),
-             Text(
-              '환영합니다 🎉',
-              style: TextStyle(fontSize: 20, color: Colors.grey[700]),
-            ),
-            SizedBox(height: 0.05.sh),
-            _buildTextField(
-              controller: memberIdController,
-              labelText: '사용자 ID',
-              hintText: '사용자 ID를 입력하세요.',
-            ),
-            SizedBox(height: 0.02.sh),
-            _buildTextField(
-              controller: passwordController,
-              labelText: '비밀번호',
-              hintText: '비밀번호를 입력하세요.',
-              isObscure: true,
-            ),
-            SizedBox(height: 0.17.sh),
-            Center(
-              child: Obx(() {
-                // Obx는 Rx 변수의 상태를 관찰합니다.
-                return CustomButton(
-                  label: loginViewModel.isLoading.value ? '로그인 중...' : '로그인하기',
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                '로그인',
+                style: TextStyle(fontSize: 37, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.start,
+              ),
+               const SizedBox(height: 5),
+               Text(
+                '환영합니다 🎉',
+                style: TextStyle(fontSize: 20, color: Colors.grey[700]),
+              ),
+              SizedBox(height: 0.05.sh),
+              _buildTextField(
+                controller: memberIdController,
+                labelText: '사용자 ID',
+                hintText: '사용자 ID를 입력하세요.',
+              ),
+              SizedBox(height: 0.02.sh),
+              _buildTextField(
+                controller: passwordController,
+                labelText: '비밀번호',
+                hintText: '비밀번호를 입력하세요.',
+                isObscure: true,
+              ),
+              SizedBox(height: 0.17.sh),
+              Center(
+                child: Obx(() {
+                  // Obx는 Rx 변수의 상태를 관찰합니다.
+                  return CustomButton(
+                    label: loginViewModel.isLoading.value ? '로그인 중...' : '로그인하기',
+                    onPressed: () {
+                      loginViewModel.login(
+                        memberIdController.text,
+                        passwordController.text,
+                      );
+                    },
+                  );
+                }),
+              ),
+              SizedBox(height: 0.02.sh),
+              Center(
+                child: TextButton(
                   onPressed: () {
-                    loginViewModel.login(
-                      memberIdController.text,
-                      passwordController.text,
-                    );
+                    Get.to(() => SignupView());
                   },
-                );
-              }),
-            ),
-            SizedBox(height: 0.02.sh),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  Get.to(() => SignupView());
-                },
-                child: const Text(
-                  '회원 가입하기',
-                  style: TextStyle(fontSize: 16, color: Colors.blue),
-                  textAlign: TextAlign.center,
+                  child: const Text(
+                    '회원 가입하기',
+                    style: TextStyle(fontSize: 16, color: Colors.blue),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

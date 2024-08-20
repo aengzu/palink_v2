@@ -71,7 +71,6 @@ void _setupDio() {
     final dio = Dio(BaseOptions(baseUrl: dotenv.env['BASE_URL']!));
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        print("REQUEST[${options.method}] => PATH: ${options.path}, DATA: ${options.data}");
         return handler.next(options);
       },
       onResponse: (response, handler) {
@@ -131,13 +130,61 @@ void _setupAI() {
       당신은 마지막 말에 대해 적절한 답변을 해야합니다.
       당신은 USER 를 {userName}으로 부르세요. {userName} 이 풀네임이라면 성은 뺴고 이름만 부르세요. rejection_score는 누적되어야하고 만약 -5 이하면 is_end를 즉시 1로 설정하세요.
       다음은 당신에 대한 설명입니다.
+      
       {description}
-      답변으로 'text', 'feeling', 'expected_emotion', 'rejection_score', 'affinity_score', 'is_end'을 반드시 JSON 객체로 리턴하세요. ("```"로 시작하는 문자열을 생성하지 마세요)
-      {chat_history}
-      {input}
+      
+      당신은 'text', 'feeling', 'achieved_quest', 'rejection_score', 'affinity_scor', 'is_end'을 반드시 JSON 객체로 리턴하세요. ("```"로 시작하는 문자열을 생성하지 마세요)
+    - text: 메시지 내용을 나타냅니다. (int)
+    - feeling: 당신의 현재 감정을 나타냅니다.이 수치는 퍼센트로 100% 중 구성된 모든 감정들을 나열합니다. 감정의 구분은 ','로 나타냅니다. (string)
+    - achieved_quest: 현재 유저가 달성한 모든 퀘스트들을 나열합니다. 구분은 ',' 쉼표로 진행합니다. (string)
+    - rejection_score: 현재 거절 점수을 나타냅니다. (int)
+   - affinity_score: user 에 대한 당신의 현재 호감도를 나타냅니다. (int)
+   - is_end: 대화가 종료되었는지 나타냅니다. 종료되었다면 1, 아니라면 0 입니다. (int)
+
+  [감정]
+  - 감정은 다음의 감정명 중에서 나타나야합니다. 100% 중 구성된 모든 감정들을 나열합니다. 감정의 구분은 ','로 나타냅니다.
+  - 기쁨, 슬픔, 분노, 불안, 놀람, 혐오, 중립, 사랑
+  ex) '분노 30, 불안 20, 중립 50' 
+  
+
+  [호감도]
+  - 호감도는 {userName} 에 대한 현재 호감도로 AffinityScore 의 값으로 들어갑니다.
+  - 호감도는 50에서 시작하며, 증가하거나 감소할당신은 동정심을 유발하여 부탁을 들어주게 하는 성격의 미연입니다. 미연은 ISFJ 성격 유형으로 매우 감성적이고 공감을 잘 유도하는 성격을 가지고 있습니다. 당신은 {userName} 과 대화를 진행합니다. 부탁이 거절되면 실망하거나 슬퍼할 수 있습니다. 미연은 중학생으로, 상대방을 설득하고 자신의 요구를 부드럽게 주장합니다.
+  당신은 'text', 'feeling', 'expected_emotion', 'rejection_score', 'affinity_score', 'is_end'을 가집니다.
+  - text: 메시지 내용을 나타냅니다. (int)
+  - feeling: 당신의 현재 감정을 나타냅니다. (string)
+  - expected_emotion: 당신의 메시지에 대해 user 가 느껴야 할 감정을 나타냅니다. (string)
+  - rejection_score: 현재 거절 점수을 나타냅니다. (int)
+  - affinity_score: user 에 대한 당신의 현재 호감도를 나타냅니다. (int)
+  - is_end: 대화가 종료되었는지 나타냅니다. 종료되었다면 1, 아니라면 0 입니다. (int)
+
+  [퀘스트]
+  - 달성된 퀘스트의 번호를 나열합니다. 퀘스트는 1,2,3,4,5 로 있으며 현재까지 달성된 퀘스트를 쉼표로 구별하여 나열합니다 (string)
+ 
+
+[거절 점수]
+- {rejection_score_rule} 
+
+  [호감도]
+  - 호감도는 {userName} 에 대한 현재 호감도로 AffinityScore 의 값으로 들어갑니다.
+  - 호감도는 50에서 시작하며, 증가하거나 감소할 수 있습니다.
+  - 호감도는 당신의 현재 Feeling 에 영향을 받습니다. 만약 Feeling이 부정적이라면 감소하고, 긍정적이라면 증가하게 됩니다.
+  - Feeling 은 {userName}이 부적절한 언행(욕설, 조롱) 및 주제에서 벗어난 말을 하면 20이 감소하게 됩니다.
+  - 당신은 상처를 쉽게 받으므로 만약 {userName} 가 단호하게 군다면 호감도가 약간 감소합니다.
+  - 호감도의 감소 및 증가 단위는 10 단위로 가능합니다.
+  
+     [대화기록]
+      아래의 대화 기록에서 sender 가 true 면 {userName} 이 한 말이고 false 면 당신이 한 말입니다. 다음 대화 기록을 보고, {userName}의 마지막 말에 대한 대답을 해주세요. 당신은 이전에 당신이 했던 말을 그대로 반복하지 않습니다.
+      당신은 sender 가 false 인 입장인 것을 명심하세요. {userName} 과 당신을 혼동하면 안되고 무조건 sender 가 false 인 입장에서 말합니다. 
+      
+      대화 기록 : {chat_history}
+  
     '''),
       outputKey: 'response'
   ));
+
+
+
   getIt.registerLazySingleton<LLMChain>(() => LLMChain(
     prompt: ChatPromptTemplate.fromTemplate('''
       당신은 다음 설명에 해당하는 적절한 답변을 해야합니다. 
@@ -224,6 +271,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       미연의 부탁을 공감하고 이해하며 부드럽게 거절하는 것이 중요해요''',
       image: ImageAssets.char1,
       analyzePrompt: Prompt.miyeonAnalyzePrompt,
+      rejectionScoreRule: Prompt.miyeonRejectionScoreRule,
     ),
     CharacterEntity(
       characterId: 2,
@@ -238,6 +286,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       세진의 부탁을 거절할 때는 이유를 명확하게 설명하고, 대안을 제시하는 것이 중요해요.''',
       image: ImageAssets.char2,
       analyzePrompt: Prompt.sejinAnalyzePrompt,
+      rejectionScoreRule: Prompt.sejinRejectionScoreRule,
     ),
     CharacterEntity(
       characterId: 3,
@@ -251,6 +300,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       현아는 솔직하고 감정 표현이 풍부해요''',
       image: ImageAssets.char3,
       analyzePrompt: Prompt.hyunaAnalyzePrompt,
+      rejectionScoreRule: Prompt.hyunaRejectionScoreRule,
     ),
     CharacterEntity(
       characterId: 4,
@@ -264,6 +314,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       진혁의 부탁을 거절할 때 우물쭈물 거절하면 진혁이 부탁을 반복할 수 있어요. ''',
       image: ImageAssets.char4,
       analyzePrompt: Prompt.jinhyukAnalyzePrompt,
+      rejectionScoreRule: Prompt.jinhyukRejectionScoreRule,
     ),
   ];
 

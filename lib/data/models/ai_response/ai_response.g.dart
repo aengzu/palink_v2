@@ -8,9 +8,10 @@ part of 'ai_response.dart';
 
 AIResponse _$AIResponseFromJson(Map<String, dynamic> json) => AIResponse(
       text: json['text'] as String,
+      feeling: json['feeling'] as String,
       isEnd: (json['is_end'] as num).toInt(),
       affinityScore: (json['affinity_score'] as num).toInt(),
-      expectedEmotion: json['expected_emotion'] as String,
+      achievedQuest: json['achieved_quest'] as String,
       rejectionScore: (json['rejection_score'] as num).toInt(),
     );
 
@@ -18,7 +19,8 @@ Map<String, dynamic> _$AIResponseToJson(AIResponse instance) =>
     <String, dynamic>{
       'text': instance.text,
       'is_end': instance.isEnd,
+      'feeling': instance.feeling,
       'affinity_score': instance.affinityScore,
-      'expected_emotion': instance.expectedEmotion,
+      'achieved_quest': instance.achievedQuest,
       'rejection_score': instance.rejectionScore,
     };

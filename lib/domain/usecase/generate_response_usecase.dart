@@ -22,24 +22,27 @@ class GenerateResponseUsecase {
   GenerateResponseUsecase(this.getUserInfoUseCase, this.fetchChatHistoryUsecase, this.generateTipUsecase);
 
   Future<AIResponse?> execute(int conversationId, Character character) async {
-    // 사용자 정보 가져오기
+    // STEP1) 사용자 정보 가져오기
     User? user = await getUserInfoUseCase.execute();
 
-    // 이전 대화 기록 페치
+    // STEP2) 이전 대화 기록 페치
+    final chatHistoryResponse = await fetchChatHistoryUsecase.execute(conversationId);
     final memoryVariables = await aiRepository.getMemory();
     final chatHistory = memoryVariables['history'] ?? '';
 
-    // AI와의 대화 시작
+
+    // STEP3) AI와의 대화 시작
     final inputs = {
-      'input': '유저의 마지막 말에 대답하세요. 대화 맥락을 기억합니다.',
-      'chat_history': chatHistory,
+      'input': '유저의 마지막 말에 대해 대답하세요. 맥락을 기억합니다.',
+      'chat_history': chatHistoryResponse,
       'userName': user!.name,
       'description': character.prompt,
+      'rejection_score_rule' : character.rejectionScoreRule,
     };
 
     AIResponse? aiResponse = await aiRepository.processChat(inputs);
 
-    // AI 응답을 메시지로 변환하여 저장
+    // STEP 4) AI 응답을 메시지로 변환하여 저장
     if (aiResponse != null) {
       final messageRequest = aiResponse.toMessageRequest();
       await chatRepository.saveMessage(conversationId, messageRequest);

@@ -100,7 +100,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `characters` (`characterId` INTEGER NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `requestStrength` INTEGER NOT NULL, `prompt` TEXT NOT NULL, `description` TEXT NOT NULL, `image` TEXT NOT NULL, `analyzePrompt` TEXT NOT NULL, PRIMARY KEY (`characterId`))');
+            'CREATE TABLE IF NOT EXISTS `characters` (`characterId` INTEGER NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `requestStrength` INTEGER NOT NULL, `prompt` TEXT NOT NULL, `description` TEXT NOT NULL, `image` TEXT NOT NULL, `analyzePrompt` TEXT NOT NULL, `rejectionScoreRule` TEXT NOT NULL, PRIMARY KEY (`characterId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `character_quests` (`characterId` INTEGER NOT NULL, `quests` TEXT NOT NULL, PRIMARY KEY (`characterId`))');
         await database.execute(
@@ -145,7 +145,8 @@ class _$CharacterDao extends CharacterDao {
                   'prompt': item.prompt,
                   'description': item.description,
                   'image': item.image,
-                  'analyzePrompt': item.analyzePrompt
+                  'analyzePrompt': item.analyzePrompt,
+                  'rejectionScoreRule': item.rejectionScoreRule
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -167,7 +168,8 @@ class _$CharacterDao extends CharacterDao {
             prompt: row['prompt'] as String,
             description: row['description'] as String,
             image: row['image'] as String,
-            analyzePrompt: row['analyzePrompt'] as String));
+            analyzePrompt: row['analyzePrompt'] as String,
+            rejectionScoreRule: row['rejectionScoreRule'] as String));
   }
 
   @override
@@ -182,7 +184,8 @@ class _$CharacterDao extends CharacterDao {
             prompt: row['prompt'] as String,
             description: row['description'] as String,
             image: row['image'] as String,
-            analyzePrompt: row['analyzePrompt'] as String),
+            analyzePrompt: row['analyzePrompt'] as String,
+            rejectionScoreRule: row['rejectionScoreRule'] as String),
         arguments: [characterId]);
   }
 

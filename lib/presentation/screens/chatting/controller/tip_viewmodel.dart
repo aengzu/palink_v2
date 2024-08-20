@@ -12,29 +12,23 @@ class TipViewModel extends GetxController {
   void updateTip(String newTip) {
     tipContent.value = newTip;
     isLoading.value = false;
-    print('Tip updated: $newTip'); // 로그 추가
   }
 
   void toggle() {
     isExpanded.value = !isExpanded.value;
-    print('Tip expanded state: ${isExpanded.value}'); // 로그 추가
   }
 
   void startLoading() {
     isLoading.value = true;
-    print('Tip loading started'); // 로그 추가
   }
 
   Future<void> generateTip(Message message) async {
-    print('generateTip called with message: ${message.messageText}'); // 로그 추가
     startLoading();
     final tip = await generateTipUsecase.execute(message.messageText);
     if (tip != null) {
-      print('Tip generated: ${tip.answer}'); // 로그 추가
       updateTip(tip.answer);
     } else {
-      print('No tip available'); // 로그 추가
-      updateTip('No tip available.');
+      updateTip('팁 생성중입니다.');
     }
   }
 }

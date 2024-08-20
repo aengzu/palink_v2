@@ -15,6 +15,7 @@ class CharacterMapper {
       description: entity.description,
       image: entity.image,
       anaylzePrompt: entity.analyzePrompt,
+      rejectionScoreRule: entity.rejectionScoreRule,
     );
   }
 }

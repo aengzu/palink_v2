@@ -14,7 +14,7 @@ class CharacterSelectViewModel extends GetxController {
     name: 'default_name',
     type: 'default_type',
     image: 'default_image.png',
-    requestStrength: 0, prompt: 'default_prompt', anaylzePrompt: 'default_anaylzePrompt',
+    requestStrength: 0, prompt: 'default_prompt', anaylzePrompt: 'default_anaylzePrompt', rejectionScoreRule: 'default',
   ).obs;
 
   CharacterSelectViewModel({required this.fetchCharactersUsecase});
@@ -44,7 +44,7 @@ class CharacterSelectViewModel extends GetxController {
       name: 'default_name',
       type: 'default_type',
       image: 'default_image.png',
-      requestStrength: 0, prompt: 'default_prompt', anaylzePrompt: 'default_anaylzePrompt',
+      requestStrength: 0, prompt: 'default_prompt', anaylzePrompt: 'default_anaylzePrompt', rejectionScoreRule: 'default',
     );
   }
 

@@ -35,10 +35,12 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
   @override
   Future<AIResponse?> processChat(Map<String, dynamic> inputs) async {
     try {
+      print(inputs);
       final result = await chatChain.invoke(inputs);
       final AIChatMessage aiChatMessage = result['response'] as AIChatMessage;
       final Map<String, dynamic> contentMap = jsonDecode(aiChatMessage.content);
       AIResponse aiResponse = AIResponse.fromJson(contentMap);
+      print(contentMap);
       return aiResponse;
     } catch (e) {
       print('Failed to process chat: $e');
@@ -50,7 +52,6 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
   Future<TipDto?> createTip(String message) async {
     final inputs = {'input': "${Prompt.tipPrompt}\n${message}"};
     try {
-      print('getTip inputs: $inputs'); // 로그 추가
       final result = await tipChain.invoke({'input': inputs, 'memory': tipMemoryBuffer});
 
       AIChatMessage aiChatMessage = result['output'] as AIChatMessage;

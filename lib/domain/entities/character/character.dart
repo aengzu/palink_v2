@@ -12,6 +12,7 @@ class Character {
   final String? description;
   final String image;
   final String anaylzePrompt;
+  final String rejectionScoreRule;
 
   Character({
     required this.characterId,
@@ -22,6 +23,7 @@ class Character {
     this.description,
     required this.image,
     required this.anaylzePrompt,
+    required this.rejectionScoreRule,
   });
 
 

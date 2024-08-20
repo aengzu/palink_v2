@@ -12,6 +12,7 @@ class CharacterEntity {
   final String description;
   final String image;
   final String analyzePrompt;
+  final String rejectionScoreRule;
 
   CharacterEntity({
     required this.characterId,
@@ -22,5 +23,6 @@ class CharacterEntity {
     required this.description,
     required this.image,
     required this.analyzePrompt,
+    required this.rejectionScoreRule,
   });
 }

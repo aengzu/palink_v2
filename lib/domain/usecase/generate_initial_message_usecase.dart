@@ -21,6 +21,7 @@ class GenerateInitialMessageUsecase {
       'chat_history': [],
       'userName': userName,
       'description': description,
+      'rejection_score_rule' : 'default',
     };
 
     AIResponse? aiResponse = await aiRepository.processChat(inputs);
