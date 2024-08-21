@@ -109,8 +109,9 @@ void _setupAI() {
     apiKey: dotenv.env['API_KEY']!,
     defaultOptions: const ChatOpenAIOptions(
       temperature: 0.8,
-      model: 'gpt-4-turbo',
+      model: 'gpt-4o',
       maxTokens: 600,
+      responseFormat: ChatOpenAIResponseFormat(type: ChatOpenAIResponseFormatType.jsonObject)
     ),
   ));
   getIt.registerLazySingleton<ConversationBufferMemory>(() => ConversationBufferMemory(
@@ -174,7 +175,7 @@ void _setupAI() {
   - 호감도의 감소 및 증가 단위는 10 단위로 가능합니다.
   
      [대화기록]
-      아래의 대화 기록에서 sender 가 true 면 {userName} 이 한 말이고 false 면 당신이 한 말입니다. 다음 대화 기록을 보고, {userName}의 마지막 말에 대한 대답을 해주세요. 당신은 이전에 당신이 했던 말을 그대로 반복하지 않습니다.
+      아래의 대화 기록에서 sender 가 true 면 {userName} 이 한 말이고 false 면 당신이 한 말입니다. 다음 대화 기록을 보고, {userName}의 마지막 말에 대한 대답을 해주세요.  당신은 이전에 당신이 했던 말을 그대로 반복하지 않습니다.
       당신은 sender 가 false 인 입장인 것을 명심하세요. {userName} 과 당신을 혼동하면 안되고 무조건 sender 가 false 인 입장에서 말합니다. 
       
       대화 기록 : {chat_history}
