@@ -33,7 +33,10 @@
 </p>
 
 
-
+## Deploy
+- 웹앱 배포 : Amazon S3 (CloudFront 와 연동)
+- DB 서버 배포 : Amazon EC2
+- DB : Amazon RDS
 
 ## Getting Started
 My flutter version : Flutter 3.23.0-8.0.pre.3
