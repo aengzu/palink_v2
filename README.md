@@ -23,6 +23,7 @@
 ## SHOWCASES
 
 시연 영상 : https://www.youtube.com/watch?v=K5g2jtDPIS0
+<br>
 웹앱으로 배포를 하였으나, AI API 비용상의 문제로 링크 비공개 처리하였습니다 🥲
 
 <p float="left">
