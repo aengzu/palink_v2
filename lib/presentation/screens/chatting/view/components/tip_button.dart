@@ -41,15 +41,15 @@ class TipButton extends StatelessWidget {
 
   Widget _buildExpandedTip() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
         FloatingActionButton(
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           onPressed: onToggle,
-          child: const Icon(Icons.close, color: Colors.white),
           backgroundColor: AppColors.deepBlue,
+          child: const Icon(Icons.close, color: Colors.white),
         ),
         SizedBox(height: 0.01.sh),
         Container(

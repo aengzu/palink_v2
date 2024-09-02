@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:palink_v2/core/theme/app_colors.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
 import 'package:palink_v2/presentation/screens/chatting/controller/chat_loading_viewmodel.dart';
 import 'package:sizing/sizing.dart';
@@ -31,7 +33,7 @@ class ChatLoadingScreen extends StatelessWidget {
             EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
             child: _buildStyledDescription(viewModel.character.description!),
           ),
-          const CircularProgressIndicator(color: Colors.blue),
+          const SpinKitThreeBounce(color: AppColors.deepBlue, size: 30),
         ],
       ),
     );

@@ -64,6 +64,7 @@ dependencies:
   sqflite: ^2.3.3+1
   sqflite_common_ffi_web: ^0.4.4
   fluttertoast: ^8.2.8
+  flutter_spinkit: ^5.2.1
 
 dev_dependencies:
   flutter_test:
