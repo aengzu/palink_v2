@@ -11,6 +11,7 @@ class CharacterEntity {
   final String prompt;
   final String description;
   final String image;
+  final String quest;
   final String analyzePrompt;
   final String rejectionScoreRule;
 
@@ -22,6 +23,7 @@ class CharacterEntity {
     required this.prompt,
     required this.description,
     required this.image,
+    required this.quest,
     required this.analyzePrompt,
     required this.rejectionScoreRule,
   });

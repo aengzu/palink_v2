@@ -36,11 +36,8 @@ class ChatEndLoadingView extends StatelessWidget {
                 children: <TextSpan>[
                   TextSpan(
                     // 여기에 랜덤으로 마인드셋 하나 가져오고 싶음.
-                      text: chatEndLoadingViewModel.randomMindset?.content ?? '',
+                      text: chatEndLoadingViewModel.randomMindset?.mindsetText ?? '',
                       style: textTheme().titleMedium),
-                  TextSpan(
-                      text: chatEndLoadingViewModel.randomMindset?.reason ?? '',
-                      style: textTheme().bodyMedium),
                 ],
               ),
             ),

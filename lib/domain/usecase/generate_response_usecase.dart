@@ -4,6 +4,7 @@ import 'package:palink_v2/data/models/ai_response/ai_response.dart';
 import 'package:palink_v2/data/models/chat/message_request.dart';
 import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
+import 'package:palink_v2/domain/entities/chat/message.dart';
 import 'package:palink_v2/domain/entities/user/user.dart';
 import 'package:palink_v2/domain/repository/chat_repository.dart';
 import 'package:palink_v2/domain/repository/open_ai_repository.dart';
@@ -27,14 +28,14 @@ class GenerateResponseUsecase {
 
     // STEP2) 이전 대화 기록 페치
     final chatHistoryResponse = await fetchChatHistoryUsecase.execute(conversationId);
-    final memoryVariables = await aiRepository.getMemory();
-    final chatHistory = memoryVariables['history'] ?? '';
+
+    String chatHistory = _formatChatHistory(chatHistoryResponse!);
 
 
     // STEP3) AI와의 대화 시작
     final inputs = {
       'input': '유저의 마지막 말에 대해 대답하세요. 맥락을 기억합니다.',
-      'chat_history': chatHistoryResponse,
+      'chat_history': [chatHistory],
       'userName': user!.name,
       'description': character.prompt,
       'rejection_score_rule' : character.rejectionScoreRule,
@@ -57,5 +58,10 @@ class GenerateResponseUsecase {
     }
 
     return aiResponse;
+  }
+  // chatHistoryResponse를 JSON 또는 텍스트로 변환하는 함수
+  String _formatChatHistory(List<Message> chatHistoryResponse) {
+    // 메시지를 순차적으로 텍스트로 변환
+    return chatHistoryResponse.map((message) => "${message.sender}: ${message.messageText}").join("\n");
   }
 }

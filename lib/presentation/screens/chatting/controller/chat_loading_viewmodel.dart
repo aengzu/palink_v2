@@ -47,11 +47,21 @@ class ChatLoadingViewModel extends GetxController {
       if (conversation.value != null && user.value != null) {
         final conversationId = conversation.value!.conversationId;
 
-        // 첫 메시지 생성하기
-        await _createInitialMessage(conversationId, user.value!.name);
+        // 첫 메시지와 팁 생성
+        final result = await _createInitialMessage(
+            conversationId, user.value!.name);
+        if (result != null) {
+          final aiResponse = result['aiResponse'] as AIResponse;
+          final tip = result['tip'] as String;
 
-        // ChatScreen으로 이동
-        Get.off(() => ChatScreen(viewModel: Get.put(ChatViewModel(chatRoomId: conversationId, character: character))));
+          // ChatScreen으로 이동 (팁 전달)
+          Get.off(() =>
+              ChatScreen(
+                viewModel: Get.put(ChatViewModel(
+                    chatRoomId: conversationId, character: character)),
+                initialTip: tip, // 팁 전달
+              ));
+        }
       }
     } catch (e) {
       print('Failed to create conversation and initial message: $e');
@@ -64,21 +74,17 @@ class ChatLoadingViewModel extends GetxController {
       return await createConversationUseCase.execute(character);
     } catch (e) {
       print('Failed to create conversation: $e');
-      errorMessage.value = 'Failed to create conversation: $e';
+      errorMessage.value = '대화창 생성 실패 $e';
       return null;
     }
   }
 
-  Future<AIResponse?> _createInitialMessage(int conversationId, String userName) async {
+  Future<Map<String, dynamic>?> _createInitialMessage(int conversationId, String userName) async {
     try {
-      AIResponse? aiResponse = await generateInitialMessageUsecase.execute(conversationId, userName, character.prompt);
-      if (aiResponse == null) {
-        throw Exception('No response from AI.');
-      }
-      return aiResponse;
+      return await generateInitialMessageUsecase.execute(conversationId, userName, character.prompt);
     } catch (e) {
       print('Failed to create initial message: $e');
-      errorMessage.value = 'Failed to create initial message: $e';
+      errorMessage.value = '초기 메시지 생성 실패 $e';
       return null;
     }
   }

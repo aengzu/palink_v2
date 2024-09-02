@@ -9,6 +9,7 @@ import 'package:palink_v2/data/api/auth/auth_api.dart';
 import 'package:palink_v2/data/api/character/character_api.dart';
 import 'package:palink_v2/data/api/chat/chat_api.dart';
 import 'package:palink_v2/data/api/feedback/feedback_api.dart';
+import 'package:palink_v2/data/api/mindset/mindset_api.dart';
 import 'package:palink_v2/data/api/tip/tip_api.dart';
 import 'package:palink_v2/data/api/user/user_api.dart';
 import 'package:palink_v2/data/dao/character_dao.dart';
@@ -92,6 +93,7 @@ void _setupApis() {
   getIt.registerLazySingleton<TipApi>(() => TipApi(getIt<Dio>()));
   getIt.registerLazySingleton<CharacterApi>(() => CharacterApi(getIt<Dio>()));
   getIt.registerLazySingleton<UserApi>(() => UserApi(getIt<Dio>()));
+  getIt.registerLazySingleton<MindsetApi>(() => MindsetApi(getIt<Dio>()));
   getIt.registerLazySingleton<FeedbackApi>(() => FeedbackApi(getIt<Dio>()));
 }
 
@@ -100,7 +102,7 @@ void _setupRepositories(SharedPreferences prefs) {
   getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(prefs, getIt<UserApi>()));
   getIt.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(getIt<ChatApi>()));
   getIt.registerLazySingleton<CharacterRepository>(() => CharacterRepositoryImpl());
-  getIt.registerLazySingleton<MindsetRepository>(() => MindsetRepositoryImpl());
+  getIt.registerLazySingleton<MindsetRepository>(() => MindsetRepositoryImpl(getIt<MindsetApi>()));
 
 
 }
@@ -128,35 +130,35 @@ void _setupAI() {
       llm: getIt<ChatOpenAI>(),
       prompt: ChatPromptTemplate.fromTemplate('''
       당신은 마지막 말에 대해 적절한 답변을 해야합니다.
-      당신은 USER 를 {userName}으로 부르세요. {userName} 이 풀네임이라면 성은 뺴고 이름만 부르세요. rejection_score는 누적되어야하고 만약 -5 이하면 is_end를 즉시 1로 설정하세요.
+      당신은 USER 를 {userName}으로 부르세요. {userName} 이 풀네임이라면 성은 뺴고 이름만 부르세요. rejection_score는 누적되어야하고 만약 -5 이하 혹은 10 이상이면 is_end를 즉시 1로 설정하세요.
       다음은 당신에 대한 설명입니다.
       
       {description}
       
-      당신은 'text', 'feeling', 'achieved_quest', 'rejection_score', 'affinity_scor', 'is_end'을 반드시 JSON 객체로 리턴하세요. ("```"로 시작하는 문자열을 생성하지 마세요)
-    - text: 메시지 내용을 나타냅니다. (int)
-    - feeling: 당신의 현재 감정을 나타냅니다.이 수치는 퍼센트로 100% 중 구성된 모든 감정들을 나열합니다. 감정의 구분은 ','로 나타냅니다. (string)
-    - achieved_quest: 현재 유저가 달성한 모든 퀘스트들을 나열합니다. 구분은 ',' 쉼표로 진행합니다. (string)
-    - rejection_score: 현재 거절 점수을 나타냅니다. (int)
-   - affinity_score: user 에 대한 당신의 현재 호감도를 나타냅니다. (int)
-   - is_end: 대화가 종료되었는지 나타냅니다. 종료되었다면 1, 아니라면 0 입니다. (int)
+       당신은 'text', 'feeling', 'achieved_quest', 'rejection_score', 'affinity_score', 'is_end'을 반드시 JSON 객체로 리턴하세요. ("```"로 시작하는 문자열을 생성하지 마세요) -
+- text: 메시지 내용을 나타냅니다. (int) 
+- feeling: 당신의 현재 감정을 나타냅니다.이 수치는 퍼센트로 100% 중 구성된 모든 감정들을 나열합니다. 감정의 구분은 ','로 나타냅니다. (string) 
+- achieved_quest: 현재 유저가 달성한 모든 퀘스트들을 나열합니다. 구분은 ',' 쉼표로 진행합니다. (string) 
+- rejection_score: 현재 거절 점수을 나타냅니다. (int) 
+- affinity_score: user 에 대한 당신의 현재 호감도를 나타냅니다. (int) 
+- is_end: 대화가 종료되었는지 나타냅니다. 종료되었다면 1, 아니라면 0 입니다. (int) 
 
-  [감정]
+  [feeling] 
   - 감정은 다음의 감정명 중에서 나타나야합니다. 100% 중 구성된 모든 감정들을 나열합니다. 감정의 구분은 ','로 나타냅니다.
   - 기쁨, 슬픔, 분노, 불안, 놀람, 혐오, 중립, 사랑
   ex) '분노 30, 불안 20, 중립 50' 
   
-  [퀘스트]
+  [achieved_quest] 
   - 달성된 퀘스트의 번호를 나열합니다. 퀘스트는 1,2,3,4,5 로 있으며 현재까지 달성된 퀘스트를 쉼표로 구별하여 나열합니다 (string)
  
 
-[거절 점수]
+[rejection_score] 
 - {rejection_score_rule} 
 
- [호감도]
+[affinity_score]
 - 호감도는 {userName}에 대한 현재 호감도로 affinity_score 값으로 들어갑니다.
 - 호감도는 50에서 시작하며, 증가하거나 감소할 수 있습니다.
-- 호감도는 당신의 현재 Feeling에 영향을 받습니다. 만약 Feeling이 부정적이라면 감소하고, 긍정적이라면 증가하게 됩니다.
+- 호감도는 당신의 현재 feeling 에 영향을 받습니다. 만약 Feeling이 부정적이라면 감소하고, 긍정적이라면 증가하게 됩니다.
 - 호감도는 {userName}이 부적절한 언행(욕설, 조롱) 및 주제에서 벗어난 말을 하면 20이 감소하게 됩니다.
 - 호감도의 감소 및 증가 단위는 10 단위로 가능합니다.
   
@@ -185,16 +187,16 @@ void _setupAI() {
   ));
   getIt.registerLazySingleton<LLMChain>(() => LLMChain(
     prompt: ChatPromptTemplate.fromTemplate('''
-      당신은 다음의 거절 점수 표와 대화 기록들을 보고, 사용자의 대화 능력을 평가해야합니다. 거절 점수 표는 캐릭터마다 다릅니다.
+      당신은 다음의 거절 점수 표와 대화 기록들을 보고, 사용자의 대화 능력을 평가해야합니다.  부탁을 거절하는 능력을 평가하고자 합니다. 
       반드시 한국어로 하며, AI 캐릭터의 말투를 사용해서 평가해주세요.
       
       {input}
       
       답변으로 'evaluation' (string), 'used_rejection' (string), 'final_rejection_score' (int) 을 반드시 JSON 객체로 리턴하세요.
-      'evaluation'은 사용자의 대화 능력을 AI의 입장에서 200자 이내로 평가한 문자열입니다. 'evalution' 은 사용자의 대화능력을 평가할 뿐 아니라 사용자의 대화 능력을 개선할 수 있는 피드백을 제공해야합니다.
-      'used_rejection'은 사용자가 대화에서 '사용한 거절 능력(해당 능력의 점수)'의 목록을 나타냅니다. 아이템의 구분은 ',' 로 나타냅니다. 
-      'final_rejction_score'은 총 거절 점수입니다.
       
+       'evaluation'은 사용자의 대화 능력을 AI의 입장에서 500자 이내로 평가한 문자열입니다. 'evalution' 은 사용자의 대화능력을 평가할 뿐 아니라 사용자의 대화 능력을 개선할 수 있는 피드백을 제공해야합니다. 대화 기록에서 인용할 만한 텍스트가 있다면 직접적으로 인용하여 지적 및 칭찬을 해주세요.  또한, 대화 기록에서 사용자의 말이 character 의 감정을 상하게 할 부분이 있거나,  사용자가 과하게 자기 표현을 못하는 경우에 이를 지적해주세요.
+      'used_rejection'은 사용자가 대화에서 '사용한 거절 능력(해당 능력의 점수)'의 목록을 나타냅니다. 아이템의 구분은 ',' 로 나타냅. 대화기록의  rejection_content 을 전부 포함합니다.
+      'final_rejction_score'은 총 거절 점수입니다. 
     '''),
     llm: getIt<ChatOpenAI>(),
   ), instanceName: 'analyzeChain');
@@ -223,7 +225,7 @@ void _setupUseCases() {
   getIt.registerFactory<GenerateTipUsecase>(() => GenerateTipUsecase());
   getIt.registerFactory<GenerateAnalyzeUsecase>(() => GenerateAnalyzeUsecase());
   getIt.registerFactory<GetRandomMindsetUseCase>(() => GetRandomMindsetUseCase(getIt<MindsetRepository>()));
-  getIt.registerFactory<GenerateInitialMessageUsecase>(() => GenerateInitialMessageUsecase());
+  getIt.registerFactory<GenerateInitialMessageUsecase>(() => GenerateInitialMessageUsecase(getIt<GenerateTipUsecase>()));
 
 }
 
@@ -239,7 +241,6 @@ Future<AppDatabase> _setupDatabase() async {
   final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
   getIt.registerSingleton<AppDatabase>(database);
   getIt.registerSingleton<CharacterDao>(database.characterDao);
-  getIt.registerSingleton<MindsetDao>(database.mindsetDao);
   getIt.registerSingleton<CharacterQuestDao>(database.characterQuestDao);
   return database;
 }
@@ -257,6 +258,11 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       미연은 내성적이지만 친구들에게는 따뜻하고 배려심이 많아 깊은 관계를 맺고 있으며, 친구들의 고민을 잘 들어줘요
       미연의 부탁을 공감하고 이해하며 부드럽게 거절하는 것이 중요해요''',
       image: ImageAssets.char1,
+      quest: '''1. 거절 성공하기
+2. 상대방의 감정에 대한 공감 표현하기 
+3. 상대방이 처한 상황을 파악하기 위한 대화 시도하기
+4. 도와주지 못하는 합리적인 이유 제시하기
+5. 서로 양보해서 절충안 찾아보기''',
       analyzePrompt: Prompt.miyeonAnalyzePrompt,
       rejectionScoreRule: Prompt.miyeonRejectionScoreRule,
     ),
@@ -272,6 +278,11 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       세진은 예전에 당신을 도와준 적이 있어요.
       세진의 부탁을 거절할 때는 이유를 명확하게 설명하고, 대안을 제시하는 것이 중요해요.''',
       image: ImageAssets.char2,
+      quest: '''1. 거절 성공하기
+2. 이전 도움에 대한 감사 표현하기
+3. 거절 표현을 두괄식으로 작성하기
+4. 도와주지 못하는 합리적인 이유 제시하기
+5. 서로 양보해서 절충안 찾아보기''',
       analyzePrompt: Prompt.sejinAnalyzePrompt,
       rejectionScoreRule: Prompt.sejinRejectionScoreRule,
     ),
@@ -285,6 +296,11 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       포기하지 않고 끈기 있게 부탁을 반복해요.
       처음엔 거절하는 이유를 설명하고 부드럽게 거절하지만, 정도가 강해지면 단호한 태도로 거절해야 해요.
       현아는 솔직하고 감정 표현이 풍부해요''',
+      quest: '''1. 거절 성공하기
+2. 상대방의 부탁에 대해 존중 표현하기
+3. 상대방의 감정에 대한 공감 표현하기
+4. 상대방이 처한 상황을 파악하기 위한 대화 시도하기
+5. 도와주지 못하는 합리적인 이유 제시하기''',
       image: ImageAssets.char3,
       analyzePrompt: Prompt.hyunaAnalyzePrompt,
       rejectionScoreRule: Prompt.hyunaRejectionScoreRule,
@@ -300,6 +316,11 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       진혁은 예전에 같은 반이어서 친해졌지만 최근에는 약간 멀어진 사이에요.
       진혁의 부탁을 거절할 때 우물쭈물 거절하면 진혁이 부탁을 반복할 수 있어요. ''',
       image: ImageAssets.char4,
+      quest: '''1. 거절 성공하기
+2. 상대방의 욕구를 고려하지 않는 대화 전략 사용하기
+3. 거절 의사 명확히 표현하기
+4. 상대방의 무례에 대한 불편함 명확히 표현하기
+5. 상대방에게 감정적으로 대하지 않기''',
       analyzePrompt: Prompt.jinhyukAnalyzePrompt,
       rejectionScoreRule: Prompt.jinhyukRejectionScoreRule,
     ),

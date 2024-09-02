@@ -14,6 +14,7 @@ Character _$CharacterFromJson(Map<String, dynamic> json) => Character(
       prompt: json['prompt'] as String,
       description: json['description'] as String?,
       image: json['image'] as String,
+      quest: json['quest'] as String,
       anaylzePrompt: json['anaylzePrompt'] as String,
       rejectionScoreRule: json['rejectionScoreRule'] as String,
     );
@@ -26,6 +27,7 @@ Map<String, dynamic> _$CharacterToJson(Character instance) => <String, dynamic>{
       'prompt': instance.prompt,
       'description': instance.description,
       'image': instance.image,
+      'quest': instance.quest,
       'anaylzePrompt': instance.anaylzePrompt,
       'rejectionScoreRule': instance.rejectionScoreRule,
     };

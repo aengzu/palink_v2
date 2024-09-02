@@ -11,6 +11,7 @@ class Character {
   final String prompt;
   final String? description;
   final String image;
+  final String quest;
   final String anaylzePrompt;
   final String rejectionScoreRule;
 
@@ -22,6 +23,7 @@ class Character {
     required this.prompt,
     this.description,
     required this.image,
+    required this.quest,
     required this.anaylzePrompt,
     required this.rejectionScoreRule,
   });
