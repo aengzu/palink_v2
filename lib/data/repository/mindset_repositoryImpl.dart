@@ -1,20 +1,19 @@
 
-import 'package:palink_v2/data/dao/mindset_dao.dart';
-import 'package:palink_v2/data/mapper/mindset_mappder.dart';
-import 'package:palink_v2/di/locator.dart';
+
+import 'package:palink_v2/data/api/mindset/mindset_api.dart';
 import 'package:palink_v2/domain/entities/mindset/mindset.dart';
 import 'package:palink_v2/domain/repository/mindset_repository.dart';
 
 
 class MindsetRepositoryImpl implements MindsetRepository {
-  final MindsetDao mindsetDao = getIt<MindsetDao>();
+  final MindsetApi mindsetApi;
 
-  MindsetRepositoryImpl();
+  MindsetRepositoryImpl(this.mindsetApi);
 
   @override
   Future<Mindset?> getRandomMindset() async {
-    final entity = await mindsetDao.getRandomMindset();
-    return MindsetMapper.fromEntity(entity!);
+    Mindset mindset = mindsetApi.getRandomMindset() as Mindset;
+    return mindset;
   }
 
 }

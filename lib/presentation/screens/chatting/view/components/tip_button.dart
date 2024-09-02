@@ -7,12 +7,14 @@ class TipButton extends StatelessWidget {
   final bool isExpanded;
   final bool isLoading;
   final VoidCallback onToggle;
+  final Color backgroundColor;
 
   TipButton({
     required this.tipContent,
     required this.isExpanded,
     required this.isLoading,
     required this.onToggle,
+    required this.backgroundColor
   });
 
   @override
@@ -31,7 +33,7 @@ class TipButton extends StatelessWidget {
         onToggle();
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      backgroundColor: AppColors.deepBlue,
+      backgroundColor: backgroundColor,
       child: const Text("TIP",
           style: TextStyle(color: Colors.white, fontSize: 20)),
     );

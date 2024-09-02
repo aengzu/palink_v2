@@ -1,9 +1,9 @@
 class Mindset {
-  final String content;
-  final String reason;
+  final String mindsetText;
+  final String mindsetId;
 
   Mindset({
-    required this.content,
-    required this.reason,
+    required this.mindsetText,
+    required this.mindsetId,
   });
 }

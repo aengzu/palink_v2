@@ -29,8 +29,6 @@ class GenerateResponseUsecase {
     // STEP2) 이전 대화 기록 페치
     final chatHistoryResponse = await fetchChatHistoryUsecase.execute(conversationId);
 
-    final memoryVariables = await aiRepository.getMemory();
-   // final chatHistory = memoryVariables['history'] ?? '';
     String chatHistory = _formatChatHistory(chatHistoryResponse!);
 
 
