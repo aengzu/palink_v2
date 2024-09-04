@@ -23,8 +23,18 @@
 ## SHOWCASES
 
 시연 영상 : https://www.youtube.com/watch?v=K5g2jtDPIS0
-<br>
-웹앱으로 배포를 하였으나, AI API 비용상의 문제로 링크 비공개 처리하였습니다 🥲
+
+24.09.03.화
+- 퀘스트 탐지 UI 반영
+https://github.com/user-attachments/assets/ba64fe99-4cc3-47bf-835b-2dad77f2c740
+
+
+## Deploy
+- 웹앱 배포 : Amazon S3 (CloudFront 와 연동)
+- DB 서버 배포 : Amazon EC2
+- DB : Amazon RDS
+
+Flutter 웹앱으로 배포를 하였으나, AI API 비용상의 문제로 링크 비공개 처리하였습니다 🥲
 
 <p float="left">
   <img src="https://github.com/user-attachments/assets/fe98f662-f539-4ec8-9ec5-67b50657f7db" width="200" />
@@ -32,11 +42,6 @@
   <img src="https://github.com/user-attachments/assets/f3f55625-b84f-4586-8ecb-5c1b1969c078" width="200" /> 
 </p>
 
-
-## Deploy
-- 웹앱 배포 : Amazon S3 (CloudFront 와 연동)
-- DB 서버 배포 : Amazon EC2
-- DB : Amazon RDS
 
 ## Getting Started
 My flutter version : Flutter 3.23.0-8.0.pre.3
