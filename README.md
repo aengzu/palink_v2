@@ -26,7 +26,9 @@
 
 24.09.03.화
 - 퀘스트 탐지 UI 반영
-https://github.com/user-attachments/assets/ba64fe99-4cc3-47bf-835b-2dad77f2c740
+
+https://github.com/user-attachments/assets/2b7a9242-dcd6-48e5-8ebe-93d1f78053e8
+
 
 
 ## Deploy
