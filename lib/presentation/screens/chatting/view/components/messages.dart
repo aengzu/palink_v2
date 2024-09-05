@@ -6,14 +6,12 @@ import 'package:palink_v2/domain/entities/likability/liking_level.dart';
 import 'chat_bubble.dart';
 
 class Messages extends StatelessWidget {
-  final List<LikingLevel> likingLevels;
   final List<Message> messages;
   final int userId;
   final String characterImg;
   final Function(Message, String) onReactionAdded;
 
   Messages({
-    required this.likingLevels,
     required this.messages,
     required this.userId,
     required this.characterImg,

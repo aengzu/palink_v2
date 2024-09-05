@@ -13,9 +13,9 @@ class Message {
     required this.sender,
     required this.messageText,
     required this.timestamp,
-    required this.affinityScore,
-    required this.rejectionScore,
-    List<String>? reactions,}) : reactions = reactions ?? [];
+    int? affinityScore,
+    int? rejectionScore,
+    List<String>? reactions,}) : reactions = reactions ?? [], affinityScore = affinityScore ?? 50, rejectionScore = rejectionScore ?? 50;
 
   // copyWith 메서드 추가
   Message copyWith({

@@ -9,8 +9,6 @@ extension MessageResponseMapper on MessageResponse {
       sender: sender,
       messageText: messageText,
       timestamp: timestamp,
-      affinityScore: 50,
-      rejectionScore: 0,
     );
   }
 }

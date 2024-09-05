@@ -21,7 +21,6 @@ class ChatViewModel extends GetxController {
   TextEditingController textController = TextEditingController();
   var messages = <Message>[].obs;
   var isLoading = false.obs;
-  var likingLevels = <LikingLevel>[].obs;
   var questStatus = List<bool>.filled(5, false).obs; // 퀘스트 달성 여부를 나타내는 리스트
 
   ChatViewModel({

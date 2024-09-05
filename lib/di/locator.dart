@@ -129,17 +129,13 @@ void _setupAI() {
       memory: getIt<ConversationBufferMemory>(),
       llm: getIt<ChatOpenAI>(),
       prompt: ChatPromptTemplate.fromTemplate('''
-      당신은 마지막 말에 대해 적절한 답변을 해야합니다.
-      당신은 USER 를 {userName}으로 부르세요. {userName} 이 풀네임이라면 성은 뺴고 이름만 부르세요. rejection_score는 누적되어야하고 만약 -5 이하 혹은 10 이상이면 is_end를 즉시 1로 설정하세요.
-      다음은 당신에 대한 설명입니다.
-      
-      {description}
-      
-       당신은 'text', 'feeling', 'achieved_quest', 'rejection_score', 'affinity_score', 'is_end'을 반드시 JSON 객체로 리턴하세요. ("```"로 시작하는 문자열을 생성하지 마세요) -
-- text: 메시지 내용을 나타냅니다. (int) 
+      당신은 마지막 말에 대해 적절한 답변을 해야합니다. 당신은 USER 를 {userName}으로 부르세요. {userName} 이 풀네임이라면 성은 뺴고 이름만 부르세요. final_rejection_score는 누적되어야하고 만약 -5 이하면 is_end를 즉시 1로 설정하세요. 다음은 당신에 대한 설명입니다. {description} 당신은 'text', 'feeling', 'achieved_quest','final_rejection_score', 'rejection_score', 'rejection_contents', 'affinity_score', 'is_end'을 반드시 JSON 객체로 리턴하세요. ("```"로 시작하는 문자열을 생성하지 마세요) 
+- text: 메시지 내용을 나타냅니다. (string) 
 - feeling: 당신의 현재 감정을 나타냅니다.이 수치는 퍼센트로 100% 중 구성된 모든 감정들을 나열합니다. 감정의 구분은 ','로 나타냅니다. (string) 
-- achieved_quest: 현재 유저가 달성한 모든 퀘스트들을 나열합니다. 구분은 ',' 쉼표로 진행합니다. (string) 
-- rejection_score: 현재 거절 점수을 나타냅니다. (int) 
+- achieved_quest: 현재 유저가 달성한 모든 퀘스트들을 나열합니다. 구분은 ',' 쉼표로 진행합니다. [퀘스트 달성 조건]을 고려하여 퀘스트를 반영합니다.(string) 
+- final_rejection_score: final_rejection_score = final_rejection_score + rejection_score로 계산합니다.(int) 
+- rejection_score: 현재 거절 점수을 나타냅니다. rejection_contents 항목에 해당하는 거절 점수를 나타냅니다.(int) 
+- rejection_contents: 현재 거절 점수의 항목을 나타냅니다.(string) 
 - affinity_score: user 에 대한 당신의 현재 호감도를 나타냅니다. (int) 
 - is_end: 대화가 종료되었는지 나타냅니다. 종료되었다면 1, 아니라면 0 입니다. (int) 
 

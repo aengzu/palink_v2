@@ -64,7 +64,6 @@ class ChatScreen extends StatelessWidget {
                         messages: viewModel.messages,
                         userId: viewModel.chatRoomId,
                         characterImg: viewModel.character.image,
-                        likingLevels: viewModel.likingLevels,
                         onReactionAdded: (message, reaction) {
                           viewModel.addReactionToMessage(message, reaction);
                           // 여기서 어떻게 UI 업데이트 되도록 해야할지?

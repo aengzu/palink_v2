@@ -66,7 +66,7 @@ class _ChatBubblesState extends State<ChatBubbles> {
                             children: [
                               Text(
                                 widget.message.messageText,
-                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
                                 style: textTheme().bodySmall,
                               ),
                               const SizedBox(height: 5),
@@ -102,7 +102,7 @@ class _ChatBubblesState extends State<ChatBubbles> {
             children: [
               Container(
                 margin: EdgeInsets.only(
-                    top: 10, bottom: 5, right: 0.05.sw, left: 0.3.sw),
+                    top: 10, bottom: 5, right: 0.05.sw, left: 0.33.sw),
                 padding: EdgeInsets.symmetric(
                     horizontal: 0.05.sw, vertical: 0.01.sh),
                 decoration: BoxDecoration(
