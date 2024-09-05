@@ -22,6 +22,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.5.0"
+  animate_do:
+    dependency: transitive
+    description:
+      name: animate_do
+      sha256: "7a3162729f0ea042f9dd84da217c5bde5472ad9cef644079929d4304a5dc4ca0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.4"
   animated_text_kit:
     dependency: "direct main"
     description:
@@ -395,6 +403,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.5.0"
+  flutter_chat_reactions:
+    dependency: "direct main"
+    description:
+      name: flutter_chat_reactions
+      sha256: "20dfb534d9939112098d7aa540476352afba67eefb7d06aac131fb2670360f07"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   flutter_chat_types:
     dependency: "direct main"
     description:

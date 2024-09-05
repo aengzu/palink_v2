@@ -25,7 +25,7 @@ class SendUserMessageUsecase {
     return _mapResponseToDomain(messageResponse);
   }
 
-  Future<AIResponse?> generateAIResponse(
+  Future<Map<String?, AIResponse?>> generateAIResponse(
       int chatRoomId, Character character) async {
     return await generateResponseUsecase.execute(chatRoomId, character);
   }
