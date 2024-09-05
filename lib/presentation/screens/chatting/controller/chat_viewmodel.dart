@@ -70,21 +70,19 @@ class ChatViewModel extends GetxController {
         messages.insert(0, userMessage); // 사용자 메시지를 리스트에 추가
       }
 
-      var aiResponseMessage = await sendMessageUsecase.generateAIResponse(chatRoomId, character);
-      if (aiResponseMessage != null) {
-        var aiMessage = convertAIResponseToMessage(aiResponseMessage);
+      var responseMap = await sendMessageUsecase.generateAIResponse(chatRoomId, character);
+      if (responseMap.isNotEmpty) {
+        Message? aiMessage = convertAIResponseToMessage(responseMap.values.first!, responseMap.keys.first!.toString());
         if (aiMessage != null) {
           messages.insert(0, aiMessage); // AI 응답 메시지를 리스트에 추가
         }
+
+        _handleQuestAchievements(responseMap.values.first!); // 퀘스트 달성 확인
+        _checkIfConversationEnded(responseMap.values.first!); // 대화 종료 여부 확인
+        textController.clear(); // 메시지 입력창 초기화
       } else {
         print('AI 응답이 없습니다');
       }
-
-      _loadMessages(); // 메시지 로드
-
-      _handleQuestAchievements(aiResponseMessage!); // 퀘스트 달성 확인
-      _checkIfConversationEnded(aiResponseMessage!); // 대화 종료 여부 확인
-      textController.clear(); // 메시지 입력창 초기화
     } catch (e) {
       print('메시지 전송 실패 :  $e');
     } finally {
@@ -94,13 +92,14 @@ class ChatViewModel extends GetxController {
 
 
   // AIResponse를 Message로 변환하는 메서드
-  Message? convertAIResponseToMessage(AIResponse aiResponse) {
+  Message? convertAIResponseToMessage(AIResponse aiResponse, String messageId) {
     return Message(
         sender: false,
         messageText: aiResponse.text,
         timestamp: DateTime.now().toIso8601String(),
         affinityScore: aiResponse.affinityScore, // 매핑
-        rejectionScore: aiResponse.rejectionScore // 매핑
+        rejectionScore: aiResponse.rejectionScore,
+        id: messageId, // 매핑
     );
   }
 
@@ -142,6 +141,19 @@ class ChatViewModel extends GetxController {
   // 퀘스트 정보를 가져오는 메서드
   Future<String> getQuestInformation() async {
     return character.quest;
+  }
+
+  // 유저가 리액션을 하면 메시지에 reaction 추가하기
+  void addReactionToMessage(Message message, String reaction) {
+    final updatedReactions = List<String>.from(message.reactions);
+    updatedReactions.add(reaction);
+
+    final index = messages.indexOf(message);
+    if (index != -1) {
+      final updatedMessages = List<Message>.from(messages); // 새로운 리스트 복사
+      updatedMessages[index] = message.copyWith(reactions: updatedReactions); // 업데이트된 메시지 적용
+      messages.value = updatedMessages; // 새로운 리스트로 할당하여 UI 갱신
+    }
   }
 
 

@@ -20,9 +20,7 @@ class ProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onProfileTapped(), // 프로필을 클릭하면 다이얼로그 트리거
-      child: Row(
+    return Row(
         children: [
           ProfileImage(
             path: imagePath,
@@ -42,20 +40,22 @@ class ProfileSection extends StatelessWidget {
             ),
           ),
           Spacer(),
-          Obx(() => Row(
-            children: List.generate(5, (index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Icon(
-                  questStatus[index] ? Icons.check_circle : Icons.circle,
-                  color: questStatus[index] ? Colors.blue : Colors.grey,
-                  size: 16,
-                ),
-              );
-            }),
+          Obx(() => InkWell(
+            onTap: () => onProfileTapped(),
+            child: Row(
+              children: List.generate(5, (index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Icon(
+                    questStatus[index] ? Icons.check_circle : Icons.circle,
+                    color: questStatus[index] ? Colors.blue : Colors.grey,
+                    size: 16,
+                  ),
+                );
+              }),
+            ),
           )),
         ],
-      ),
     );
   }
 }

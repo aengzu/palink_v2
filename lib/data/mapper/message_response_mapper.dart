@@ -5,6 +5,7 @@ import 'package:palink_v2/domain/entities/chat/message.dart';
 extension MessageResponseMapper on MessageResponse {
   Message toDomain() {
     return Message(
+      id: messageId.toString(),
       sender: sender,
       messageText: messageText,
       timestamp: timestamp,

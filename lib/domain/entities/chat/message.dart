@@ -1,17 +1,41 @@
 class Message {
+  String id;
   bool sender;
   String messageText;
   String timestamp;
   int affinityScore;
   int rejectionScore;
+  List<String> reactions;
 
 
   Message({
+    required this.id,
     required this.sender,
     required this.messageText,
     required this.timestamp,
     required this.affinityScore,
     required this.rejectionScore,
-  });
+    List<String>? reactions,}) : reactions = reactions ?? [];
+
+  // copyWith 메서드 추가
+  Message copyWith({
+    String? id,
+    bool? sender,
+    String? messageText,
+    String? timestamp,
+    int? affinityScore,
+    int? rejectionScore,
+    List<String>? reactions,
+  }) {
+    return Message(
+      id: id ?? this.id,
+      sender: sender ?? this.sender,
+      messageText: messageText ?? this.messageText,
+      timestamp: timestamp ?? this.timestamp,
+      affinityScore: affinityScore ?? this.affinityScore,
+      rejectionScore: rejectionScore ?? this.rejectionScore,
+      reactions: reactions ?? this.reactions,
+    );
+  }
 }
 
