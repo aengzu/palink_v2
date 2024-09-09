@@ -20,6 +20,12 @@
 ## Feedback
 ![018](https://github.com/aengzu/palink_v2/assets/102356873/bbdc07bd-149b-48a2-9b37-e93ce682c4b0)
 
+## 핵심 Flow
+- Flow 1 : 캐릭터 선택 → 로딩 중(대화창 및 초기 메시지 생성) → 대화창 및 초기 메시지 생성 완료
+![채팅방생성 drawio (1)](https://github.com/user-attachments/assets/4b8dd0c1-a31e-4329-9786-8ff25b38013a)
+
+
+
 ## SHOWCASES
 
 시연 영상 : https://www.youtube.com/watch?v=K5g2jtDPIS0
