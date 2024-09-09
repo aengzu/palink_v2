@@ -28,15 +28,13 @@
 
 ## SHOWCASES
 
-시연 영상 : https://www.youtube.com/watch?v=K5g2jtDPIS0
-
 24.09.03.화
 - 퀘스트 탐지 UI 반영
 (퀘스트 달성 시 토스트 메시지 (퀘스트 3 ‘상대방이 처한 상황 파악하기’가 달성된 모습))
 
 https://github.com/user-attachments/assets/2b7a9242-dcd6-48e5-8ebe-93d1f78053e8
 
-
+(시연 영상 : https://www.youtube.com/watch?v=K5g2jtDPIS0 )
 
 ## Deploy
 - 웹앱 배포 : Amazon S3 (CloudFront 와 연동)
