@@ -125,45 +125,50 @@ void _setupAI() {
     inputKey: 'input',
     returnMessages: true,
   ), instanceName: 'tipMemory');
+
   getIt.registerLazySingleton<ConversationChain>(() => ConversationChain(
       memory: getIt<ConversationBufferMemory>(),
       llm: getIt<ChatOpenAI>(),
       prompt: ChatPromptTemplate.fromTemplate('''
-      당신은 마지막 말에 대해 적절한 답변을 해야합니다. 당신은 USER 를 {userName}으로 부르세요. {userName} 이 풀네임이라면 성은 뺴고 이름만 부르세요. final_rejection_score는 누적되어야하고 만약 -5 이하면 is_end를 즉시 1로 설정하세요. 다음은 당신에 대한 설명입니다. {description} 당신은 'text', 'feeling', 'achieved_quest','final_rejection_score', 'rejection_score', 'rejection_contents', 'affinity_score', 'is_end'을 반드시 JSON 객체로 리턴하세요. ("```"로 시작하는 문자열을 생성하지 마세요) 
-- text: 메시지 내용을 나타냅니다. (string) 
-- feeling: 당신의 현재 감정을 나타냅니다.이 수치는 퍼센트로 100% 중 구성된 모든 감정들을 나열합니다. 감정의 구분은 ','로 나타냅니다. (string) 
-- achieved_quest: 현재 유저가 달성한 모든 퀘스트들을 나열합니다. 구분은 ',' 쉼표로 진행합니다. [퀘스트 달성 조건]을 고려하여 퀘스트를 반영합니다.(string) 
-- final_rejection_score: final_rejection_score = final_rejection_score + rejection_score로 계산합니다.(int) 
-- rejection_score: 현재 거절 점수을 나타냅니다. rejection_contents 항목에 해당하는 거절 점수를 나타냅니다.(int) 
-- rejection_contents: 현재 거절 점수의 항목을 나타냅니다.(string) 
-- affinity_score: user 에 대한 당신의 현재 호감도를 나타냅니다. (int) 
-- is_end: 대화가 종료되었는지 나타냅니다. 종료되었다면 1, 아니라면 0 입니다. (int) 
+      당신은 마지막 말에 대해 적절한 답변을 해야 합니다. 당신은 USER를 {userName}으로 부르세요. {userName}이 풀네임이라면 성을 빼고 이름만 부르세요. 
+      **`final_rejection_score`는 누적되어야 하고, 만약 -5 이하이면 `is_end`를 즉시 1로 설정하세요**. 
 
-  [feeling] 
-  - 감정은 다음의 감정명 중에서 나타나야합니다. 100% 중 구성된 모든 감정들을 나열합니다. 감정의 구분은 ','로 나타냅니다.
-  - 기쁨, 슬픔, 분노, 불안, 놀람, 혐오, 중립, 사랑
-  ex) '분노 30, 불안 20, 중립 50' 
-  
-  [achieved_quest] 
-  - 달성된 퀘스트의 번호를 나열합니다. 퀘스트는 1,2,3,4,5 로 있으며 현재까지 달성된 퀘스트를 쉼표로 구별하여 나열합니다 (string)
- 
+다음은 당신에 대한 설명입니다. {description}
+
+당신은 다음 항목을 반드시 JSON 객체로 리턴하세요: (```json 로 시작하는 문자열을 생성하지 마세요)
+- `text`: 메시지 내용을 나타냅니다. (string)
+- `feeling`: 당신의 현재 감정을 나타냅니다. 이 수치는 퍼센트로 100% 중 구성된 모든 감정을 나열합니다. 감정의 구분은 ','로 나타냅니다. (string)
+- `achieved_quest`: 현재 유저가 달성한 모든 퀘스트들을 나열합니다. 쉼표로 구별하여 나열합니다. (string)
+- `final_rejection_score`: 모든 거절 점수의 누적 값입니다. (int)
+- `rejection_score`: 현재 대화에서 발생한 거절 점수를 나타냅니다. (int)
+- `rejection_contents`: 거절 점수가 발생한 항목들을 나타냅니다. 구분은 쉼표로 구별하여 나열합니다. (string)
+- `affinity_score`: {userName}에 대한 당신의 현재 호감도를 나타냅니다. (int)
+- `is_end`: 대화가 종료되었는지 나타냅니다. 종료되었다면 1, 아니라면 0입니다. (int)
+
+[feeling] 
+- 감정은 다음의 감정명 중에서 나타나야 합니다. 100% 중 구성된 모든 감정들을 나열합니다. 감정의 구분은 ','로 나열합니다.
+- 기쁨, 슬픔, 분노, 불안, 놀람, 혐오, 중립, 사랑
+- 예: '분노 30, 불안 20, 중립 50'
+
+[achieved_quest]
+- 달성된 퀘스트의 번호를 나열합니다. 퀘스트는 1, 2, 3, 4, 5로 구성되어 있으며, 현재까지 달성된 퀘스트를 쉼표로 나열합니다.
 
 [rejection_score] 
-- {rejection_score_rule} 
+- {rejection_score_rule}
 
 [affinity_score]
-- 호감도는 {userName}에 대한 현재 호감도로 affinity_score 값으로 들어갑니다.
-- 호감도는 50에서 시작하며, 증가하거나 감소할 수 있습니다.
-- 호감도는 당신의 현재 feeling 에 영향을 받습니다. 만약 Feeling이 부정적이라면 감소하고, 긍정적이라면 증가하게 됩니다.
-- 호감도는 {userName}이 부적절한 언행(욕설, 조롱) 및 주제에서 벗어난 말을 하면 20이 감소하게 됩니다.
-- 호감도의 감소 및 증가 단위는 10 단위로 가능합니다.
-  
-     [대화기록]
-      아래의 대화 기록에서 sender 가 true 면 {userName} 이 한 말이고 false 면 당신이 한 말입니다. 다음 대화 기록을 보고, {userName}의 마지막 말에 대한 대답을 해주세요. 당신은 이전에 당신이 했던 말을 그대로 반복하지 않습니다.
-      당신은 sender 가 false 인 입장인 것을 명심하세요. {userName} 과 당신을 혼동하면 안되고 무조건 sender 가 false 인 입장에서 말합니다. 
-      
-      대화 기록 : {chat_history}
-  
+- 호감도는 {userName}에 대한 현재 호감도로, `affinity_score` 값으로 들어갑니다.
+- 호감도는 50에서 시작하며, `feeling`에 따라 증가하거나 감소합니다.
+- 부적절한 언행(예: 욕설, 조롱, 주제에서 벗어난 말)을 하면 20씩 감소합니다.
+- 호감도는 10 단위로 증가하거나 감소합니다. 긍정적인 감정은 호감도를 증가시키고, 부정적인 감정은 감소시킵니다.
+
+[대화 기록]
+- 아래의 대화 기록에서 true면 {userName}이 한 말이고, false면 당신이 한 말입니다. 이 대화 기록을 보고 {userName}의 마지막 말에 대한 적절한 답변을 생성하세요.
+- 당신은 `sender`가 false인 입장에서 말해야 하며, 절대로 {userName}과 당신을 혼동하지 마세요.
+- 이전에 했던 말을 반복하지 마세요. 새로운 답변을 만들어야 합니다.
+- 대화 기록에서 true 라면 rejection_score 와 affinity_score 값은 무시합니다. false 라면 당신에 대한 거절 점수와 호감도이므로 rejection_score 와 affinity_score 값은 사용합니다.
+
+대화 기록: {chat_history}
     '''),
       outputKey: 'response'
   ));
@@ -254,7 +259,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       미연은 내성적이지만 친구들에게는 따뜻하고 배려심이 많아 깊은 관계를 맺고 있으며, 친구들의 고민을 잘 들어줘요
       미연의 부탁을 공감하고 이해하며 부드럽게 거절하는 것이 중요해요''',
       image: ImageAssets.char1,
-      quest: '''1. 거절 성공하기
+      quest: '''1. 10회 안에 거절 성공하기
 2. 상대방의 감정에 대한 공감 표현하기 
 3. 상대방이 처한 상황을 파악하기 위한 대화 시도하기
 4. 도와주지 못하는 합리적인 이유 제시하기
@@ -274,7 +279,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       세진은 예전에 당신을 도와준 적이 있어요.
       세진의 부탁을 거절할 때는 이유를 명확하게 설명하고, 대안을 제시하는 것이 중요해요.''',
       image: ImageAssets.char2,
-      quest: '''1. 거절 성공하기
+      quest: '''1. 9회 안에 거절 성공하기
 2. 이전 도움에 대한 감사 표현하기
 3. 거절 표현을 두괄식으로 작성하기
 4. 도와주지 못하는 합리적인 이유 제시하기
@@ -292,7 +297,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       포기하지 않고 끈기 있게 부탁을 반복해요.
       처음엔 거절하는 이유를 설명하고 부드럽게 거절하지만, 정도가 강해지면 단호한 태도로 거절해야 해요.
       현아는 솔직하고 감정 표현이 풍부해요''',
-      quest: '''1. 거절 성공하기
+      quest: '''1. 8회 안에 거절 성공하기
 2. 상대방의 부탁에 대해 존중 표현하기
 3. 상대방의 감정에 대한 공감 표현하기
 4. 상대방이 처한 상황을 파악하기 위한 대화 시도하기
@@ -312,7 +317,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       진혁은 예전에 같은 반이어서 친해졌지만 최근에는 약간 멀어진 사이에요.
       진혁의 부탁을 거절할 때 우물쭈물 거절하면 진혁이 부탁을 반복할 수 있어요. ''',
       image: ImageAssets.char4,
-      quest: '''1. 거절 성공하기
+      quest: '''1. 7회 안에 거절 성공하기
 2. 상대방의 욕구를 고려하지 않는 대화 전략 사용하기
 3. 거절 의사 명확히 표현하기
 4. 상대방의 무례에 대한 불편함 명확히 표현하기

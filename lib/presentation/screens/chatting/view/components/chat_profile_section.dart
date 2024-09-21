@@ -27,19 +27,20 @@ class ProfileSection extends StatelessWidget {
             imageSize: 0.07.sh,
           ),
           const SizedBox(width: 20),
-          SizedBox(
-            width: 0.45.sw,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  characterName,
-                  style: textTheme().bodyLarge?.copyWith(fontSize: 20),
-                ),
-              ],
+          Expanded(
+            child: SizedBox(
+              width: 0.45.sw,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    characterName,
+                    style: textTheme().bodyLarge?.copyWith(fontSize: 20),
+                  ),
+                ],
+              ),
             ),
           ),
-          Spacer(),
           Obx(() => InkWell(
             onTap: () => onProfileTapped(),
             child: Row(

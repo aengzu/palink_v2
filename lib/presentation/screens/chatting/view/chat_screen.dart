@@ -24,6 +24,11 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 퀘스트 팝업이 처음에만 나타나도록 처리
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      viewModel.showQuestPopupIfFirstTime(context);
+    });
+
     // 초기 팁 업데이트
     tipViewModel.updateTip(initialTip);
 
@@ -39,7 +44,7 @@ class ChatScreen extends StatelessWidget {
             imagePath: viewModel.character.image,
             characterName: viewModel.character.name,
             questStatus: viewModel.questStatus,
-            onProfileTapped: () => _showQuestPopup(context),
+            onProfileTapped: () => showQuestPopup(context), // 프로필 클릭 시 퀘스트 팝업 표시,
           ),
           centerTitle: true,
           elevation: 0,
@@ -66,7 +71,6 @@ class ChatScreen extends StatelessWidget {
                         characterImg: viewModel.character.image,
                         onReactionAdded: (message, reaction) {
                           viewModel.addReactionToMessage(message, reaction);
-                          // 여기서 어떻게 UI 업데이트 되도록 해야할지?
                         },
                       );
                     }),
@@ -159,7 +163,7 @@ class ChatScreen extends StatelessWidget {
 
   bool _isDialogOpen = false;
 
-  void _showQuestPopup(BuildContext context) async {
+  void showQuestPopup(BuildContext context) async {
     if (!_isDialogOpen) {
       _isDialogOpen = true;
       final questInfo = await viewModel.getQuestInformation();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:palink_v2/core/theme/app_fonts.dart';
 import 'package:palink_v2/data/models/ai_response/ai_response.dart';
 import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
@@ -9,6 +10,7 @@ import 'package:palink_v2/domain/entities/likability/liking_level.dart';
 import 'package:palink_v2/domain/usecase/fetch_chat_history_usecase.dart';
 import 'package:palink_v2/domain/usecase/send_user_message_usecase.dart';
 import 'package:palink_v2/presentation/screens/chatting/view/chat_end_loading_screen.dart';
+import 'package:palink_v2/presentation/screens/common/custom_button_md.dart';
 import 'chat_end_loading_viewmodel.dart';
 
 class ChatViewModel extends GetxController {
@@ -22,6 +24,7 @@ class ChatViewModel extends GetxController {
   var messages = <Message>[].obs;
   var isLoading = false.obs;
   var questStatus = List<bool>.filled(5, false).obs; // 퀘스트 달성 여부를 나타내는 리스트
+  var isQuestPopupShown = false.obs;
 
   ChatViewModel({
     required this.chatRoomId,
@@ -103,8 +106,8 @@ class ChatViewModel extends GetxController {
   }
 
   // 퀘스트 달성을 확인하고 토스트 메시지를 표시하는 메서드
-  void _handleQuestAchievements(AIResponse aiResponse) {
-    if (aiResponse.achievedQuest != null) {
+  Future<void> _handleQuestAchievements(AIResponse aiResponse) async {
+    if (aiResponse.achievedQuest != null && aiResponse.achievedQuest.isNotEmpty) {
       String achievedQuest = aiResponse.achievedQuest;
       List<String> questNumbers = achievedQuest.split(',');
 
@@ -112,9 +115,9 @@ class ChatViewModel extends GetxController {
         Fluttertoast.showToast(
           msg: "퀘스트 $quest 달성!",
           toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.black87,
+          gravity: ToastGravity.TOP_RIGHT,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.blue[700],
           textColor: Colors.white,
           fontSize: 16.0,
         );
@@ -124,7 +127,7 @@ class ChatViewModel extends GetxController {
   }
 
   // 대화 종료 여부 확인하는 메서드
-  void _checkIfConversationEnded(AIResponse aiResponse) {
+  Future<void> _checkIfConversationEnded(AIResponse aiResponse) async {
     if (aiResponse.isEnd == 1) {
       navigateToChatEndScreen();
     }
@@ -155,5 +158,54 @@ class ChatViewModel extends GetxController {
     }
   }
 
+  // 대화 첫 진입 시 퀘스트 팝업을 한 번만 띄우는 메서드
+  Future<void> showQuestPopupIfFirstTime(BuildContext context) async {
+    if (!isQuestPopupShown.value) {
+      await _showQuestPopup(context);
+      isQuestPopupShown.value = true; // 팝업이 한 번 뜨면 이후에는 뜨지 않도록 설정
+    }
+  }
+
+  // 퀘스트 팝업 표시 메서드
+  Future<void> _showQuestPopup(BuildContext context) async {
+    final questInfo = await getQuestInformation();
+    await Get.dialog(
+      Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '${character.name}과 대화 진행 시 퀘스트',
+                style: textTheme().titleMedium,
+              ),
+              const SizedBox(height: 20),
+              Text(
+                '퀘스트는 프로필 상단 우측에 표시됩니다.\n퀘스트를 달성하면 퀘스트 아이콘 옆에 체크 표시가 나타납니다.\n퀘스트를 확인하고 싶다면 프로필을 클릭하세요',
+                style: textTheme().bodySmall,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                questInfo,
+                style: textTheme().bodyMedium,
+              ),
+              const SizedBox(height: 30),
+              CustomButtonMD(
+                onPressed: () {
+                  Get.back(); // 다이얼로그 닫기
+                },
+                label: '확인했습니다!',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
 }

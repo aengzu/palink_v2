@@ -8,13 +8,11 @@ class UserUpdateRequest {
   final String name;
   final String password;
   final int age;
-  final String personalityType;
 
   UserUpdateRequest({
     required this.name,
     required this.password,
     required this.age,
-    required this.personalityType,
   });
 
   factory UserUpdateRequest.fromJson(Map<String, dynamic> json) => _$UserUpdateRequestFromJson(json);

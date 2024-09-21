@@ -25,7 +25,13 @@ class GenerateInitialMessageUsecase {
       'rejection_score_rule' : 'default',
     };
 
+    // 1. AI 응답 처리
     AIResponse? aiResponse = await aiRepository.processChat(inputs);
+
+    if (aiResponse == null) {
+      print('AI 응답이 null입니다.');  // AI 응답이 없을 때의 처리
+      return null;
+    }
 
 
     if (aiResponse != null) {

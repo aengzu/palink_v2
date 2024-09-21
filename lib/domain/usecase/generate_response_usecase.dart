@@ -28,7 +28,6 @@ class GenerateResponseUsecase {
     User? user = await getUserInfoUseCase.execute();
     // STEP2) 이전 대화 기록 페치
     final chatHistoryResponse = await fetchChatHistoryUsecase.execute(conversationId);
-
     String chatHistory = _formatChatHistory(chatHistoryResponse!);
 
     // STEP3) AI와의 대화 시작
@@ -60,6 +59,14 @@ class GenerateResponseUsecase {
   // chatHistoryResponse를 JSON 또는 텍스트로 변환하는 함수
   String _formatChatHistory(List<Message> chatHistoryResponse) {
     // 메시지를 순차적으로 텍스트로 변환
-    return chatHistoryResponse.map((message) => "${message.sender}: ${message.messageText}").join("\n");
+    return chatHistoryResponse.map((message) {
+      return {
+        'sender': message.sender ? 'true' : 'false',
+        'text': message.messageText,
+        'timestamp': message.timestamp,
+        'rejection_score': message.rejectionScore, // 거절 점수 추가
+        'affinity_score': message.affinityScore // 호감도 추가
+      };
+    }).toList().toString(); // JSON 형식으로 변환
   }
 }

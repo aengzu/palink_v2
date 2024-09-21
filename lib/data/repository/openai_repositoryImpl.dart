@@ -35,11 +35,16 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
   @override
   Future<AIResponse?> processChat(Map<String, dynamic> inputs) async {
     try {
-      print(inputs);
       final result = await chatChain.invoke(inputs);
+
+      // 3. AI 응답 처리
       final AIChatMessage aiChatMessage = result['response'] as AIChatMessage;
       final Map<String, dynamic> contentMap = jsonDecode(aiChatMessage.content);
       AIResponse aiResponse = AIResponse.fromJson(contentMap);
+
+      // 3. 대화 히스토리 저장
+      await saveMemoryContext(inputs, {'response': aiResponse});
+
       print(contentMap);
       return aiResponse;
     } catch (e) {
