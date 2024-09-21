@@ -19,12 +19,12 @@ class _TipApi implements TipApi {
   String? baseUrl;
 
   @override
-  Future<TipResponse> saveTip(TipRequest tipRequest) async {
+  Future<TipResponse> saveTip(TipCreateRequest tipCreateRequest) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(tipRequest.toJson());
+    _data.addAll(tipCreateRequest.toJson());
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<TipResponse>(Options(
       method: 'POST',
