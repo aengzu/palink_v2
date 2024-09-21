@@ -24,7 +24,6 @@ class MypageViewModel extends GetxController {
         accountId.value = user.accountId.toString();
         name.value = user.name;
         age.value = user.age;
-        personalityType.value = user.personalityType;
       } else {
         Get.snackbar('Error', 'Failed to load user data');
       }

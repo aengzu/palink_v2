@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -12,8 +14,8 @@ import 'di/locator.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: "lib/config/.env");
-  await setupLocator();  // await 추가
-  runApp(const MyApp());
+  await setupLocator(); // await 추가
+  runApp(DevicePreview(enabled: !kReleaseMode, builder: (context) => MyApp()));
 }
 
 class MyApp extends StatelessWidget {

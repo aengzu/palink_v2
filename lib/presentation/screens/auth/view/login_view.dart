@@ -19,6 +19,7 @@ class LoginView extends StatelessWidget {
     final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,

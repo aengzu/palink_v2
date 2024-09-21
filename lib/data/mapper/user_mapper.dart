@@ -9,7 +9,6 @@ extension UserMapper on UserResponse {
       accountId: accountId,
       name: name,
       age: age,
-      personalityType: personalityType,
       userId: userId,
     );
   }

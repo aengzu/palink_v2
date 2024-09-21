@@ -16,7 +16,8 @@ class SignupView extends StatelessWidget {
     final TextEditingController passwordController = TextEditingController();
     final TextEditingController nameController = TextEditingController();
     final TextEditingController ageController = TextEditingController();
-    final TextEditingController personalityTypeController = TextEditingController();
+    final TextEditingController personalityTypeController =
+        TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -29,7 +30,8 @@ class SignupView extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Obx(() {
           if (signupViewModel.errorMessage.value.isNotEmpty) {
-            return Center(child: Text('Error: ${signupViewModel.errorMessage.value}'));
+            return Center(
+                child: Text('Error: ${signupViewModel.errorMessage.value}'));
           } else {
             return SingleChildScrollView(
               child: Column(
@@ -53,26 +55,12 @@ class SignupView extends StatelessWidget {
                     isObscure: true,
                   ),
                   SizedBox(height: 0.03.sh),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildTextField(
-                          controller: ageController,
-                          labelText: '나이',
-                          hintText: '나이를 입력하세요.',
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        ),
-                      ),
-                      SizedBox(width: 0.03.sw),
-                      Expanded(
-                        child: _buildTextField(
-                          controller: personalityTypeController,
-                          labelText: 'MBTI',
-                          hintText: 'MBTI를 입력하세요.',
-                        ),
-                      ),
-                    ],
+                  _buildTextField(
+                    controller: ageController,
+                    labelText: '나이',
+                    hintText: '나이를 입력하세요.',
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   SizedBox(height: 0.1.sh),
                   CustomButton(
@@ -84,7 +72,7 @@ class SignupView extends StatelessWidget {
                         memberIdController.text,
                         passwordController.text,
                         nameController.text,
-                        int.tryParse(ageController.text) ?? 0,  // 정수로 변환, 오류 방지
+                        int.tryParse(ageController.text) ?? 0, // 정수로 변환, 오류 방지
                         personalityTypeController.text,
                       );
                     },
@@ -124,7 +112,8 @@ class SignupView extends StatelessWidget {
               borderSide: BorderSide(color: Color(0xff134f91)),
             ),
             hintText: hintText,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             border: const OutlineInputBorder(),
           ),
         ),

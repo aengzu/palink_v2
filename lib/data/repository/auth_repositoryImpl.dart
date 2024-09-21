@@ -29,7 +29,6 @@ class AuthRepositoryImpl implements AuthRepository {
         // SharedPreferences에 userId 와 로그인 여부 저장
         await _prefs.setInt('userId', response.userId);
         await _prefs.setBool('isLoggedIn', true);
-
         return response.toDomain();
       }
       return null;
