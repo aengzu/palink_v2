@@ -11,7 +11,6 @@ UserCreateRequest _$UserCreateRequestFromJson(Map<String, dynamic> json) =>
       accountId: json['accountId'] as String,
       name: json['name'] as String,
       age: (json['age'] as num).toInt(),
-      personalityType: json['personalityType'] as String,
       password: json['password'] as String,
     );
 
@@ -20,6 +19,5 @@ Map<String, dynamic> _$UserCreateRequestToJson(UserCreateRequest instance) =>
       'accountId': instance.accountId,
       'name': instance.name,
       'age': instance.age,
-      'personalityType': instance.personalityType,
       'password': instance.password,
     };

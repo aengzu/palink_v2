@@ -10,7 +10,6 @@ UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
       accountId: json['accountId'] as String,
       name: json['name'] as String,
       age: (json['age'] as num).toInt(),
-      personalityType: json['personalityType'] as String,
       userId: (json['userId'] as num).toInt(),
     );
 
@@ -19,6 +18,5 @@ Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
       'accountId': instance.accountId,
       'name': instance.name,
       'age': instance.age,
-      'personalityType': instance.personalityType,
       'userId': instance.userId,
     };
