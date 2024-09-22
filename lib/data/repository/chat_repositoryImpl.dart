@@ -2,6 +2,7 @@
 import 'package:palink_v2/core/utils/message_utils.dart';
 import 'package:palink_v2/data/api/chat/chat_api.dart';
 import 'package:palink_v2/data/models/ai_response/ai_response.dart';
+import 'package:palink_v2/data/models/chat/ai_response_response.dart';
 import 'package:palink_v2/data/models/chat/conversation_request.dart';
 import 'package:palink_v2/data/models/chat/conversation_response.dart';
 import 'package:palink_v2/data/models/chat/message_request.dart';
@@ -41,5 +42,12 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<ConversationResponse> fetchConversationByChatRoomId(int conversationId) {
     return chatApi.getConversationById(conversationId);
   }
+
+  @override
+  Future<AIResponseResponse> fetchAIResponseByMessageId(int conversationId, int messageId) {
+    return chatApi.getAIResponsesByMessageId(conversationId, messageId);
+  }
+
+
 }
 

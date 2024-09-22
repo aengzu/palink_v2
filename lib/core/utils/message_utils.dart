@@ -11,6 +11,7 @@ class MessageUtils {
       sender: false,
       messageText: aiResponse.text,
       timestamp: DateTime.now().toIso8601String(),
+      aiResponse: aiResponse,
     );
   }
 }

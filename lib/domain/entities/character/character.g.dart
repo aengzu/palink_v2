@@ -11,12 +11,10 @@ Character _$CharacterFromJson(Map<String, dynamic> json) => Character(
       name: json['name'] as String,
       type: json['type'] as String,
       requestStrength: (json['requestStrength'] as num).toInt(),
-      prompt: json['prompt'] as String,
+      persona: json['persona'] as String,
       description: json['description'] as String?,
       image: json['image'] as String,
       quest: json['quest'] as String,
-      anaylzePrompt: json['anaylzePrompt'] as String,
-      rejectionScoreRule: json['rejectionScoreRule'] as String,
     );
 
 Map<String, dynamic> _$CharacterToJson(Character instance) => <String, dynamic>{
@@ -24,10 +22,8 @@ Map<String, dynamic> _$CharacterToJson(Character instance) => <String, dynamic>{
       'name': instance.name,
       'type': instance.type,
       'requestStrength': instance.requestStrength,
-      'prompt': instance.prompt,
+      'persona': instance.persona,
       'description': instance.description,
       'image': instance.image,
       'quest': instance.quest,
-      'anaylzePrompt': instance.anaylzePrompt,
-      'rejectionScoreRule': instance.rejectionScoreRule,
     };

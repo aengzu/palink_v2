@@ -4,7 +4,7 @@ class Message {
   String messageText;
   String timestamp;
   int affinityScore;
-  int rejectionScore;
+  List<int> rejectionScore;
   List<String> reactions;
 
 
@@ -14,8 +14,8 @@ class Message {
     required this.messageText,
     required this.timestamp,
     int? affinityScore,
-    int? rejectionScore,
-    List<String>? reactions,}) : reactions = reactions ?? [], affinityScore = affinityScore ?? 50, rejectionScore = rejectionScore ?? 0;
+    List<int>? rejectionScore,
+    List<String>? reactions,}) : reactions = reactions ?? [], affinityScore = affinityScore ?? 50, rejectionScore = rejectionScore ?? [];
 
   // copyWith 메서드 추가
   Message copyWith({
@@ -24,7 +24,7 @@ class Message {
     String? messageText,
     String? timestamp,
     int? affinityScore,
-    int? rejectionScore,
+    List<int>? rejectionScore,
     List<String>? reactions,
   }) {
     return Message(

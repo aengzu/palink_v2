@@ -12,12 +12,15 @@ class SendUserMessageUsecase {
   final ChatRepository chatRepository = getIt<ChatRepository>();
   final GenerateResponseUsecase generateResponseUsecase;
 
+  late var userMessage;
+
   SendUserMessageUsecase(
     this.generateResponseUsecase,
   );
 
   Future<Message?> saveUserMessage(String text, int chatRoomId) async {
     final messageRequest = _createMessageRequest(text);
+    userMessage = text;
 
     final messageResponse =
         await _saveMessageToServer(messageRequest, chatRoomId);
@@ -26,8 +29,8 @@ class SendUserMessageUsecase {
   }
 
   Future<Map<String?, AIResponse?>> generateAIResponse(
-      int chatRoomId, Character character) async {
-    return await generateResponseUsecase.execute(chatRoomId, character);
+      int chatRoomId, Character character, List<String> unachievedQuests) async {
+    return await generateResponseUsecase.execute(chatRoomId, character, userMessage, unachievedQuests);
   }
 
   MessageRequest _createMessageRequest(String text) {
@@ -35,7 +38,16 @@ class SendUserMessageUsecase {
       sender: true,
       messageText: text,
       timestamp: DateTime.now().toIso8601String(),
-    );
+      aiResponse: AIResponse(
+        text: text,
+        feeling: "neutral",
+        affinityScore: 0,
+        rejectionScore: [],
+        rejectionContent: [],
+        finalRejectionScore: 0,
+        finalAffinityScore: 0,
+      )
+      );
   }
 
   Future<MessageResponse?> _saveMessageToServer(

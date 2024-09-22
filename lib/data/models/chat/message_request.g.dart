@@ -11,6 +11,8 @@ MessageRequest _$MessageRequestFromJson(Map<String, dynamic> json) =>
       sender: json['sender'] as bool,
       messageText: json['messageText'] as String,
       timestamp: json['timestamp'] as String,
+      aiResponse:
+          AIResponse.fromJson(json['aiResponse'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MessageRequestToJson(MessageRequest instance) =>
@@ -18,4 +20,5 @@ Map<String, dynamic> _$MessageRequestToJson(MessageRequest instance) =>
       'sender': instance.sender,
       'messageText': instance.messageText,
       'timestamp': instance.timestamp,
+      'aiResponse': instance.aiResponse,
     };

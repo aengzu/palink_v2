@@ -61,8 +61,6 @@ class FeedbackView extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  Text(viewModel.analysisDto.usedRejection),
-                  const SizedBox(height: 20),
                 ],
               ),
             ),

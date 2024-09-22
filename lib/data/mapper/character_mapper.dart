@@ -11,12 +11,10 @@ class CharacterMapper {
       name: entity.name,
       type: entity.type,
       requestStrength: entity.requestStrength,
-      prompt: entity.prompt,
+      persona: entity.prompt,
       description: entity.description,
       image: entity.image,
-      anaylzePrompt: entity.analyzePrompt,
       quest: entity.quest,
-      rejectionScoreRule: entity.rejectionScoreRule,
     );
   }
 }

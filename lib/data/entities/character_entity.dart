@@ -12,8 +12,6 @@ class CharacterEntity {
   final String description;
   final String image;
   final String quest;
-  final String analyzePrompt;
-  final String rejectionScoreRule;
 
   CharacterEntity({
     required this.characterId,
@@ -23,8 +21,6 @@ class CharacterEntity {
     required this.prompt,
     required this.description,
     required this.image,
-    required this.quest,
-    required this.analyzePrompt,
-    required this.rejectionScoreRule,
+    required this.quest
   });
 }

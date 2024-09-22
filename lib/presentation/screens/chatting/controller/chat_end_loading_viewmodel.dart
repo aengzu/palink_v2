@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:palink_v2/data/models/ai_response/analysis_response.dart';
 import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/entities/analysis/analysis_dto.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
@@ -33,13 +34,14 @@ class ChatEndLoadingViewModel extends GetxController {
 
   Future<void> _analyzeConversation(Character character) async {
     try {
-     AnalysisDto? analysisDto = await generateAnalyzeUsecase.execute(character, chatHistory);
+     AnalysisResponse? response = await generateAnalyzeUsecase.execute(chatHistory);
+      AnalysisDto? analysisDto = AnalysisDto(evaluation: response!.evaluation, usedRejection: '', finalRejectionScore: 4);
      if (analysisDto == null) {
        print('Failed to analyze conversation: analysisDto is null');
        return;
      }
      else {
-       Get.off(() => FeedbackView(viewModel: Get.put(FeedbackViewmodel(analysisDto: analysisDto!, character: character))));
+       Get.off(() => FeedbackView(viewModel: Get.put(FeedbackViewmodel(analysisDto: analysisDto, character: character))));
      }
     } catch (e) {
       print('Failed to analyze conversation: $e');

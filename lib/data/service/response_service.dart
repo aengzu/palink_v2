@@ -1,0 +1,98 @@
+import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:langchain/langchain.dart';
+import 'package:langchain_openai/langchain_openai.dart';
+import 'package:palink_v2/data/models/ai_response/ai_message_request.dart';
+import 'package:palink_v2/data/models/ai_response/ai_message_response.dart';
+
+
+class ResponseService {
+  final ConversationChain chatChain;
+  final ConversationBufferMemory memoryBuffer;
+
+  ResponseService._(this.chatChain, this.memoryBuffer);
+
+  // Initialization with exception handling for API key
+  factory ResponseService.initialize() {
+    final apiKey = dotenv.env['API_KEY'];
+    if (apiKey == null || apiKey.isEmpty) {
+      throw Exception('API_KEY is not set in .env file');
+    }
+
+    final memoryBuffer = ConversationBufferMemory(
+      memoryKey: 'history',
+      inputKey: 'input',
+      returnMessages: false,
+    );
+
+    final openAI = ChatOpenAI(
+      apiKey: apiKey,
+      defaultOptions: const ChatOpenAIOptions(
+        temperature: 0.8,
+        model: 'gpt-4',
+        maxTokens: 600,
+      ),
+    );
+
+    final chatChain = ConversationChain(
+      memory: memoryBuffer,
+      llm: openAI,
+      prompt: ChatPromptTemplate.fromTemplate('''
+        당신은 마지막 말에 대해 적절한 답변을 해야합니다. 
+        당신은 USER 를 {userName}으로 부르세요. {userName} 이 풀네임이라면 성은 빼고 이름만 부르세요. 
+        다음은 당신에 대한 설명입니다. 
+
+        {persona}
+
+        당신은 'message', 'isEnd'을 반드시 JSON 객체로 리턴하세요.
+         
+        - message: 메시지 내용을 나타냅니다. (string) 
+        - isEnd : 만약 user의 마지막 말이 부탁에 대한 수락이라면 바로 isEnd 를 true로 설정하시오. default 값은 false 입니다. 만약 isEnd 가 false이라면 물러서지 않고 계속 부탁합니다.(bool)
+
+        [규칙] 
+        - 당신은 맥락을 기억합니다
+        - 맥락을 유지하며 {userName}의 마지막 말에 대한 대답을 리턴해주세요. 당신은 이전에 당신이 했던 말을 그대로 반복하지 않습니다. 
+        - 대화 기록이 비어있다면 부탁을 요청하면서 대화를 시작하세요. 
+
+        [{userName} 의 마지막 말]
+        {userName} : {input}
+      '''),
+      inputKey: 'input',
+      outputKey: 'response',
+    );
+
+    return ResponseService._(chatChain, memoryBuffer);
+  }
+
+  // 응답 생성 메서드
+  Future<AIMessageResponse?> getChatResponse(AIMessageRequest messageRequest) async {
+    try {
+      // Pass the input nested under 'input'
+      final input = {
+          'userName': messageRequest.userName!,
+          'persona': messageRequest.persona!,
+          'input': messageRequest.userMessage!,
+      };
+
+      // Invoke the chat chain
+      final result = await chatChain.invoke(input);
+      // AIChatMessage 객체를 얻음
+      final AIChatMessage aiChatMessage = result['response'] as AIChatMessage;
+
+      // AI의 응답 내용을 문자열로 추출
+      final String aiContent = aiChatMessage.content;
+
+      // 응답 내용을 JSON으로 파싱
+      final Map<String, dynamic> aiResponseMap = jsonDecode(aiContent);
+
+      // 파싱된 데이터를 사용하여 AIMessageResponse 생성
+      return AIMessageResponse.fromJson(aiResponseMap);
+    } catch (e, stackTrace) {
+      print('Error during chat response generation: $e');
+      print('Stack trace: $stackTrace');
+      return null;
+    }
+  }
+}
+
+
