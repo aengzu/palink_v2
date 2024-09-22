@@ -7,12 +7,14 @@ class AIMessageRequest {
   final String persona;
   final String userName;
   final String userMessage;
+  final String chatHistory;
+
 
 
   AIMessageRequest({
     required this.persona,
     required this.userName,
-    required this.userMessage,
+    required this.userMessage, required this.chatHistory,
   });
 
   factory AIMessageRequest.fromJson(Map<String, dynamic> json) =>

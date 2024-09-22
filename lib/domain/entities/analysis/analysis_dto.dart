@@ -5,15 +5,19 @@ part 'analysis_dto.g.dart'; // json_serializable을 사용하여 생성된 코�
 @JsonSerializable()
 class AnalysisDto {
   final String evaluation;
-  @JsonKey(name: 'used_rejection')
-  final String usedRejection;
   @JsonKey(name: 'final_rejection_score')
   final int finalRejectionScore;
+  @JsonKey(name: 'final_affinity_score')
+  final int finalAffinityScore;
+  final String unachievedQuests;
+  final String usedRejection;
 
   AnalysisDto({
     required this.evaluation,
-    required this.usedRejection,
     required this.finalRejectionScore,
+    required this.finalAffinityScore,
+    required this.unachievedQuests,
+    required this.usedRejection,
   });
 
   // JSON으로부터 AnalysisDTO 객체를 생성합니다.

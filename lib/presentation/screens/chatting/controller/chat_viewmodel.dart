@@ -3,10 +3,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
 import 'package:palink_v2/data/models/ai_response/ai_response.dart';
+import 'package:palink_v2/data/models/mindset/mindset_response.dart';
 import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
 import 'package:palink_v2/domain/entities/chat/message.dart';
 import 'package:palink_v2/domain/usecase/fetch_chat_history_usecase.dart';
+import 'package:palink_v2/domain/usecase/get_random_mindset_usecase.dart';
 import 'package:palink_v2/domain/usecase/send_user_message_usecase.dart';
 import 'package:palink_v2/presentation/screens/chatting/view/chat_end_loading_screen.dart';
 import 'package:palink_v2/presentation/screens/common/custom_button_md.dart';
@@ -18,6 +20,7 @@ class ChatViewModel extends GetxController {
 
   final FetchChatHistoryUsecase fetchChatHistoryUsecase = getIt<FetchChatHistoryUsecase>();
   final SendUserMessageUsecase sendMessageUsecase = getIt<SendUserMessageUsecase>();
+  final GetRandomMindsetUseCase getRandomMindsetUseCase = getIt<GetRandomMindsetUseCase>();
 
   TextEditingController textController = TextEditingController();
   var messages = <Message>[].obs;
@@ -78,6 +81,7 @@ class ChatViewModel extends GetxController {
         messages.insert(0, userMessage); // 사용자 메시지를 리스트에 추가
       }
 
+
       var responseMap = await sendMessageUsecase.generateAIResponse(chatRoomId, character, getUnachievedQuests());
 
       aiResponse = responseMap['aiResponse'] as AIResponse;
@@ -123,15 +127,16 @@ class ChatViewModel extends GetxController {
     // 캐릭터별 제한된 대화 횟수를 넘었거나 AI 응답에서 isEnd가 true일 경우 // 거절 점수 달성 시 대화 종료
     print(aiResponse.toString());
     if (chatCount.value > requiredChats || isEnd || aiResponse.finalRejectionScore < -5 || aiResponse.finalRejectionScore > 7) {
-      navigateToChatEndScreen();
+      var fetchedMindset = await getRandomMindsetUseCase.execute();
+      navigateToChatEndScreen(fetchedMindset!);
     }
   }
 
   // 대화 종료 화면으로 이동하는 메서드
-  void navigateToChatEndScreen() {
+  void navigateToChatEndScreen(MindsetResponse fetchedMindset) {
     Get.off(() => ChatEndLoadingView(
         chatEndLoadingViewModel: Get.put(ChatEndLoadingViewModel(
-            character: character, chatHistory: messages.toList()))));
+            mindset: fetchedMindset,character: character, finalRejectionScore: aiResponse.finalRejectionScore, finalAffinityScore: aiResponse.affinityScore, unachievedQuests: getUnachievedQuests(), conversationId: chatRoomId))));
   }
 
   // 퀘스트 정보를 가져오는 메서드
@@ -237,6 +242,15 @@ class ChatViewModel extends GetxController {
       return chatCount.value <= requiredChats && aiResponse.finalRejectionScore > 5;
     }
 
+    // 부정적인 거절 카테고리들
+    const negativeRejectionCategories = ["티나는 거짓말", "욕설 또는 인신공격"];
+
+    // 거절 카테고리 중 부정적인 카테고리가 포함된 경우 퀘스트 달성 방지
+    if (rejectionContent.any((category) => negativeRejectionCategories.contains(category))) {
+      return false;
+    }
+
+
     // 퀘스트 달성 조건 중 하나라도 만족하면 true 반환
     return questConditions.any((condition) => rejectionContent.contains(condition));
   }
@@ -277,31 +291,31 @@ class ChatViewModel extends GetxController {
   final Map<String, List<List<String>>> questConditionMap = {
     '미연': [
       [],  // 퀘스트 1: 10회 안에 거절 성공하기 (특정 거절 카테고리 없음)
-      ['부탁 내용 확인'],  // 퀘스트 2
-      ['아쉬움 표현'],  // 퀘스트 3
-      ['거절해야 하는 상황 설명'],  // 퀘스트 4
-      ['대안 제시'],  // 퀘스트 5
+      ['부탁 내용 확인'],  // 퀘스트 2: 상대방이 처한 상황을 파악하기 위한 대화 시도하기
+      ['아쉬움 표현', '도와주고 싶은 마음 표현', '상황에 대한 공감'],  // 퀘스트 3: 감정에 대한 공감 표현
+      ['거절해야 하는 상황 설명'],  // 퀘스트 4: 도와주지 못하는 이유 제시
+      ['대안 제시'],  // 퀘스트 5: 서로 양보해서 절충안 찾기
     ],
     '세진': [
       [],  // 퀘스트 1: 8회 안에 거절 성공하기
-      ['과거 배려에 대한 감사함 표시'],  // 퀘스트 2
-      ['수락하지 못함에 대한 아쉬움 표현'],  // 퀘스트 3
-      ['이유 있는 거절'],  // 퀘스트 4
-      ['대안 제시'],  // 퀘스트 5
+      ['과거 배려에 대한 감사함 표시'],  // 퀘스트 2: 감사 표현하기
+      ['수락하지 못함에 대한 아쉬움 표현'],  // 퀘스트 3: 감정적인 요소 포함하여 거절
+      ['이유 있는 거절', '거절해야 하는 상황 설명'],  // 퀘스트 4: 이유 있는 거절 제시
+      ['대안 제시'],  // 퀘스트 5: 타협안 제시
     ],
     '현아': [
       [],  // 퀘스트 1: 7회 안에 거절 성공하기
-      ['시간 제한'],  // 퀘스트 2
-      ['상황에 대한 공감'],  // 퀘스트 3
-      ['이유 있는 거절'],  // 퀘스트 4
-      ['단호한 거절'],  // 퀘스트 5
+      ['시간 제한'],  // 퀘스트 2: 시간 제한을 두고 거절
+      ['상황에 대한 공감'],  // 퀘스트 3: 존중 표현
+      ['이유 있는 거절'],  // 퀘스트 4: 이유 있는 거절 제시
+      ['반복된 요청에 재차 단호한 거절'],  // 퀘스트 5: 집요한 요청에 대한 의사 표현
     ],
     '진혁': [
       [],  // 퀘스트 1: 6회 안에 거절 성공하기
-      ['단호한 거절'],  // 퀘스트 2
-      [],  // 퀘스트 3: 특정 조건 없음
-      [],  // 퀘스트 4: 특정 조건 없음
-      [],  // 퀘스트 5: 특정 조건 없음
+      ['단호한 거절'],  // 퀘스트 2: 타협하지 않기
+      ['이유 있는 거절'],  // 퀘스트 3: 논리적 근거 제시하기
+      ['반복된 요청에 재차 단호한 거절'],  // 퀘스트 4: 일관성 있게 주장 유지하기
+      ['명확한 경계 설정'],  // 퀘스트 5: 무례에 대한 불편함 명확히 표현하기
     ],
   };
 

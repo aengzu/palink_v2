@@ -7,12 +7,12 @@ part 'analysis_request.g.dart';
 class AnalysisRequest {
   final String chatHistory;
   final String quest;
-  final String rejectionContent;
+  final int finalRejectionScore;
 
   AnalysisRequest({
     required this.chatHistory,
     required this.quest,
-    required this.rejectionContent
+    required this.finalRejectionScore,
   });
 
   factory AnalysisRequest.fromJson(Map<String, dynamic> json) =>

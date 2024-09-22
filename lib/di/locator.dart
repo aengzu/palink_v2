@@ -38,6 +38,8 @@ import 'package:palink_v2/domain/usecase/fetch_chat_history_usecase.dart';
 import 'package:palink_v2/domain/usecase/generate_analyze_usecase.dart';
 import 'package:palink_v2/domain/usecase/generate_initial_message_usecase.dart';
 import 'package:palink_v2/domain/usecase/generate_response_usecase.dart';
+import 'package:palink_v2/domain/usecase/get_ai_message_usecase.dart';
+import 'package:palink_v2/domain/usecase/get_ai_messages_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_random_mindset_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_user_info_usecase.dart';
 import 'package:palink_v2/domain/usecase/send_user_message_usecase.dart';
@@ -131,6 +133,8 @@ void _setupUseCases() {
   getIt.registerFactory<GenerateAnalyzeUsecase>(() => GenerateAnalyzeUsecase());
   getIt.registerFactory<GetRandomMindsetUseCase>(() => GetRandomMindsetUseCase(getIt<MindsetRepository>()));
   getIt.registerFactory<GenerateInitialMessageUsecase>(() => GenerateInitialMessageUsecase(getIt<GenerateTipUsecase>()));
+  getIt.registerFactory<GetAIMessagesUsecase>(() => GetAIMessagesUsecase());
+  getIt.registerFactory<GetAIMessageUsecase>(() => GetAIMessageUsecase());
 
 }
 

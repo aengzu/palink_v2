@@ -18,10 +18,10 @@ class GenerateTipUsecase {
     );
 
     TipResponse? tipResponse = await aiRepository.createTip(input);
-
+    TipResponse? newTipResponse;
     if (tipResponse != null) {
       // answer와 reason을 결합하여 하나의 문자열로 만들기
-      String combinedTipText = '${tipResponse.answer}, 이유: ${tipResponse.reason}';
+      String combinedTipText = '${tipResponse.answer}\n 이유: ${tipResponse.reason}';
       // TipRepository를 통해 팁 저장
       tipRepository.createTip(
         TipCreateRequest(
@@ -29,7 +29,11 @@ class GenerateTipUsecase {
           tipText: combinedTipText, // 결합된 문자열을 전달
         ),
       );
+      newTipResponse = TipResponse(
+        answer: combinedTipText,
+        reason: combinedTipText,
+      );
     }
-    return tipResponse;
+    return newTipResponse;
   }
 }

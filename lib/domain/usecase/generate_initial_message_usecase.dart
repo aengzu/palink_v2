@@ -29,6 +29,7 @@ class GenerateInitialMessageUsecase {
       persona: persona,
       userName: userName,
       userMessage: userMessage,
+      chatHistory: '', // 채팅 기록을 추가
     ));
 
     MessageResponse? messageResponse;

@@ -30,14 +30,15 @@ class ResponseService {
       defaultOptions: const ChatOpenAIOptions(
         temperature: 0.8,
         model: 'gpt-4',
-        maxTokens: 600,
+        maxTokens: 200,
       ),
     );
 
     final chatChain = ConversationChain(
       memory: memoryBuffer,
       llm: openAI,
-      prompt: ChatPromptTemplate.fromTemplate('''
+      prompt:
+        ChatPromptTemplate.fromTemplate('''
         당신은 마지막 말에 대해 적절한 답변을 해야합니다. 
         당신은 USER 를 {userName}으로 부르세요. {userName} 이 풀네임이라면 성은 빼고 이름만 부르세요. 
         다음은 당신에 대한 설명입니다. 
@@ -50,13 +51,18 @@ class ResponseService {
         - isEnd : 만약 user의 마지막 말이 부탁에 대한 수락이라면 바로 isEnd 를 true로 설정하시오. default 값은 false 입니다. 만약 isEnd 가 false이라면 물러서지 않고 계속 부탁합니다.(bool)
 
         [규칙] 
-        - 당신은 맥락을 기억합니다
-        - 맥락을 유지하며 {userName}의 마지막 말에 대한 대답을 리턴해주세요. 당신은 이전에 당신이 했던 말을 그대로 반복하지 않습니다. 
+        - 맥락을 유지하며 {userName}의 마지막 말에 대한 대답을 리턴해주세요. 당신은 이전에 당신이 했던 말을 그대로 반복하지 않습니다.
+        - 이전에 부탁을 했다면 해당 맥락을 기억하며 대화를 해야합니다. 새로운 부탁이 아닌 해당 부탁을 이어주세요.
         - 대화 기록이 비어있다면 부탁을 요청하면서 대화를 시작하세요. 
+        - 'message'는 50자 이내로 출력하세요.
+        
+        [대화기록]
+        - {chatHistory}
 
         [{userName} 의 마지막 말]
         {userName} : {input}
       '''),
+
       inputKey: 'input',
       outputKey: 'response',
     );
@@ -72,6 +78,7 @@ class ResponseService {
           'userName': messageRequest.userName!,
           'persona': messageRequest.persona!,
           'input': messageRequest.userMessage!,
+          'chatHistory': messageRequest.chatHistory!,
       };
 
       // Invoke the chat chain

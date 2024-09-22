@@ -9,6 +9,7 @@ import 'package:palink_v2/data/models/chat/ai_response_response.dart';
 import 'package:palink_v2/data/models/chat/message_response.dart';
 import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
+import 'package:palink_v2/domain/entities/chat/message.dart';
 import 'package:palink_v2/domain/entities/user/user.dart';
 import 'package:palink_v2/domain/repository/chat_repository.dart';
 import 'package:palink_v2/domain/repository/open_ai_repository.dart';
@@ -30,11 +31,17 @@ class GenerateResponseUsecase {
 
     User? user = await getUserInfoUseCase.execute();
 
-    // 응답 생성
+
+    // 채팅 기록을 가져옵니다.
+    final chatHistoryResponse = await fetchChatHistoryUsecase.execute(conversationId);
+    String chatHistory = _formatChatHistory(chatHistoryResponse!);
+
+    // 응답 생성 요청에 포함할 메시지 기록
     AIMessageResponse? aiMessageResponse = await aiRepository.getChatResponse(AIMessageRequest(
       persona: character.persona,
       userName: user!.name,
       userMessage: userMessage,
+      chatHistory: chatHistory, // 채팅 기록을 추가
     ));
 
     MessageResponse? messageResponse;
@@ -75,5 +82,10 @@ class GenerateResponseUsecase {
       "messageId": messageResponse?.messageId,
       "isEnd": aiMessageResponse?.isEnd ?? false,  // isEnd가 null일 경우 false로 설정
     };
+  }
+  // chatHistoryResponse를 JSON 또는 텍스트로 변환하는 함수
+  String _formatChatHistory(List<Message> chatHistoryResponse) {
+    // 메시지를 순차적으로 텍스트로 변환
+    return chatHistoryResponse.map((message) => "${message.sender}: ${message.messageText}").join("\n");
   }
 }

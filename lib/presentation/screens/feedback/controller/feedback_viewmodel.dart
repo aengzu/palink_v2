@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:palink_v2/data/models/ai_response/analysis_response.dart';
 import 'package:palink_v2/domain/entities/analysis/analysis_dto.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
 

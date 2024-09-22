@@ -12,4 +12,5 @@ abstract class ChatRepository {
   Future<MessagesResponse?> fetchMessagesByChatRoomId(int chatRoomId);
   Future<ConversationResponse> fetchConversationByChatRoomId(int chatRoomId);
   Future<List<AIResponseResponse>> fetchAIResponseByMessageId(int conversationId, int messageId);
+  Future<List<AIResponseResponse>> fetchAIResponsesByConversationId(int conversationId);
 }

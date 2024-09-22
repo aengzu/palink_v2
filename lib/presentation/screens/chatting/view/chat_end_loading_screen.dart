@@ -31,8 +31,8 @@ class ChatEndLoadingView extends StatelessWidget {
             padding:
                 EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
             child: Text(
-              chatEndLoadingViewModel.randomMindset.value.mindsetText,
-              style: textTheme().titleMedium,
+              chatEndLoadingViewModel.mindset.mindsetText,
+              style: textTheme().bodyMedium,
               textAlign: TextAlign.center,
             ),
           ),

@@ -11,6 +11,7 @@ AIMessageRequest _$AIMessageRequestFromJson(Map<String, dynamic> json) =>
       persona: json['persona'] as String,
       userName: json['userName'] as String,
       userMessage: json['userMessage'] as String,
+      chatHistory: json['chatHistory'] as String,
     );
 
 Map<String, dynamic> _$AIMessageRequestToJson(AIMessageRequest instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$AIMessageRequestToJson(AIMessageRequest instance) =>
       'persona': instance.persona,
       'userName': instance.userName,
       'userMessage': instance.userMessage,
+      'chatHistory': instance.chatHistory,
     };

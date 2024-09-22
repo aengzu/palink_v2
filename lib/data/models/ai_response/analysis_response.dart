@@ -6,9 +6,11 @@ part 'analysis_response.g.dart';
 @JsonSerializable()
 class AnalysisResponse {
   final String evaluation;
+  final String usedRejection;
 
   AnalysisResponse({
-    required this.evaluation
+    required this.evaluation,
+    required this.usedRejection,
   });
 
   factory AnalysisResponse.fromJson(Map<String, dynamic> json) =>

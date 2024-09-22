@@ -40,6 +40,11 @@ class ChatRepositoryImpl implements ChatRepository {
     return chatApi.getAIResponsesByMessageId(conversationId, messageId);
   }
 
+  @override
+  Future<List<AIResponseResponse>> fetchAIResponsesByConversationId(int conversationId) {
+    return chatApi.getAIResponsesByConversationId(conversationId);
+  }
+
 
 }
 
