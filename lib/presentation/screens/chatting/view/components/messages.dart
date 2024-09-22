@@ -28,7 +28,9 @@ class Messages extends StatelessWidget {
         itemBuilder: (context, index) {
           final message = messages[index];
           final like = messages[index].affinityScore;
-          final isSender = message.sender;
+          // 첫 번째 메시지인 경우, sender가 true여도 왼쪽에 배치
+          final bool isFirstMessage = index == messages.length - 1;
+          final isSender = isFirstMessage ? false : message.sender;
 
           return GestureDetector(
             onLongPress: () {

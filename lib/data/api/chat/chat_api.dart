@@ -37,5 +37,5 @@ abstract class ChatApi {
   Future<List<AIResponseResponse>> getAIResponsesByConversationId(@Path("conversation_id") int conversationId);
 
   @GET("/conversations/{conversation_id}/messages/{message_id}/airesponses")
-  Future<AIResponseResponse> getAIResponsesByMessageId(@Path("conversation_id") int conversationId, @Path("message_id") int messageId);
+  Future<List<AIResponseResponse>> getAIResponsesByMessageId(@Path("conversation_id") int conversationId, @Path("message_id") int messageId);
 }

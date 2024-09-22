@@ -37,6 +37,7 @@ class ChatScreen extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: Colors.white, // 기본 배경색 = 하얀색
         appBar: AppBar(
           toolbarHeight: 0.1.sh,
           backgroundColor: Colors.white,
@@ -50,9 +51,7 @@ class ChatScreen extends StatelessWidget {
           elevation: 0,
         ),
         extendBodyBehindAppBar: false,
-        body: Container(
-          color: Colors.white,
-          child: Stack(
+        body:  Stack(
             children: [
               Column(
                 children: [
@@ -78,8 +77,23 @@ class ChatScreen extends StatelessWidget {
                   _sendMessageField(viewModel),
                 ],
               ),
+              // 팁 버튼이 열렸을 때 배경을 어둡게 만드는 레이어 추가
+              Obx(() {
+                return tipViewModel.isExpanded.value
+                    ? Positioned.fill(
+                  child: GestureDetector(
+                    onTap: () {
+                      tipViewModel.toggle();  // 배경을 탭하면 팁 버튼을 닫습니다.
+                    },
+                    child: Container(
+                      color: Colors.black45,  // 반투명 검정색 배경
+                    ),
+                  ),
+                )
+                    : SizedBox.shrink();
+              }),
               Positioned(
-                bottom: 100,
+                bottom: 110,
                 right: 20,
                 child: Obx(() {
                   return TipButton(
@@ -96,7 +110,6 @@ class ChatScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 

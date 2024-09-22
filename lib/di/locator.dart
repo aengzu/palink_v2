@@ -20,13 +20,17 @@ import 'package:palink_v2/data/entities/character_entity.dart';
 import 'package:palink_v2/data/repository/auth_repositoryImpl.dart';
 import 'package:palink_v2/data/repository/character_repositoryImpl.dart';
 import 'package:palink_v2/data/repository/chat_repositoryImpl.dart';
+import 'package:palink_v2/data/repository/feedback_repositoryImpl.dart';
 import 'package:palink_v2/data/repository/openai_repositoryImpl.dart';
+import 'package:palink_v2/data/repository/tip_repositoryImpl.dart';
 import 'package:palink_v2/data/repository/user_repositoryImpl.dart';
 import 'package:palink_v2/domain/repository/auth_repository.dart';
 import 'package:palink_v2/domain/repository/character_repository.dart';
 import 'package:palink_v2/domain/repository/chat_repository.dart';
+import 'package:palink_v2/domain/repository/feedback_repository.dart';
 import 'package:palink_v2/domain/repository/mindset_repository.dart';
 import 'package:palink_v2/domain/repository/open_ai_repository.dart';
+import 'package:palink_v2/domain/repository/tip_repository.dart';
 import 'package:palink_v2/domain/repository/user_repository.dart';
 import 'package:palink_v2/domain/usecase/create_conversation_usecase.dart';
 import 'package:palink_v2/domain/usecase/fetch_characters_usecase.dart';
@@ -66,22 +70,32 @@ Future<void> setupLocator() async {
 void _setupDio() {
   getIt.registerLazySingleton<Dio>(() {
     final dio = Dio(BaseOptions(baseUrl: dotenv.env['BASE_URL']!));
+
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        return handler.next(options);
+        // API 요청 정보 출력
+        print("REQUEST[${options.method}] => PATH: ${options.path}");
+        print("REQUEST BODY => DATA: ${options.data}");
+        return handler.next(options);  // continue with the request
       },
       onResponse: (response, handler) {
+        // 응답 정보 출력
         print("RESPONSE[${response.statusCode}] => DATA: ${response.data}");
-        return handler.next(response);
+        return handler.next(response);  // continue with the response
       },
       onError: (DioError e, handler) {
-        print("ERROR[${e.response?.statusCode}] => MESSAGE: ${e.message}");
-        return handler.next(e);
+        // 에러 발생 시 API 요청 정보 출력
+        print("ERROR[${e.response?.statusCode}] => PATH: ${e.requestOptions.path}");
+        print("ERROR MESSAGE: ${e.message}");
+        print("ERROR BODY: ${e.response?.data}");
+        return handler.next(e);  // continue with the error
       },
     ));
+
     return dio;
   });
 }
+
 
 void _setupApis() {
   getIt.registerLazySingleton<AuthApi>(() => AuthApi(getIt<Dio>()));
@@ -100,6 +114,8 @@ void _setupRepositories(SharedPreferences prefs) {
   getIt.registerLazySingleton<CharacterRepository>(() => CharacterRepositoryImpl());
   getIt.registerLazySingleton<MindsetRepository>(() => MindsetRepositoryImpl(getIt<MindsetApi>()));
   getIt.registerLazySingleton<OpenAIRepository>(() => OpenAIRepositoryImpl());
+  getIt.registerLazySingleton<FeedbackRepository>(() => FeedbackRepositoryImpl(getIt<FeedbackApi>()));
+  getIt.registerLazySingleton<TipRepository>(() => TipRepositoryImpl(getIt<TipApi>()));
 }
 
 void _setupUseCases() {

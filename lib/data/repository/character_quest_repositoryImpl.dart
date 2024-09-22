@@ -24,7 +24,7 @@ class CharacterQuestRepositoryImpl implements CharacterQuestRepository {
     if (entity != null) {
       return CharacterQuest(
         characterId: entity.characterId,
-        quests: entity.quests.split(','), // Assuming quests are stored as a comma-separated string
+        quests: entity.quests.split(','),
       );
     }
     return null;

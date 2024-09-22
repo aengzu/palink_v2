@@ -223,7 +223,7 @@ class _ChatApi implements ChatApi {
   }
 
   @override
-  Future<AIResponseResponse> getAIResponsesByMessageId(
+  Future<List<AIResponseResponse>> getAIResponsesByMessageId(
     int conversationId,
     int messageId,
   ) async {
@@ -232,7 +232,7 @@ class _ChatApi implements ChatApi {
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<AIResponseResponse>(Options(
+        .fetch<List<dynamic>>(_setStreamType<List<AIResponseResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -248,7 +248,10 @@ class _ChatApi implements ChatApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = AIResponseResponse.fromJson(_result.data!);
+    var _value = _result.data!
+        .map((dynamic i) =>
+            AIResponseResponse.fromJson(i as Map<String, dynamic>))
+        .toList();
     return _value;
   }
 

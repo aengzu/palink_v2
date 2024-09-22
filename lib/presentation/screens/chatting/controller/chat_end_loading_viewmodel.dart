@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/data/models/ai_response/analysis_response.dart';
+import 'package:palink_v2/data/models/mindset/mindset_response.dart';
 import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/entities/analysis/analysis_dto.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
@@ -18,7 +19,7 @@ class ChatEndLoadingViewModel extends GetxController {
   final Character character;
   final List<Message> chatHistory;
 
-  Mindset? randomMindset;
+  var randomMindset = MindsetResponse(mindsetText: '', mindsetId: 0).obs;
   bool isLoading = true;
 
   ChatEndLoadingViewModel({required this.character, required this.chatHistory}) {
@@ -27,7 +28,8 @@ class ChatEndLoadingViewModel extends GetxController {
   }
 
   Future<void> _loadMindset() async {
-    randomMindset = await getRandomMindsetUseCase.execute();
+    var fetchedMindset = await getRandomMindsetUseCase.execute();
+    randomMindset.value = fetchedMindset!;
     isLoading = false;
   }
 

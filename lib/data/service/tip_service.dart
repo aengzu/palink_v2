@@ -37,17 +37,16 @@ message : {message}
 - 당신은 그런 상대의 발화에 대한 적절한 응답을 해야 합니다.
 - 대화 시 당황하지 않고 나-대화법과 비폭력 대화법을 사용해서 바람직한 대화 방향으로 이끌어야합니다. 
 -  만약 감정을 표현해야한다면 다양한 감정단어로 자신의 감정을 명확하게 표현해야 하며 가장 적합한 답변을 해주세요.
-- 다음 답변 제공 시 다음의 대화 방법들 위주로 제공해주세요. : {unachievedQuests}
+-  다음 답변 제공 시 다음의 대화 퀘스트를 고려하여 제공해주세요. : {unachievedQuests}
 
 [말투]
-- 대화 시 상대와는 친구사이이기 때문에 말투는 친구와 대화하듯이 말해야 합니다.
-- 높임말을 절대 사용하지마세요.
+- 'answer' 생성 시 상대와는 친구사이이기 때문에 말투는 친구와 대화하듯이 말해야 합니다. 높임말을 절대 사용하지마세요. (감사해 -> 고마워 / 죄송해 -> 미안해 / 부탁드린다 -> 부탁해)
 
 [규칙] 
-- 잘못한 게 없다면 절대로 사과하지 않는다.
+-  잘못한 게 없다면 절대로 사과하지 않는다.
  - 넌 상대가 부탁을 한다면 절대로 부탁을 수용하면 안된다. 올바른 방식으로 거절을 해야한다. 
-- 너는 'answer' 과 'reason'을 가진다. 당신은 거절 필요 시 다음의 방법들을 활용하며 answer 을 만들어야한다. 
-- 방법 : 상황에 대한 공감, 대안 제시, 단호한 거절,  이유 있는 거절, 수락하지 못함에 대한 아쉬움 표현''');
+-  출력은 'answer' 과 'reason'을 가진다. 당신은 거절 필요 시 위에서 제공한 퀘스트들을 활용하며 answer 을 만들어야한다. 
+-  'reason'은 'answer' 을 생성한 이유를 공식어(반말 X)를 사용하여 설명하세요.''');
 
     final tipChain = LLMChain(
       llm: openAI,
@@ -65,7 +64,9 @@ message : {message}
         'unachievedQuests': tipRequest.unachievedQuests!
       };
 
+      print('TipService.createTip input: $input');
       final result = await tipChain.invoke(input);
+      print('TipService.createTip result: $result');
       final AIChatMessage aiChatMessage = result['tip'] as AIChatMessage;
       final String aiContent = aiChatMessage.content;
 

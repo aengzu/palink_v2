@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:palink_v2/di/locator.dart';
-import 'package:palink_v2/domain/entities/chat/message.dart';
 import 'package:palink_v2/domain/usecase/generate_tip_usecase.dart';
 
 class TipViewModel extends GetxController {

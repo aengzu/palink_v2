@@ -50,7 +50,6 @@ class ChatLoadingViewModel extends GetxController {
         final result = await _createInitialMessage(
             conversationId, user.value!.name);
         if (result != null) {
-          final aiResponse = result['aiResponse'] as AIResponse;
           final tip = result['tip'] as String;
 
           // ChatScreen으로 이동 (팁 전달)

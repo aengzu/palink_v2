@@ -16,6 +16,17 @@ extension AIResponseMapper on AIResponse {
   }
 }
 
+extension InitialAIResponseMapper on AIResponse {
+  MessageRequest toInitialMessageRequest() {
+    return MessageRequest(
+      sender: true,
+      messageText: text,  // AIResponse의 텍스트 사용
+      timestamp: DateTime.now().toIso8601String(),  // 현재 시간을 타임스탬프로 변환
+      aiResponse: this,  // AIResponse를 그대로 매핑
+    );
+  }
+}
+
 
 extension InitialAIMessageResponseMapper on AIMessageResponse {
   AIResponse toInitialAIResponse(LikingResponse likingResponse) {

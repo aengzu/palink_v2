@@ -25,6 +25,13 @@ class ChatViewModel extends GetxController {
   var questStatus = List<bool>.filled(5, false).obs; // 퀘스트 달성 여부를 나타내는 리스트
   var isQuestPopupShown = false.obs;
 
+  var aiResponse;
+  var isEnd;
+  var messageId;
+
+  // 대화 개수를 체크하기 위한 변수
+  var chatCount = 0.obs;
+
   ChatViewModel({
     required this.chatRoomId,
     required this.character,
@@ -72,14 +79,20 @@ class ChatViewModel extends GetxController {
       }
 
       var responseMap = await sendMessageUsecase.generateAIResponse(chatRoomId, character, getUnachievedQuests());
+
+      aiResponse = responseMap['aiResponse'] as AIResponse;
+      isEnd = responseMap['isEnd'] as bool;
+      messageId = responseMap['messageId'] as int?;
+
       if (responseMap.isNotEmpty) {
-        Message? aiMessage = convertAIResponseToMessage(responseMap.values.first!, responseMap.keys.first!.toString());
-        AIResponse response = responseMap.values.first!;
+        Message? aiMessage = convertAIResponseToMessage(aiResponse!, messageId.toString());
         if (aiMessage != null) {
           messages.insert(0, aiMessage); // AI 응답 메시지를 리스트에 추가
         }
-        _handleQuestAchievements(responseMap.values.first!); // 퀘스트 달성 확인
-        _checkIfConversationEnded(responseMap.values.first!); // 대화 종료 여부 확인
+        chatCount.value += 1;
+
+        _handleQuestAchievements(aiResponse!); // aiResponse
+        _checkIfConversationEnded(aiResponse, isEnd); // 대화 종료 여부 확인
         textController.clear(); // 메시지 입력창 초기화
       } else {
         print('AI 응답이 없습니다');
@@ -105,8 +118,11 @@ class ChatViewModel extends GetxController {
   }
 
   // 대화 종료 여부 확인하는 메서드
-  Future<void> _checkIfConversationEnded(AIResponse aiResponse) async {
-    if (aiResponse.finalRejectionScore < -5) {
+  Future<void> _checkIfConversationEnded(AIResponse aiResponse, bool isEnd) async {
+    int requiredChats = _getRequiredChatLimitsForCharacter(character.name);
+    // 캐릭터별 제한된 대화 횟수를 넘었거나 AI 응답에서 isEnd가 true일 경우 // 거절 점수 달성 시 대화 종료
+    print(aiResponse.toString());
+    if (chatCount.value > requiredChats || isEnd || aiResponse.finalRejectionScore < -5 || aiResponse.finalRejectionScore > 7) {
       navigateToChatEndScreen();
     }
   }
@@ -214,6 +230,13 @@ class ChatViewModel extends GetxController {
     List<String> rejectionContent = aiResponse.rejectionContent;
     List<String> questConditions = questConditionMap[character.name]?[questIndex] ?? [];
 
+    // 퀘스트 1: 대화 횟수 기반 퀘스트 처리
+    if (questIndex == 0) {
+      int requiredChats = _getRequiredChatLimitsForCharacter(character.name);
+      // 제한 대화 횟수보다 적으면서 && 거절 점수가 5점을 넘으면 퀘스트 달성
+      return chatCount.value <= requiredChats && aiResponse.finalRejectionScore > 5;
+    }
+
     // 퀘스트 달성 조건 중 하나라도 만족하면 true 반환
     return questConditions.any((condition) => rejectionContent.contains(condition));
   }
@@ -293,4 +316,19 @@ class ChatViewModel extends GetxController {
     return unachievedQuests;
   }
 
+  // 캐릭터별 대화 횟수 요구 조건을 반환하는 메서드
+  int _getRequiredChatLimitsForCharacter(String characterName) {
+    switch (characterName) {
+      case '미연':
+        return 9; // 미연은 10회 대화 제한
+      case '세진':
+        return 8;  // 세진은 8회 대화 제한
+      case '현아':
+        return 7;  // 현아는 7회 대화 제한
+      case '진혁':
+        return 6;  // 진혁은 6회 대화 제한
+      default:
+        return 0;
+    }
+  }
 }

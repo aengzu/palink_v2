@@ -10,30 +10,30 @@ AIResponseResponse _$AIResponseResponseFromJson(Map<String, dynamic> json) =>
     AIResponseResponse(
       feeling: json['feeling'] as String,
       text: json['text'] as String,
-      rejectionScore: (json['rejectionScore'] as List<dynamic>)
+      rejectionScore: (json['rejection_score'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
       userMessage: json['userMessage'] as String,
-      finalAffinityScore: (json['finalAffinityScore'] as num).toInt(),
-      affinityScore: (json['affinityScore'] as num).toInt(),
+      finalAffinityScore: (json['final_affinity_score'] as num).toInt(),
+      affinityScore: (json['affinity_score'] as num).toInt(),
       aiMessage: (json['aiMessage'] as num).toInt(),
-      rejectionContent: (json['rejectionContent'] as List<dynamic>)
+      rejectionContent: (json['rejection_content'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      finalRejectionScore: (json['finalRejectionScore'] as num).toInt(),
-      conversationId: (json['conversationId'] as num).toInt(),
+      finalRejectionScore: (json['final_rejection_score'] as num).toInt(),
+      conversationId: (json['conversation_id'] as num).toInt(),
     );
 
 Map<String, dynamic> _$AIResponseResponseToJson(AIResponseResponse instance) =>
     <String, dynamic>{
       'feeling': instance.feeling,
       'text': instance.text,
-      'rejectionScore': instance.rejectionScore,
+      'rejection_score': instance.rejectionScore,
       'userMessage': instance.userMessage,
-      'finalAffinityScore': instance.finalAffinityScore,
-      'affinityScore': instance.affinityScore,
+      'final_affinity_score': instance.finalAffinityScore,
+      'affinity_score': instance.affinityScore,
       'aiMessage': instance.aiMessage,
-      'rejectionContent': instance.rejectionContent,
-      'finalRejectionScore': instance.finalRejectionScore,
-      'conversationId': instance.conversationId,
+      'rejection_content': instance.rejectionContent,
+      'final_rejection_score': instance.finalRejectionScore,
+      'conversation_id': instance.conversationId,
     };

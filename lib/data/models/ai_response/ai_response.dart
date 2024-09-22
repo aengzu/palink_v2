@@ -7,15 +7,15 @@ class AIResponse {
   final String text;
   final String feeling;
   @JsonKey(name: 'affinity_score')
-  final int affinityScore;
+  final int affinityScore; // final 제거
   @JsonKey(name: 'rejection_score')
   final List<int> rejectionScore;
   @JsonKey(name: 'rejection_content')
   final List<String> rejectionContent;
   @JsonKey(name: 'final_rejection_score')
-  final int finalRejectionScore;
+  int finalRejectionScore; // final 제거
   @JsonKey(name: 'final_affinity_score')
-  final int finalAffinityScore;
+  int finalAffinityScore; // final 제거
 
   AIResponse({
     required this.text,

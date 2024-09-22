@@ -1,7 +1,8 @@
 
 
-import 'package:palink_v2/domain/entities/mindset/mindset.dart';
+import 'package:palink_v2/data/models/mindset/mindset_response.dart';
+
 
 abstract class MindsetRepository {
-  Future<Mindset?> getRandomMindset();
+  Future<MindsetResponse?> getRandomMindset();
 }

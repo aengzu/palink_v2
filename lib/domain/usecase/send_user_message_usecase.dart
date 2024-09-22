@@ -28,11 +28,12 @@ class SendUserMessageUsecase {
     return _mapResponseToDomain(messageResponse);
   }
 
-  Future<Map<String?, AIResponse?>> generateAIResponse(
+  Future<Map<String?, dynamic?>> generateAIResponse(
       int chatRoomId, Character character, List<String> unachievedQuests) async {
     return await generateResponseUsecase.execute(chatRoomId, character, userMessage, unachievedQuests);
   }
 
+  // 여기서 리턴할 때 isEnd 도 반환하고 싶다. AIResponse 와 합치지 않는다.
   MessageRequest _createMessageRequest(String text) {
     return MessageRequest(
       sender: true,

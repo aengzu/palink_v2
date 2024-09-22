@@ -6,13 +6,19 @@ part 'ai_response_response.g.dart';
 class AIResponseResponse {
   final String feeling;
   final String text;
+  @JsonKey(name: 'rejection_score')
   final List<int> rejectionScore;
   final String userMessage;
+  @JsonKey(name: 'final_affinity_score')
   final int finalAffinityScore;
+  @JsonKey(name: 'affinity_score')
   final int affinityScore;
   final int aiMessage;
+  @JsonKey(name: 'rejection_content')
   final List<String> rejectionContent;
+  @JsonKey(name: 'final_rejection_score')
   final int finalRejectionScore;
+  @JsonKey(name: 'conversation_id')
   final int conversationId;
 
   AIResponseResponse({
