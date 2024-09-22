@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:palink_v2/data/models/user/user_collection_request.dart';
 import 'package:palink_v2/data/models/user/user_collection_response.dart';
-import 'package:palink_v2/data/models/user/user_create_request.dart';
 import 'package:palink_v2/data/models/user/user_response.dart';
 import 'package:palink_v2/data/models/user/user_update_request.dart';
 import 'package:retrofit/http.dart';

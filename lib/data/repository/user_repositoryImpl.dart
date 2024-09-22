@@ -1,6 +1,8 @@
 
 
 import 'package:palink_v2/data/api/user/user_api.dart';
+import 'package:palink_v2/data/models/user/user_collection_request.dart';
+import 'package:palink_v2/data/models/user/user_collection_response.dart';
 import 'package:palink_v2/data/models/user/user_response.dart';
 import 'package:palink_v2/domain/entities/user/user.dart';
 import 'package:palink_v2/domain/repository/user_repository.dart';
@@ -28,5 +30,10 @@ class UserRepositoryImpl implements UserRepository {
       print('Error in getUser: $e');
       return null;
     }
+  }
+
+  @override
+  Future<UserCollectionResponse> createUserCollection(int userId, UserCollectionRequest userCollectionRequest) {
+   return _userApi.addUserCollection(userId, userCollectionRequest);
   }
 }
