@@ -23,13 +23,14 @@ class ConversationAnalysisService {
       defaultOptions: const ChatOpenAIOptions(
         temperature: 0.8,
         model: 'gpt-4-turbo',
-        maxTokens: 600,
+        maxTokens: 300,
       ),
     );
 
     // 프롬프트 넣기
     final conversationAnalysisPrompt = ChatPromptTemplate.fromTemplate('''
     당신은 다음의 대화 기록들과 사용한 거절 방법, 미달성 퀘스트를 보고, 사용자의 대화 능력을 평가해야합니다. 부탁을 거절하는 능력을 평가하고자 합니다. 
+    사용자는  중학생 정도로 그들이 이해할만한 부드러운 언어로 평가합니다. 간혹가다 이모티콘도 써주세요.
     대화 기록에선 사용자의 'userMessage' 에 대한 ai의 반응인 'text', 'feeling', 'affinityScore' 가 있으며, 'userMessage' 에서 사용된 거절 방법이 'rejection_content' 으로 그리고 거절 점수가 'rejection_score' 로 나타납니다. 
     대화 기록에서 'userMessage' 기록들을 보고 유저의 거절 능력을 평가해주세요.
       
@@ -39,9 +40,9 @@ class ConversationAnalysisService {
  [미달성 퀘스트]
  {quest}
 
-답변으로 'evaluation'(string), 'usedRejection'(string) 을 반드시 JSON 객체로 리턴하세요. (\```json 로 시작하는 문자열을 생성하지 마세요)
+답변으로 'evaluation'(string), 'usedRejection'(string) 을 반드시 JSON 객체로 리턴하세요. (\```json 로 시작하는 문자열을 생성하지 마세요. 전체는 260자 이내로 출력되어야합니다.)
       
- 'evaluation'은 사용자의 대화 능력을 AI의 입장에서 500자 이내로 평가한 문자열입니다. (string)
+ 'evaluation'은 사용자의 대화 능력을 AI의 입장에서 180자 이내로 평가한 문자열입니다. (string)
  'evalution' 은 사용자의 대화능력을 평가할 뿐 아니라 사용자의 대화 능력을 개선할 수 있는 피드백을 제공해야합니다. 
  대화 기록에서 인용할 만한 텍스트가 있다면 직접적으로 인용하여 지적 및 칭찬을 해주세요.  또한, 대화 기록에서 사용자의 말이 character 의 감정을 상하게 할 부분이 있거나,  
  사용자가 과하게 자기 표현을 못하는 경우에 이를 지적해주세요.

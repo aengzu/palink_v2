@@ -45,7 +45,7 @@ class ResponseService {
 
         {persona}
 
-        당신은 'message', 'isEnd'을 반드시 JSON 객체로 리턴하세요.
+        당신은 'message', 'isEnd'을 반드시 JSON 객체로 리턴하세요. (\```json 로 시작하는 문자열을 생성하지 마세요)
          
         - message: 메시지 내용을 나타냅니다. (string) 
         - isEnd : 만약 user의 마지막 말이 부탁에 대한 수락이라면 바로 isEnd 를 true로 설정하시오. default 값은 false 입니다. 만약 isEnd 가 false이라면 물러서지 않고 계속 부탁합니다.(bool)
