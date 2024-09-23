@@ -216,14 +216,13 @@ class ChatViewModel extends GetxController {
           String questContent = questContentMap[character.name]?[questIndex] ?? '알 수 없는 퀘스트';
 
           // 퀘스트 달성 메시지 출력
-          Fluttertoast.showToast(
-            msg: "퀘스트 달성! $questContent",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP_RIGHT,
-            timeInSecForIosWeb: 2,
+          Get.snackbar(
+            "퀘스트 달성!",
+            "퀘스트 달성! $questContent",
+            snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.blue[700],
-            textColor: Colors.white,
-            fontSize: 16.0,
+            colorText: Colors.white,
+            duration: Duration(seconds: 2),
           );
         }
       }
