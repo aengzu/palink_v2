@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/data/models/ai_response/analysis_response.dart';
 import 'package:palink_v2/data/models/chat/ai_response_response.dart';
-import 'package:palink_v2/data/models/mindset/mindset_response.dart';
 import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/domain/entities/analysis/analysis_dto.dart';
 import 'package:palink_v2/domain/entities/character/character.dart';
-import 'package:palink_v2/domain/entities/chat/message.dart';
-import 'package:palink_v2/domain/entities/mindset/mindset.dart';
 import 'package:palink_v2/domain/usecase/generate_analyze_usecase.dart';
-import 'package:palink_v2/domain/usecase/get_ai_message_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_ai_messages_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_random_mindset_usecase.dart';
+import 'package:palink_v2/domain/usecase/save_feedback_usecase.dart';
 import 'package:palink_v2/presentation/screens/feedback/controller/feedback_viewmodel.dart';
 import 'package:palink_v2/presentation/screens/feedback/view/feedback_view.dart';
 
@@ -20,6 +17,8 @@ class ChatEndLoadingViewModel extends GetxController {
   final GetRandomMindsetUseCase getRandomMindsetUseCase = getIt<GetRandomMindsetUseCase>();
   final GenerateAnalyzeUsecase generateAnalyzeUsecase = getIt<GenerateAnalyzeUsecase>();
   final GetAIMessagesUsecase getAIMessagesUsecase = getIt<GetAIMessagesUsecase>();
+  final SaveFeedbackUseCase saveFeedbackUseCase = getIt<SaveFeedbackUseCase>();  // Add the feedback use case
+
   final Character character;
 
   bool isLoading = true;
@@ -70,10 +69,16 @@ class ChatEndLoadingViewModel extends GetxController {
         usedRejection: response.usedRejection,
       );
      if (analysisDto == null) {
-       print('Failed to analyze conversation: analysisDto is null');
        return;
      }
      else {
+       await saveFeedbackUseCase.execute(
+         conversationId: conversationId,
+         feedbackText: response.evaluation,  // Use evaluation text
+         finalLikingLevel: finalAffinityScore+50,  // Adjust liking score calculation
+         totalRejectionScore: finalRejectionScore,  // Pass final rejection score
+       );
+
        Get.off(() => FeedbackView(viewModel: Get.put(FeedbackViewmodel(analysisDto: analysisDto, character: character))));
      }
     } catch (e) {

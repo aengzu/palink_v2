@@ -42,6 +42,7 @@ import 'package:palink_v2/domain/usecase/get_ai_message_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_ai_messages_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_random_mindset_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_user_info_usecase.dart';
+import 'package:palink_v2/domain/usecase/save_feedback_usecase.dart';
 import 'package:palink_v2/domain/usecase/send_user_message_usecase.dart';
 import 'package:palink_v2/domain/usecase/sign_up_usecase.dart';
 import 'package:palink_v2/presentation/screens/auth/controller/login_view_model.dart';
@@ -135,6 +136,8 @@ void _setupUseCases() {
   getIt.registerFactory<GenerateInitialMessageUsecase>(() => GenerateInitialMessageUsecase(getIt<GenerateTipUsecase>()));
   getIt.registerFactory<GetAIMessagesUsecase>(() => GetAIMessagesUsecase());
   getIt.registerFactory<GetAIMessageUsecase>(() => GetAIMessageUsecase());
+  getIt.registerFactory<SaveFeedbackUseCase>(() => SaveFeedbackUseCase());
+
 
 }
 

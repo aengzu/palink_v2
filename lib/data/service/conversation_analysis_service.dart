@@ -67,13 +67,8 @@ class ConversationAnalysisService {
 
       final inputs = {'chatHistory': chatHistoryString, 'quest': questString};
 
-      // 로그 추가: inputs 데이터 확인
-      print('DEBUG: Inputs to LLM: $inputs');
-
       final result = await conversationAnalysisChain.invoke(inputs);
 
-      // 로그 추가: LLM의 결과 확인
-      print('DEBUG: LLM Result: $result');
 
       // 결과에서 analysis 부분 확인
       final AIChatMessage aiChatMessage = result['analysis'] as AIChatMessage;
@@ -83,9 +78,6 @@ class ConversationAnalysisService {
 
       final String aiContent = aiChatMessage.content;
       final Map<String, dynamic> aiResponseMap = jsonDecode(aiContent);
-
-      // 로그 추가: JSON 변환된 결과 확인
-      print('DEBUG: Parsed AI Response Map: $aiResponseMap');
 
       return AnalysisResponse.fromJson(aiResponseMap);
     } catch (e, stackTrace) {

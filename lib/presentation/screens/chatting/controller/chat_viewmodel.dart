@@ -124,8 +124,8 @@ class ChatViewModel extends GetxController {
   // 대화 종료 여부 확인하는 메서드
   Future<void> _checkIfConversationEnded(AIResponse aiResponse, bool isEnd) async {
     int requiredChats = _getRequiredChatLimitsForCharacter(character.name);
+    debugPrint('Required Chats: ${chatCount.value}');
     // 캐릭터별 제한된 대화 횟수를 넘었거나 AI 응답에서 isEnd가 true일 경우 // 거절 점수 달성 시 대화 종료
-    print(aiResponse.toString());
     if (chatCount.value > requiredChats || isEnd || aiResponse.finalRejectionScore < -5 || aiResponse.finalRejectionScore > 7) {
       var fetchedMindset = await getRandomMindsetUseCase.execute();
       navigateToChatEndScreen(fetchedMindset!);
