@@ -29,7 +29,7 @@ class ResponseService {
       apiKey: apiKey,
       defaultOptions: const ChatOpenAIOptions(
         temperature: 0.8,
-        model: 'gpt-4',
+        model: 'gpt-4-turbo',
         maxTokens: 200,
       ),
     );
