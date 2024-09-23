@@ -46,12 +46,10 @@ class ChatLoadingViewModel extends GetxController {
       conversation.value = await _createConversation();
       if (conversation.value != null && user.value != null) {
         final conversationId = conversation.value!.conversationId;
-
         // 첫 메시지와 팁 생성
         final result = await _createInitialMessage(
             conversationId, user.value!.name);
         if (result != null) {
-          final aiResponse = result['aiResponse'] as AIResponse;
           final tip = result['tip'] as String;
 
           // ChatScreen으로 이동 (팁 전달)
@@ -73,7 +71,6 @@ class ChatLoadingViewModel extends GetxController {
     try {
       return await createConversationUseCase.execute(character);
     } catch (e) {
-      print('Failed to create conversation: $e');
       errorMessage.value = '대화창 생성 실패 $e';
       return null;
     }
@@ -81,9 +78,8 @@ class ChatLoadingViewModel extends GetxController {
 
   Future<Map<String, dynamic>?> _createInitialMessage(int conversationId, String userName) async {
     try {
-      return await generateInitialMessageUsecase.execute(conversationId, userName, character.prompt);
+      return await generateInitialMessageUsecase.execute(conversationId, userName, character.persona, []);
     } catch (e) {
-      print('Failed to create initial message: $e');
       errorMessage.value = '초기 메시지 생성 실패 $e';
       return null;
     }

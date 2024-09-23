@@ -26,7 +26,7 @@ class FeedbackView extends StatelessWidget {
         children: [
           // 고정된 높이의 스크롤 가능한 영역
           SizedBox(
-            height: 0.7.sh, // 화면 높이의 70%
+            height: 0.8.sh, // 화면 높이의 70%
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -37,7 +37,7 @@ class FeedbackView extends StatelessWidget {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   _buildProfileImage(),
-                  SizedBox(height: 0.04.sh),
+                  SizedBox(height: 0.045.sh),
                   Container(
                     padding: const EdgeInsets.all(15.0),
                     width: 0.9.sw,
@@ -53,16 +53,30 @@ class FeedbackView extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  LikingBar(viewModel.analysisDto.finalRejectionScore),
-                  Text('최종 호감도 ${viewModel.analysisDto.finalRejectionScore}점'),
+                  LikingBar(50 + viewModel.analysisDto.finalAffinityScore),
+                  Text('최종 호감도 ${50 + viewModel.analysisDto.finalAffinityScore}점'),
                   SizedBox(height: 0.05.sh),
                   const Text(
                     '사용한 거절 방법',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  Text(viewModel.analysisDto.usedRejection),
-                  const SizedBox(height: 20),
+                  Text(_formatAsList(viewModel.analysisDto.usedRejection)),
+                  SizedBox(height: 0.05.sh),
+                  const Text(
+                    '최종 거절 점수',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Text('${viewModel.analysisDto.finalRejectionScore}점'),
+                  SizedBox(height: 0.05.sh),
+                  const Text(
+                    '미달성 퀘스트',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(_formatAsList(viewModel.analysisDto.unachievedQuests)),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
@@ -93,4 +107,11 @@ class FeedbackView extends StatelessWidget {
       child: Image.asset(viewModel.character.image), // 실제 이미지 경로로 수정 필요
     );
   }
+
+  // 쉼표로 구분된 문자열을 줄바꿈과 번호 또는 화살표로 포맷하는 메서드
+  String _formatAsList(String commaSeparatedString) {
+    final items = commaSeparatedString.split(',').map((item) => item.trim()).toList();
+    return items.asMap().entries.map((entry) => '${entry.key + 1}. ${entry.value}').join('\n');
+  }
 }
+

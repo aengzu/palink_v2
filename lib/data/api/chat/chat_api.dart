@@ -1,5 +1,6 @@
 // data/api/chat_api.dart
 import 'package:dio/dio.dart';
+import 'package:palink_v2/data/models/chat/ai_response_response.dart';
 import 'package:palink_v2/data/models/chat/conversation_request.dart';
 import 'package:palink_v2/data/models/chat/conversation_response.dart';
 import 'package:palink_v2/data/models/chat/conversations_response.dart';
@@ -32,4 +33,9 @@ abstract class ChatApi {
   @GET("/conversations/{conversation_id}/messages/{message_id}")
   Future<MessageResponse> getMessageById(@Path("conversation_id") int conversationId, @Path("message_id") int messageId);
 
+  @GET("/conversations/{conversation_id}/airesponses")
+  Future<List<AIResponseResponse>> getAIResponsesByConversationId(@Path("conversation_id") int conversationId);
+
+  @GET("/conversations/{conversation_id}/messages/{message_id}/airesponses")
+  Future<List<AIResponseResponse>> getAIResponsesByMessageId(@Path("conversation_id") int conversationId, @Path("message_id") int messageId);
 }

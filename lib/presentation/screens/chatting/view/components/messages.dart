@@ -6,14 +6,12 @@ import 'package:palink_v2/domain/entities/likability/liking_level.dart';
 import 'chat_bubble.dart';
 
 class Messages extends StatelessWidget {
-  final List<LikingLevel> likingLevels;
   final List<Message> messages;
   final int userId;
   final String characterImg;
   final Function(Message, String) onReactionAdded;
 
   Messages({
-    required this.likingLevels,
     required this.messages,
     required this.userId,
     required this.characterImg,
@@ -30,7 +28,9 @@ class Messages extends StatelessWidget {
         itemBuilder: (context, index) {
           final message = messages[index];
           final like = messages[index].affinityScore;
-          final isSender = message.sender;
+          // 첫 번째 메시지인 경우, sender가 true여도 왼쪽에 배치
+          final bool isFirstMessage = index == messages.length - 1;
+          final isSender = isFirstMessage ? false : message.sender;
 
           return GestureDetector(
             onLongPress: () {

@@ -8,7 +8,6 @@ extension SignupMapper on SignupModel {
       accountId: accountId,
       name: name,
       age: age,
-      personalityType: personalityType,
       password: password,
     );
   }

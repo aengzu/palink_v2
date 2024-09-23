@@ -10,7 +10,12 @@ class FetchChatHistoryUsecase {
   FetchChatHistoryUsecase(this.repository);
 
   Future<List<Message>?> execute(int chatRoomId) async {
-    final MessagesResponse? response = await repository.fetchMessagesByChatRoomId(chatRoomId);
-    return response?.messages.map((msg) => msg.toDomain()).toList();
+    try {
+      final MessagesResponse? response = await repository.fetchMessagesByChatRoomId(chatRoomId);
+      return response?.messages.map((msg) => msg.toDomain()).toList();
+    } catch (e) {
+      print('Error fetching chat history: $e');
+      return null;
+    }
   }
 }

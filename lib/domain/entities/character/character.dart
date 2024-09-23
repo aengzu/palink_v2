@@ -8,24 +8,20 @@ class Character {
   final String name;
   final String type;
   final int requestStrength;
-  final String prompt;
+  final String persona;
   final String? description;
   final String image;
   final String quest;
-  final String anaylzePrompt;
-  final String rejectionScoreRule;
 
   Character({
     required this.characterId,
     required this.name,
     required this.type,
     required this.requestStrength,
-    required this.prompt,
+    required this.persona,
     this.description,
     required this.image,
     required this.quest,
-    required this.anaylzePrompt,
-    required this.rejectionScoreRule,
   });
 
 

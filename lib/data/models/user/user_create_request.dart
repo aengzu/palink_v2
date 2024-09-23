@@ -8,14 +8,12 @@ class UserCreateRequest {
   final String accountId;
   final String name;
   final int age;
-  final String personalityType;
   final String password;
 
   UserCreateRequest({
     required this.accountId,
     required this.name,
     required this.age,
-    required this.personalityType,
     required this.password,
   });
 

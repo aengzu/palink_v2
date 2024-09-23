@@ -11,7 +11,6 @@ UserUpdateRequest _$UserUpdateRequestFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       password: json['password'] as String,
       age: (json['age'] as num).toInt(),
-      personalityType: json['personalityType'] as String,
     );
 
 Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
@@ -19,5 +18,4 @@ Map<String, dynamic> _$UserUpdateRequestToJson(UserUpdateRequest instance) =>
       'name': instance.name,
       'password': instance.password,
       'age': instance.age,
-      'personalityType': instance.personalityType,
     };

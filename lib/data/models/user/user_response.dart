@@ -8,14 +8,12 @@ class UserResponse {
   final String accountId;
   final String name;
   final int age;
-  final String personalityType;
   final int userId;
 
   UserResponse({
     required this.accountId,
     required this.name,
     required this.age,
-    required this.personalityType,
     required this.userId,
   });
 

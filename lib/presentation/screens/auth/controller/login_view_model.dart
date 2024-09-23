@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:palink_v2/domain/entities/auth/login_model.dart';
 import 'package:palink_v2/domain/entities/user/user.dart';
 import 'package:palink_v2/domain/usecase/login_usecase.dart';
@@ -29,7 +30,7 @@ class LoginViewModel extends GetxController {
         _showError('로그인에 실패했습니다.');
       }
     } catch (e) {
-      _showError('로그인에 실패했습니다. $e');
+        _showError('로그인에 실패했습니다. $e');
     } finally {
       isLoading.value = false;
     }

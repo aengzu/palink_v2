@@ -12,12 +12,15 @@ class SendUserMessageUsecase {
   final ChatRepository chatRepository = getIt<ChatRepository>();
   final GenerateResponseUsecase generateResponseUsecase;
 
+  late var userMessage;
+
   SendUserMessageUsecase(
     this.generateResponseUsecase,
   );
 
   Future<Message?> saveUserMessage(String text, int chatRoomId) async {
     final messageRequest = _createMessageRequest(text);
+    userMessage = text;
 
     final messageResponse =
         await _saveMessageToServer(messageRequest, chatRoomId);
@@ -25,17 +28,27 @@ class SendUserMessageUsecase {
     return _mapResponseToDomain(messageResponse);
   }
 
-  Future<Map<String?, AIResponse?>> generateAIResponse(
-      int chatRoomId, Character character) async {
-    return await generateResponseUsecase.execute(chatRoomId, character);
+  Future<Map<String?, dynamic?>> generateAIResponse(
+      int chatRoomId, Character character, List<String> unachievedQuests) async {
+    return await generateResponseUsecase.execute(chatRoomId, character, userMessage, unachievedQuests);
   }
 
+  // 여기서 리턴할 때 isEnd 도 반환하고 싶다. AIResponse 와 합치지 않는다.
   MessageRequest _createMessageRequest(String text) {
     return MessageRequest(
       sender: true,
       messageText: text,
       timestamp: DateTime.now().toIso8601String(),
-    );
+      aiResponse: AIResponse(
+        text: text,
+        feeling: "neutral",
+        affinityScore: 0,
+        rejectionScore: [],
+        rejectionContent: [],
+        finalRejectionScore: 0,
+        finalAffinityScore: 0,
+      )
+      );
   }
 
   Future<MessageResponse?> _saveMessageToServer(

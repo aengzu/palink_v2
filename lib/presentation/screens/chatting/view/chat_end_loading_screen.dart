@@ -30,19 +30,10 @@ class ChatEndLoadingView extends StatelessWidget {
           Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
-            child: Text.rich(
+            child: Text(
+              chatEndLoadingViewModel.mindset.mindsetText,
+              style: textTheme().bodyMedium,
               textAlign: TextAlign.center,
-              TextSpan(
-                text: '\n',
-                children: <TextSpan>[
-                  TextSpan(
-                      // 여기에 랜덤으로 마인드셋 하나 가져오고 싶음.
-                      text:
-                          chatEndLoadingViewModel.randomMindset?.mindsetText ??
-                              '',
-                      style: textTheme().titleMedium),
-                ],
-              ),
             ),
           ),
           const SpinKitThreeBounce(color: AppColors.deepBlue, size: 30),

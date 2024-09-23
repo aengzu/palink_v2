@@ -16,25 +16,27 @@ class ChatLoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 0.2.sh),
-          _buildProfileImage(),
-          Center(
-            child: Text(
-              viewModel.character.name,
-              style: textTheme().titleLarge,
-              textAlign: TextAlign.center,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 0.2.sh),
+            _buildProfileImage(),
+            Center(
+              child: Text(
+                viewModel.character.name,
+                style: textTheme().titleLarge,
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-          Padding(
-            padding:
-            EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
-            child: _buildStyledDescription(viewModel.character.description!),
-          ),
-          const SpinKitThreeBounce(color: AppColors.deepBlue, size: 30),
-        ],
+            Padding(
+              padding:
+              EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.02.sh),
+              child: _buildStyledDescription(viewModel.character.description!),
+            ),
+            const SpinKitThreeBounce(color: AppColors.deepBlue, size: 30),
+          ],
+        ),
       ),
     );
   }

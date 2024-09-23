@@ -1,5 +1,5 @@
 
-import 'package:palink_v2/domain/entities/mindset/mindset.dart';
+import 'package:palink_v2/data/models/mindset/mindset_response.dart';
 import 'package:palink_v2/domain/repository/mindset_repository.dart';
 
 
@@ -8,7 +8,7 @@ class GetRandomMindsetUseCase {
 
   GetRandomMindsetUseCase(this.repository);
 
-  Future<Mindset?> execute() async {
+  Future<MindsetResponse?> execute() async {
     return await repository.getRandomMindset();
   }
 }

@@ -24,6 +24,11 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 퀘스트 팝업이 처음에만 나타나도록 처리
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      viewModel.showQuestPopupIfFirstTime(context);
+    });
+
     // 초기 팁 업데이트
     tipViewModel.updateTip(initialTip);
 
@@ -32,6 +37,7 @@ class ChatScreen extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: Colors.white, // 기본 배경색 = 하얀색
         appBar: AppBar(
           toolbarHeight: 0.1.sh,
           backgroundColor: Colors.white,
@@ -39,15 +45,13 @@ class ChatScreen extends StatelessWidget {
             imagePath: viewModel.character.image,
             characterName: viewModel.character.name,
             questStatus: viewModel.questStatus,
-            onProfileTapped: () => _showQuestPopup(context),
+            onProfileTapped: () => showQuestPopup(context), // 프로필 클릭 시 퀘스트 팝업 표시,
           ),
           centerTitle: true,
           elevation: 0,
         ),
         extendBodyBehindAppBar: false,
-        body: Container(
-          color: Colors.white,
-          child: Stack(
+        body:  Stack(
             children: [
               Column(
                 children: [
@@ -64,10 +68,8 @@ class ChatScreen extends StatelessWidget {
                         messages: viewModel.messages,
                         userId: viewModel.chatRoomId,
                         characterImg: viewModel.character.image,
-                        likingLevels: viewModel.likingLevels,
                         onReactionAdded: (message, reaction) {
                           viewModel.addReactionToMessage(message, reaction);
-                          // 여기서 어떻게 UI 업데이트 되도록 해야할지?
                         },
                       );
                     }),
@@ -75,8 +77,23 @@ class ChatScreen extends StatelessWidget {
                   _sendMessageField(viewModel),
                 ],
               ),
+              // 팁 버튼이 열렸을 때 배경을 어둡게 만드는 레이어 추가
+              Obx(() {
+                return tipViewModel.isExpanded.value
+                    ? Positioned.fill(
+                  child: GestureDetector(
+                    onTap: () {
+                      tipViewModel.toggle();  // 배경을 탭하면 팁 버튼을 닫습니다.
+                    },
+                    child: Container(
+                      color: Colors.black45,  // 반투명 검정색 배경
+                    ),
+                  ),
+                )
+                    : SizedBox.shrink();
+              }),
               Positioned(
-                bottom: 100,
+                bottom: 110,
                 right: 20,
                 child: Obx(() {
                   return TipButton(
@@ -93,7 +110,6 @@ class ChatScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 
@@ -160,7 +176,7 @@ class ChatScreen extends StatelessWidget {
 
   bool _isDialogOpen = false;
 
-  void _showQuestPopup(BuildContext context) async {
+  void showQuestPopup(BuildContext context) async {
     if (!_isDialogOpen) {
       _isDialogOpen = true;
       final questInfo = await viewModel.getQuestInformation();

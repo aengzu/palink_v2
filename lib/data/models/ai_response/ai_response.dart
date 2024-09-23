@@ -5,27 +5,28 @@ part 'ai_response.g.dart';
 @JsonSerializable()
 class AIResponse {
   final String text;
-  @JsonKey(name: 'is_end')
-  final int isEnd;
-  @JsonKey(name: 'feeling')
   final String feeling;
   @JsonKey(name: 'affinity_score')
-  final int affinityScore;
-  @JsonKey(name: 'achieved_quest')
-  final String achievedQuest;
+  final int affinityScore; // final 제거
   @JsonKey(name: 'rejection_score')
-  final int rejectionScore;
+  final List<int> rejectionScore;
+  @JsonKey(name: 'rejection_content')
+  final List<String> rejectionContent;
+  @JsonKey(name: 'final_rejection_score')
+  int finalRejectionScore; // final 제거
+  @JsonKey(name: 'final_affinity_score')
+  int finalAffinityScore; // final 제거
 
   AIResponse({
     required this.text,
     required this.feeling,
-    required this.isEnd,
     required this.affinityScore,
-    required this.achievedQuest,
     required this.rejectionScore,
+    required this.rejectionContent,
+    required this.finalRejectionScore,
+    required this.finalAffinityScore,
   });
 
-   factory AIResponse.fromJson(Map<String, dynamic> json) => _$AIResponseFromJson(json);
+  factory AIResponse.fromJson(Map<String, dynamic> json) => _$AIResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$AIResponseToJson(this);
 }
-
-

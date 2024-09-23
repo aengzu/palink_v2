@@ -19,7 +19,6 @@ class UserInfoCard extends StatelessWidget {
           children: [
             Obx(() => _buildUserInfo('내 아이디', mypageViewmodel.accountId.value)),
             Obx(() => _buildUserInfo('내 나이', mypageViewmodel.age.value.toString())),
-            Obx(() => _buildUserInfo('내 MBTI', mypageViewmodel.personalityType.value)),
           ],
         ),
       ),
