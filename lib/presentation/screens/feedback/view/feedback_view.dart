@@ -26,7 +26,7 @@ class FeedbackView extends StatelessWidget {
         children: [
           // 고정된 높이의 스크롤 가능한 영역
           SizedBox(
-            height: 0.7.sh, // 화면 높이의 70%
+            height: 0.8.sh, // 화면 높이의 70%
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
