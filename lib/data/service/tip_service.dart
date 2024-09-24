@@ -22,13 +22,13 @@ class TipService {
       apiKey: apiKey,
       defaultOptions: const ChatOpenAIOptions(
         temperature: 0.7,
-        model: 'gpt-3.5-turbo',
-        maxTokens: 200,
+        model: 'gpt-4o-mini',
+        maxTokens: 100,
       ),
     );
 
     final rejectionPrompt = ChatPromptTemplate.fromTemplate('''[명령]
-당신은 다음 설명에 해당하는 적절한 답변을 해야합니다. 답변으로 'answer', 'reason' 을 반드시 JSON 객체로 리턴하세요.(\'''로 시작하는 문자열을 생성하지 않는다)
+당신은 다음 설명에 해당하는 적절한 답변을 해야합니다. 답변으로 'answer', 'reason' 을 반드시 JSON 객체로 리턴하세요.(\'''로 시작하는 문자열을 생성하지 않는다. 전체는 70자 이내로 출력하시오)
 다음의 message에 대한 답변을 생성하시오. (이름을 답변에 넣지 마세요)
 message : {message}
 
