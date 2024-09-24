@@ -64,14 +64,14 @@ class MypageView extends StatelessWidget {
                   children: [
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      title: const Text('내 친구들 보러가기'),
-                      onTap: () => _showComingSoonDialog(context),
+                      title: const Text('지난 피드백 보러가기'),
+                      onTap: () => Get.to(() => MyfeedbacksView()),
                       trailing: const Icon(Icons.arrow_forward_ios),
                     ),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      title: const Text('지난 피드백 보러가기'),
-                      onTap: () => Get.to(() => MyfeedbacksView()),
+                      title: const Text('내 친구들 보러가기'),
+                      onTap: () => _showComingSoonDialog(context),
                       trailing: const Icon(Icons.arrow_forward_ios),
                     ),
                     ListTile(
