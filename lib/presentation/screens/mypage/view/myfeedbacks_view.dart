@@ -26,6 +26,7 @@ class MyfeedbacksView extends StatelessWidget {
 
           return ListView.builder(
             itemCount: viewModel.chatrooms.length,
+            reverse: true,
             itemBuilder: (context, index) {
               var chatroom = viewModel.chatrooms[index];
               var character = viewModel.characters[chatroom.characterId];
@@ -42,7 +43,11 @@ class MyfeedbacksView extends StatelessWidget {
                     subtitle: Text(_formatDate(chatroom.day)),
                     horizontalTitleGap: 30.0,
                   ),
-                  const Divider(),
+                  const Divider(
+                    height: 0,
+                    thickness: 0.5,
+                    color: Colors.grey,
+                  ),
                 ],
               );
             },
