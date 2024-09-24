@@ -45,134 +45,135 @@ class ChatScreen extends StatelessWidget {
             imagePath: viewModel.character.image,
             characterName: viewModel.character.name,
             questStatus: viewModel.questStatus,
-            onProfileTapped: () => showQuestPopup(context), // 프로필 클릭 시 퀘스트 팝업 표시,
+            onProfileTapped: () =>
+                showQuestPopup(context), // 프로필 클릭 시 퀘스트 팝업 표시,
           ),
           centerTitle: true,
           elevation: 0,
         ),
         extendBodyBehindAppBar: false,
-        body:  Stack(
-            children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: Obx(() {
-                      return viewModel.messages.isEmpty
-                          ? const Center(
-                        child: Text(
-                          '메시지가 없습니다.',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      )
-                          : Messages(
-                        messages: viewModel.messages,
-                        userId: viewModel.chatRoomId,
-                        characterImg: viewModel.character.image,
-                        onReactionAdded: (message, reaction) {
-                          viewModel.addReactionToMessage(message, reaction);
+        body: Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                  child: Obx(() {
+                    return viewModel.messages.isEmpty
+                        ? const Center(
+                            child: Text(
+                              '메시지가 없습니다.',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          )
+                        : Messages(
+                            messages: viewModel.messages,
+                            userId: viewModel.chatRoomId,
+                            characterImg: viewModel.character.image,
+                            onReactionAdded: (message, reaction) {
+                              viewModel.addReactionToMessage(message, reaction);
+                            },
+                          );
+                  }),
+                ),
+                _sendMessageField(viewModel),
+              ],
+            ),
+            // 팁 버튼이 열렸을 때 배경을 어둡게 만드는 레이어 추가
+            Obx(() {
+              return tipViewModel.isExpanded.value
+                  ? Positioned.fill(
+                      child: GestureDetector(
+                        onTap: () {
+                          tipViewModel.toggle(); // 배경을 탭하면 팁 버튼을 닫습니다.
                         },
-                      );
-                    }),
-                  ),
-                  _sendMessageField(viewModel),
-                ],
-              ),
-              // 팁 버튼이 열렸을 때 배경을 어둡게 만드는 레이어 추가
-              Obx(() {
-                return tipViewModel.isExpanded.value
-                    ? Positioned.fill(
-                  child: GestureDetector(
-                    onTap: () {
-                      tipViewModel.toggle();  // 배경을 탭하면 팁 버튼을 닫습니다.
-                    },
-                    child: Container(
-                      color: Colors.black45,  // 반투명 검정색 배경
-                    ),
-                  ),
-                )
-                    : SizedBox.shrink();
+                        child: Container(
+                          color: Colors.black45, // 반투명 검정색 배경
+                        ),
+                      ),
+                    )
+                  : SizedBox.shrink();
+            }),
+            Positioned(
+              bottom: 110,
+              right: 20,
+              child: Obx(() {
+                return TipButton(
+                  tipContent: tipViewModel.tipContent.value,
+                  isExpanded: tipViewModel.isExpanded.value,
+                  isLoading: tipViewModel.isLoading.value,
+                  onToggle: tipViewModel.toggle,
+                  backgroundColor: tipViewModel.tipContent.value.isEmpty
+                      ? Colors.white70
+                      : AppColors.deepBlue,
+                );
               }),
-              Positioned(
-                bottom: 110,
-                right: 20,
-                child: Obx(() {
-                  return TipButton(
-                    tipContent: tipViewModel.tipContent.value,
-                    isExpanded: tipViewModel.isExpanded.value,
-                    isLoading: tipViewModel.isLoading.value,
-                    onToggle: tipViewModel.toggle,
-                    backgroundColor: tipViewModel.tipContent.value.isEmpty
-                        ? Colors.white70
-                        : AppColors.deepBlue,
-                  );
-                }),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 
   Widget _sendMessageField(ChatViewModel viewModel) => SafeArea(
-    child: Container(
-      height: 0.07.sh,
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(color: Color.fromARGB(18, 0, 0, 0), blurRadius: 10)
-        ],
-      ),
-      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      child: Row(
-        children: [
-          const SizedBox(width: 10),
-          Expanded(
-            child: TextField(
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              textCapitalization: TextCapitalization.sentences,
-              controller: viewModel.textController,
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    if (viewModel.textController.text.isNotEmpty) {
-                      viewModel.sendMessage();
-                      viewModel.textController.clear();
-                    }
-                  },
-                  icon: const Icon(Icons.send),
-                  color: Colors.blue,
-                  iconSize: 25,
-                ),
-                hintText: "여기에 메시지를 입력하세요",
-                hintMaxLines: 1,
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: 0.05.sw, vertical: 0.01.sh),
-                hintStyle: const TextStyle(
-                  fontSize: 16,
-                ),
-                fillColor: Colors.white,
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: const BorderSide(
-                    color: Colors.white,
-                    width: 0.2,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: const BorderSide(
-                    color: Colors.black26,
-                    width: 0.2,
+        child: Container(
+          height: 0.07.sh,
+          decoration: const BoxDecoration(
+            boxShadow: [
+              BoxShadow(color: Color.fromARGB(18, 0, 0, 0), blurRadius: 10)
+            ],
+          ),
+          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+          child: Row(
+            children: [
+              const SizedBox(width: 10),
+              Expanded(
+                child: TextField(
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                  textCapitalization: TextCapitalization.sentences,
+                  controller: viewModel.textController,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        if (viewModel.textController.text.isNotEmpty) {
+                          viewModel.sendMessage();
+                          viewModel.textController.clear();
+                        }
+                      },
+                      icon: const Icon(Icons.send),
+                      color: Colors.blue,
+                      iconSize: 25,
+                    ),
+                    hintText: "여기에 메시지를 입력하세요",
+                    hintMaxLines: 1,
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 0.05.sw, vertical: 0.01.sh),
+                    hintStyle: const TextStyle(
+                      fontSize: 16,
+                    ),
+                    fillColor: Colors.white,
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 0.2,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: const BorderSide(
+                        color: Colors.black26,
+                        width: 0.2,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 
   bool _isDialogOpen = false;
 
@@ -187,7 +188,8 @@ class ChatScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

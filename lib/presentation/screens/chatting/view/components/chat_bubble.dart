@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_reactions/widgets/stacked_reactions.dart';
 import 'package:palink_v2/core/theme/app_colors.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
-import 'package:palink_v2/domain/entities/chat/message.dart';
+import 'package:palink_v2/domain/model/chat/message.dart';
 import 'package:sizing/sizing.dart';
 import 'package:intl/intl.dart';
 import 'liking_bar.dart';
@@ -78,37 +78,38 @@ class _ChatBubblesState extends State<ChatBubbles> {
               Flexible(
                 child: Stack(
                   children: [
-                   Container(
-                          margin: EdgeInsets.only(
-                              top: 10, bottom: 5, right: 0.25.sw, left: 0.05.sw),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 0.04.sw, vertical: 0.011.sh),
-                          decoration: BoxDecoration(
-                            color: AppColors.lightGray,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.message.messageText,
-                                  softWrap: true,
-                                  style: textTheme().bodySmall,
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      timeAgo(widget.message.timestamp),  // <-- 여기에 적용
-                                      style: textTheme().bodySmall?.copyWith(
-                                        color: Colors.grey,
-                                        fontSize: 11,
-                                    ),
-                                    ),
-                                  ],
-                                )
-                              ])),
+                    Container(
+                        margin: EdgeInsets.only(
+                            top: 10, bottom: 5, right: 0.25.sw, left: 0.05.sw),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 0.04.sw, vertical: 0.011.sh),
+                        decoration: BoxDecoration(
+                          color: AppColors.lightGray,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.message.messageText,
+                                softWrap: true,
+                                style: textTheme().bodySmall,
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    timeAgo(widget.message.timestamp),
+                                    // <-- 여기에 적용
+                                    style: textTheme().bodySmall?.copyWith(
+                                          color: Colors.grey,
+                                          fontSize: 11,
+                                        ),
+                                  ),
+                                ],
+                              )
+                            ])),
                     if (widget.message.reactions.isNotEmpty)
                       Positioned(
                         bottom: 4,
@@ -147,11 +148,11 @@ class _ChatBubblesState extends State<ChatBubbles> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          timeAgo(widget.message.timestamp),  // <-- 여기에 적용
+                          timeAgo(widget.message.timestamp), // <-- 여기에 적용
                           style: textTheme().bodySmall?.copyWith(
-                            color: Colors.grey,
-                            fontSize: 11,
-                        ),
+                                color: Colors.grey,
+                                fontSize: 11,
+                              ),
                         )
                       ],
                     ),

@@ -1,25 +1,20 @@
-
 import 'package:palink_v2/data/api/auth/auth_api.dart';
 import 'package:palink_v2/data/api/user/user_api.dart';
 import 'package:palink_v2/data/mapper/login_mapper.dart';
 import 'package:palink_v2/data/mapper/signup_mapper.dart';
 import 'package:palink_v2/data/mapper/user_mapper.dart';
-import 'package:palink_v2/domain/entities/auth/login_model.dart';
-import 'package:palink_v2/domain/entities/auth/signup_model.dart';
-import 'package:palink_v2/domain/entities/user/user.dart';
+import 'package:palink_v2/domain/model/auth/login_model.dart';
+import 'package:palink_v2/domain/model/auth/signup_model.dart';
+import 'package:palink_v2/domain/model/user/user.dart';
+import 'package:palink_v2/domain/repository/auth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../domain/repository/auth_repository.dart';
-
-
 class AuthRepositoryImpl implements AuthRepository {
-
   final AuthApi _authApi;
   final UserApi _userApi;
   final SharedPreferences _prefs;
 
   AuthRepositoryImpl(this._authApi, this._userApi, this._prefs);
-
 
   @override
   Future<User?> login(LoginModel loginModel) async {
@@ -70,5 +65,4 @@ class AuthRepositoryImpl implements AuthRepository {
     await _prefs.remove('userId');
     await _prefs.remove('isLoggedIn');
   }
-
 }

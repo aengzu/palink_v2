@@ -1,4 +1,4 @@
-// data/entities/user_create_request.dart
+// data/model/user_create_request.dart
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_create_request.g.dart';

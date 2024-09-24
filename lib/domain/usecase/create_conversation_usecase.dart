@@ -1,11 +1,8 @@
-// domain/usecases/create_conversation_usecase.dart
-
-
 import 'package:palink_v2/data/models/chat/conversation_request.dart';
 import 'package:palink_v2/data/models/chat/conversation_response.dart';
-import 'package:palink_v2/domain/entities/character/character.dart';
-import 'package:palink_v2/domain/entities/chat/conversation.dart';
-import 'package:palink_v2/domain/entities/user/user.dart';
+import 'package:palink_v2/domain/model/character/character.dart';
+import 'package:palink_v2/domain/model/chat/conversation.dart';
+import 'package:palink_v2/domain/model/user/user.dart';
 import 'package:palink_v2/domain/repository/chat_repository.dart';
 
 import 'get_user_info_usecase.dart';
@@ -23,7 +20,8 @@ class CreateConversationUseCase {
       userId: user!.userId!,
       characterId: character.characterId,
     );
-    ConversationResponse response = await chatRepository.createConversation(conversationRequest);
+    ConversationResponse response =
+        await chatRepository.createConversation(conversationRequest);
     return Conversation.fromResponse(response);
   }
 }

@@ -3,15 +3,15 @@ import 'package:palink_v2/data/models/ai_response/ai_response.dart';
 import 'package:palink_v2/data/models/ai_response/liking_response.dart';
 import 'package:palink_v2/data/models/ai_response/rejection_response.dart';
 import 'package:palink_v2/data/models/chat/message_request.dart';
-import 'package:palink_v2/domain/entities/character/character.dart';
+import 'package:palink_v2/domain/model/character/character.dart';
 
 extension AIResponseMapper on AIResponse {
   MessageRequest toMessageRequest() {
     return MessageRequest(
       sender: false,
-      messageText: text,  // AIResponse의 텍스트 사용
-      timestamp: DateTime.now().toIso8601String(),  // 현재 시간을 타임스탬프로 변환
-      aiResponse: this,  // AIResponse를 그대로 매핑
+      messageText: text, // AIResponse의 텍스트 사용
+      timestamp: DateTime.now().toIso8601String(), // 현재 시간을 타임스탬프로 변환
+      aiResponse: this, // AIResponse를 그대로 매핑
     );
   }
 }
@@ -20,50 +20,58 @@ extension InitialAIResponseMapper on AIResponse {
   MessageRequest toInitialMessageRequest() {
     return MessageRequest(
       sender: true,
-      messageText: text,  // AIResponse의 텍스트 사용
-      timestamp: DateTime.now().toIso8601String(),  // 현재 시간을 타임스탬프로 변환
-      aiResponse: this,  // AIResponse를 그대로 매핑
+      messageText: text, // AIResponse의 텍스트 사용
+      timestamp: DateTime.now().toIso8601String(), // 현재 시간을 타임스탬프로 변환
+      aiResponse: this, // AIResponse를 그대로 매핑
     );
   }
 }
-
 
 extension InitialAIMessageResponseMapper on AIMessageResponse {
   AIResponse toInitialAIResponse(LikingResponse likingResponse) {
     return AIResponse(
       text: message,
-      feeling: likingResponse.feeling,  // LikabilityResponse의 feeling을 AIResponse의 feeling으로 매핑
-      affinityScore: likingResponse.likability,  // 호감도 점수 매핑
+      feeling: likingResponse.feeling,
+      // LikabilityResponse의 feeling을 AIResponse의 feeling으로 매핑
+      affinityScore: likingResponse.likability,
+      // 호감도 점수 매핑
       rejectionScore: [],
-      rejectionContent: [],  // 거절 카테고리 리스트 그대로 매핑
-      finalRejectionScore: 0,  // 최종 거절 점수 (거절 카테고리 수로 계산)
-      finalAffinityScore: 0,  // 최종 호감도 점수 그대로 사용
+      rejectionContent: [],
+      // 거절 카테고리 리스트 그대로 매핑
+      finalRejectionScore: 0,
+      // 최종 거절 점수 (거절 카테고리 수로 계산)
+      finalAffinityScore: 0, // 최종 호감도 점수 그대로 사용
     );
   }
 }
 
 extension AIMessageResponseMapper on AIMessageResponse {
-  AIResponse toAIResponse(LikingResponse likingResponse, RejectionResponse rejectionResponse, Character character) {
+  AIResponse toAIResponse(LikingResponse likingResponse,
+      RejectionResponse rejectionResponse, Character character) {
     final rejectionScores = getRejectionScoresByCharacter(character);
 
     // rejectionContent 리스트를 기반으로 rejectionScore 리스트 생성
     List<int> rejectionScoreList = rejectionResponse.rejectionContent
-        .map((category) => rejectionScores[category] ?? 0)  // 점수를 찾고, 없으면 0으로 설정
+        .map((category) => rejectionScores[category] ?? 0) // 점수를 찾고, 없으면 0으로 설정
         .toList();
 
     return AIResponse(
-      text: message,  // ChatResponse의 텍스트를 AIResponse의 텍스트로 설정
-      feeling: likingResponse.feeling,  // 감정 분석 결과를 그대로 매핑
-      affinityScore: likingResponse.likability,  // 호감도 점수 매핑
-      rejectionScore: rejectionScoreList,  // 계산된 rejectionScore 리스트
-      rejectionContent: rejectionResponse.rejectionContent,  // 거절 카테고리 리스트
-      finalRejectionScore: 0,  // 계산된 최종 거절 점수
-      finalAffinityScore: 0,  // 최종 호감도 점수 그대로 사용
+      text: message,
+      // ChatResponse의 텍스트를 AIResponse의 텍스트로 설정
+      feeling: likingResponse.feeling,
+      // 감정 분석 결과를 그대로 매핑
+      affinityScore: likingResponse.likability,
+      // 호감도 점수 매핑
+      rejectionScore: rejectionScoreList,
+      // 계산된 rejectionScore 리스트
+      rejectionContent: rejectionResponse.rejectionContent,
+      // 거절 카테고리 리스트
+      finalRejectionScore: 0,
+      // 계산된 최종 거절 점수
+      finalAffinityScore: 0, // 최종 호감도 점수 그대로 사용
     );
   }
 }
-
-
 
 Map<String, int> getRejectionScoresByCharacter(Character character) {
   // 캐릭터별 거절 점수표를 반환하는 함수
@@ -147,4 +155,3 @@ Map<String, int> getRejectionScoresByCharacter(Character character) {
       return {};
   }
 }
-

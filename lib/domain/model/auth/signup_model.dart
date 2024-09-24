@@ -1,4 +1,4 @@
-// domain/entities/auth/signup_model.dart
+// domain/model/auth/signup_model.dart
 class SignupModel {
   final String accountId;
   final String name;

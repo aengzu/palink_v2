@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
 import 'package:palink_v2/data/models/ai_response/ai_response.dart';
 import 'package:palink_v2/data/models/mindset/mindset_response.dart';
 import 'package:palink_v2/di/locator.dart';
-import 'package:palink_v2/domain/entities/character/character.dart';
-import 'package:palink_v2/domain/entities/chat/message.dart';
+import 'package:palink_v2/domain/model/character/character.dart';
+import 'package:palink_v2/domain/model/chat/message.dart';
 import 'package:palink_v2/domain/usecase/fetch_chat_history_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_random_mindset_usecase.dart';
 import 'package:palink_v2/domain/usecase/send_user_message_usecase.dart';
@@ -18,9 +17,12 @@ class ChatViewModel extends GetxController {
   final int chatRoomId;
   final Character character;
 
-  final FetchChatHistoryUsecase fetchChatHistoryUsecase = getIt<FetchChatHistoryUsecase>();
-  final SendUserMessageUsecase sendMessageUsecase = getIt<SendUserMessageUsecase>();
-  final GetRandomMindsetUseCase getRandomMindsetUseCase = getIt<GetRandomMindsetUseCase>();
+  final FetchChatHistoryUsecase fetchChatHistoryUsecase =
+      getIt<FetchChatHistoryUsecase>();
+  final SendUserMessageUsecase sendMessageUsecase =
+      getIt<SendUserMessageUsecase>();
+  final GetRandomMindsetUseCase getRandomMindsetUseCase =
+      getIt<GetRandomMindsetUseCase>();
 
   TextEditingController textController = TextEditingController();
   var messages = <Message>[].obs;
@@ -62,7 +64,8 @@ class ChatViewModel extends GetxController {
   Future<void> _loadMessages() async {
     isLoading.value = true;
     try {
-      var loadedMessages = await fetchChatHistoryUsecase.execute(chatRoomId); // 채팅 기록 가져오기
+      var loadedMessages =
+          await fetchChatHistoryUsecase.execute(chatRoomId); // 채팅 기록 가져오기
       messages.value = loadedMessages!.reversed.toList(); // 메시지를 역순으로 리스트에 추가
     } catch (e) {
       print('Failed to load messages: $e');
@@ -76,20 +79,22 @@ class ChatViewModel extends GetxController {
     if (textController.text.isEmpty) return;
     isLoading.value = true;
     try {
-      var userMessage = await sendMessageUsecase.saveUserMessage(textController.text, chatRoomId);
+      var userMessage = await sendMessageUsecase.saveUserMessage(
+          textController.text, chatRoomId);
       if (userMessage != null) {
         messages.insert(0, userMessage); // 사용자 메시지를 리스트에 추가
       }
 
-
-      var responseMap = await sendMessageUsecase.generateAIResponse(chatRoomId, character, getUnachievedQuests());
+      var responseMap = await sendMessageUsecase.generateAIResponse(
+          chatRoomId, character, getUnachievedQuests());
 
       aiResponse = responseMap['aiResponse'] as AIResponse;
       isEnd = responseMap['isEnd'] as bool;
       messageId = responseMap['messageId'] as int?;
 
       if (responseMap.isNotEmpty) {
-        Message? aiMessage = convertAIResponseToMessage(aiResponse!, messageId.toString());
+        Message? aiMessage =
+            convertAIResponseToMessage(aiResponse!, messageId.toString());
         if (aiMessage != null) {
           messages.insert(0, aiMessage); // AI 응답 메시지를 리스트에 추가
         }
@@ -108,25 +113,29 @@ class ChatViewModel extends GetxController {
     }
   }
 
-
   // AIResponse를 Message로 변환하는 메서드
   Message? convertAIResponseToMessage(AIResponse aiResponse, String messageId) {
     return Message(
-        sender: false,
-        messageText: aiResponse.text,
-        timestamp: DateTime.now().toIso8601String(),
-        affinityScore: 50 + aiResponse.affinityScore, // 매핑
-        rejectionScore: aiResponse.rejectionScore,
-        id: messageId, // 매핑
+      sender: false,
+      messageText: aiResponse.text,
+      timestamp: DateTime.now().toIso8601String(),
+      affinityScore: 50 + aiResponse.affinityScore,
+      // 매핑
+      rejectionScore: aiResponse.rejectionScore,
+      id: messageId, // 매핑
     );
   }
 
   // 대화 종료 여부 확인하는 메서드
-  Future<void> _checkIfConversationEnded(AIResponse aiResponse, bool isEnd) async {
+  Future<void> _checkIfConversationEnded(
+      AIResponse aiResponse, bool isEnd) async {
     int requiredChats = _getRequiredChatLimitsForCharacter(character.name);
     debugPrint('Required Chats: ${chatCount.value}');
     // 캐릭터별 제한된 대화 횟수를 넘었거나 AI 응답에서 isEnd가 true일 경우 // 거절 점수 달성 시 대화 종료
-    if (chatCount.value > requiredChats || isEnd || aiResponse.finalRejectionScore < -5 || aiResponse.finalRejectionScore > 7) {
+    if (chatCount.value > requiredChats ||
+        isEnd ||
+        aiResponse.finalRejectionScore < -5 ||
+        aiResponse.finalRejectionScore > 7) {
       var fetchedMindset = await getRandomMindsetUseCase.execute();
       navigateToChatEndScreen(fetchedMindset!);
     }
@@ -136,7 +145,12 @@ class ChatViewModel extends GetxController {
   void navigateToChatEndScreen(MindsetResponse fetchedMindset) {
     Get.off(() => ChatEndLoadingView(
         chatEndLoadingViewModel: Get.put(ChatEndLoadingViewModel(
-            mindset: fetchedMindset,character: character, finalRejectionScore: aiResponse.finalRejectionScore, finalAffinityScore: aiResponse.affinityScore, unachievedQuests: getUnachievedQuests(), conversationId: chatRoomId))));
+            mindset: fetchedMindset,
+            character: character,
+            finalRejectionScore: aiResponse.finalRejectionScore,
+            finalAffinityScore: aiResponse.affinityScore,
+            unachievedQuests: getUnachievedQuests(),
+            conversationId: chatRoomId))));
   }
 
   // 퀘스트 정보를 가져오는 메서드
@@ -152,7 +166,8 @@ class ChatViewModel extends GetxController {
     final index = messages.indexOf(message);
     if (index != -1) {
       final updatedMessages = List<Message>.from(messages); // 새로운 리스트 복사
-      updatedMessages[index] = message.copyWith(reactions: updatedReactions); // 업데이트된 메시지 적용
+      updatedMessages[index] =
+          message.copyWith(reactions: updatedReactions); // 업데이트된 메시지 적용
       messages.value = updatedMessages; // 새로운 리스트로 할당하여 UI 갱신
     }
   }
@@ -206,14 +221,19 @@ class ChatViewModel extends GetxController {
       ),
     );
   }
+
   // 퀘스트 달성을 확인하고 퀘스트 내용을 표시하는 메서드
   Future<void> _handleQuestAchievements(AIResponse aiResponse) async {
-    if (aiResponse.rejectionContent != null && aiResponse.rejectionContent.isNotEmpty) {
-      for (int questIndex = 0; questIndex < questContentMap[character.name]!.length; questIndex++) {
+    if (aiResponse.rejectionContent != null &&
+        aiResponse.rejectionContent.isNotEmpty) {
+      for (int questIndex = 0;
+          questIndex < questContentMap[character.name]!.length;
+          questIndex++) {
         bool isQuestAchieved = _isQuestAchieved(questIndex, aiResponse);
         if (isQuestAchieved && !questStatus[questIndex]) {
           updateQuestStatus(questIndex);
-          String questContent = questContentMap[character.name]?[questIndex] ?? '알 수 없는 퀘스트';
+          String questContent =
+              questContentMap[character.name]?[questIndex] ?? '알 수 없는 퀘스트';
 
           // 퀘스트 달성 메시지 출력
           Get.snackbar(
@@ -232,26 +252,29 @@ class ChatViewModel extends GetxController {
   // 퀘스트 달성 여부를 판단하는 메서드
   bool _isQuestAchieved(int questIndex, AIResponse aiResponse) {
     List<String> rejectionContent = aiResponse.rejectionContent;
-    List<String> questConditions = questConditionMap[character.name]?[questIndex] ?? [];
+    List<String> questConditions =
+        questConditionMap[character.name]?[questIndex] ?? [];
 
     // 퀘스트 1: 대화 횟수 기반 퀘스트 처리
     if (questIndex == 0) {
       int requiredChats = _getRequiredChatLimitsForCharacter(character.name);
       // 제한 대화 횟수보다 적으면서 && 거절 점수가 5점을 넘으면 퀘스트 달성
-      return chatCount.value <= requiredChats && aiResponse.finalRejectionScore > 5;
+      return chatCount.value <= requiredChats &&
+          aiResponse.finalRejectionScore > 5;
     }
 
     // 부정적인 거절 카테고리들
     const negativeRejectionCategories = ["티나는 거짓말", "욕설 또는 인신공격"];
 
     // 거절 카테고리 중 부정적인 카테고리가 포함된 경우 퀘스트 달성 방지
-    if (rejectionContent.any((category) => negativeRejectionCategories.contains(category))) {
+    if (rejectionContent
+        .any((category) => negativeRejectionCategories.contains(category))) {
       return false;
     }
 
-
     // 퀘스트 달성 조건 중 하나라도 만족하면 true 반환
-    return questConditions.any((condition) => rejectionContent.contains(condition));
+    return questConditions
+        .any((condition) => rejectionContent.contains(condition));
   }
 
   // 캐릭터별 퀘스트 내용을 정의한 맵
@@ -289,32 +312,32 @@ class ChatViewModel extends GetxController {
   // 캐릭터별 퀘스트 조건을 정의한 맵 (거절 카테고리와 매핑)
   final Map<String, List<List<String>>> questConditionMap = {
     '미연': [
-      [],  // 퀘스트 1: 10회 안에 거절 성공하기 (특정 거절 카테고리 없음)
-      ['부탁 내용 확인'],  // 퀘스트 2: 상대방이 처한 상황을 파악하기 위한 대화 시도하기
-      ['아쉬움 표현', '도와주고 싶은 마음 표현', '상황에 대한 공감'],  // 퀘스트 3: 감정에 대한 공감 표현
-      ['거절해야 하는 상황 설명'],  // 퀘스트 4: 도와주지 못하는 이유 제시
-      ['대안 제시'],  // 퀘스트 5: 서로 양보해서 절충안 찾기
+      [], // 퀘스트 1: 10회 안에 거절 성공하기 (특정 거절 카테고리 없음)
+      ['부탁 내용 확인'], // 퀘스트 2: 상대방이 처한 상황을 파악하기 위한 대화 시도하기
+      ['아쉬움 표현', '도와주고 싶은 마음 표현', '상황에 대한 공감'], // 퀘스트 3: 감정에 대한 공감 표현
+      ['거절해야 하는 상황 설명'], // 퀘스트 4: 도와주지 못하는 이유 제시
+      ['대안 제시'], // 퀘스트 5: 서로 양보해서 절충안 찾기
     ],
     '세진': [
-      [],  // 퀘스트 1: 8회 안에 거절 성공하기
-      ['과거 배려에 대한 감사함 표시'],  // 퀘스트 2: 감사 표현하기
-      ['수락하지 못함에 대한 아쉬움 표현'],  // 퀘스트 3: 감정적인 요소 포함하여 거절
-      ['이유 있는 거절', '거절해야 하는 상황 설명'],  // 퀘스트 4: 이유 있는 거절 제시
-      ['대안 제시'],  // 퀘스트 5: 타협안 제시
+      [], // 퀘스트 1: 8회 안에 거절 성공하기
+      ['과거 배려에 대한 감사함 표시'], // 퀘스트 2: 감사 표현하기
+      ['수락하지 못함에 대한 아쉬움 표현'], // 퀘스트 3: 감정적인 요소 포함하여 거절
+      ['이유 있는 거절', '거절해야 하는 상황 설명'], // 퀘스트 4: 이유 있는 거절 제시
+      ['대안 제시'], // 퀘스트 5: 타협안 제시
     ],
     '현아': [
-      [],  // 퀘스트 1: 7회 안에 거절 성공하기
-      ['시간 제한'],  // 퀘스트 2: 시간 제한을 두고 거절
-      ['상황에 대한 공감'],  // 퀘스트 3: 존중 표현
-      ['이유 있는 거절'],  // 퀘스트 4: 이유 있는 거절 제시
-      ['반복된 요청에 재차 단호한 거절'],  // 퀘스트 5: 집요한 요청에 대한 의사 표현
+      [], // 퀘스트 1: 7회 안에 거절 성공하기
+      ['시간 제한'], // 퀘스트 2: 시간 제한을 두고 거절
+      ['상황에 대한 공감'], // 퀘스트 3: 존중 표현
+      ['이유 있는 거절'], // 퀘스트 4: 이유 있는 거절 제시
+      ['반복된 요청에 재차 단호한 거절'], // 퀘스트 5: 집요한 요청에 대한 의사 표현
     ],
     '진혁': [
-      [],  // 퀘스트 1: 6회 안에 거절 성공하기
-      ['단호한 거절'],  // 퀘스트 2: 타협하지 않기
-      ['이유 있는 거절'],  // 퀘스트 3: 논리적 근거 제시하기
-      ['반복된 요청에 재차 단호한 거절'],  // 퀘스트 4: 일관성 있게 주장 유지하기
-      ['명확한 경계 설정'],  // 퀘스트 5: 무례에 대한 불편함 명확히 표현하기
+      [], // 퀘스트 1: 6회 안에 거절 성공하기
+      ['단호한 거절'], // 퀘스트 2: 타협하지 않기
+      ['이유 있는 거절'], // 퀘스트 3: 논리적 근거 제시하기
+      ['반복된 요청에 재차 단호한 거절'], // 퀘스트 4: 일관성 있게 주장 유지하기
+      ['명확한 경계 설정'], // 퀘스트 5: 무례에 대한 불편함 명확히 표현하기
     ],
   };
 
@@ -323,7 +346,8 @@ class ChatViewModel extends GetxController {
     List<String> unachievedQuests = [];
     for (int i = 0; i < questStatus.length; i++) {
       if (!questStatus[i]) {
-        unachievedQuests.add(questContentMap[character.name]?[i] ?? '알 수 없는 퀘스트');
+        unachievedQuests
+            .add(questContentMap[character.name]?[i] ?? '알 수 없는 퀘스트');
       }
     }
     return unachievedQuests;
@@ -335,11 +359,11 @@ class ChatViewModel extends GetxController {
       case '미연':
         return 9; // 미연은 10회 대화 제한
       case '세진':
-        return 8;  // 세진은 8회 대화 제한
+        return 8; // 세진은 8회 대화 제한
       case '현아':
-        return 7;  // 현아는 7회 대화 제한
+        return 7; // 현아는 7회 대화 제한
       case '진혁':
-        return 6;  // 진혁은 6회 대화 제한
+        return 6; // 진혁은 6회 대화 제한
       default:
         return 0;
     }

@@ -1,6 +1,4 @@
-
-
-import 'package:palink_v2/domain/entities/character/character_quest.dart';
+import 'package:palink_v2/domain/model/character/character_quest.dart';
 
 abstract class CharacterQuestRepository {
   Future<List<CharacterQuest>> getAllCharacterQuests();
