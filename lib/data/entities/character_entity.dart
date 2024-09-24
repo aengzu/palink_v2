@@ -1,4 +1,4 @@
-// data/entities/character_entity.dart
+// data/model/character_entity.dart
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'characters')

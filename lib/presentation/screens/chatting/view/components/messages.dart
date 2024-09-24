@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_reactions/flutter_chat_reactions.dart';
 import 'package:flutter_chat_reactions/utilities/hero_dialog_route.dart';
-import 'package:palink_v2/domain/entities/chat/message.dart';
-import 'package:palink_v2/domain/entities/likability/liking_level.dart';
+import 'package:palink_v2/domain/model/chat/message.dart';
 import 'chat_bubble.dart';
 
 class Messages extends StatelessWidget {

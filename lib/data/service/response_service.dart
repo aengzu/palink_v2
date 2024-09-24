@@ -29,8 +29,8 @@ class ResponseService {
       apiKey: apiKey,
       defaultOptions: const ChatOpenAIOptions(
         temperature: 0.8,
-        model: 'gpt-4-turbo',
-        maxTokens: 200,
+        model: 'gpt-4o-mini',
+        maxTokens: 80,
       ),
     );
 
@@ -80,6 +80,7 @@ class ResponseService {
           'input': messageRequest.userMessage!,
           'chatHistory': messageRequest.chatHistory!,
       };
+
 
       // Invoke the chat chain
       final result = await chatChain.invoke(input);

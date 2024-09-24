@@ -19,3 +19,4 @@ class ConversationResponse {
   factory ConversationResponse.fromJson(Map<String, dynamic> json) => _$ConversationResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ConversationResponseToJson(this);
 }
+

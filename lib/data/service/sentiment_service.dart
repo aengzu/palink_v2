@@ -15,8 +15,8 @@ class SentimentService {
       apiKey: dotenv.env['API_KEY']!,
       defaultOptions: const ChatOpenAIOptions(
         temperature: 0.6,
-        model: 'gpt-3.5-turbo',
-        maxTokens: 200,
+        model: 'gpt-4o-mini',
+        maxTokens: 50,
       ),
     );
 
@@ -31,7 +31,7 @@ class SentimentService {
       user : {userMessage}
 
       [출력]
-      - 출력은 'feeling' 과 'likability' 의 json 객체입니다.
+      - 출력은 'feeling' 과 'likability' 의 json 객체입니다. (\```json 로 시작하는 문자열을 생성하지 마세요. 전체는 30자 이내로 출력되어야합니다.)
       - 'feeling' : 기쁨, 슬픔, 분노, 불안, 놀람, 혐오, 중립, 사랑 중 100% 중 구성된 모든 감정들을 나열합니다. 감정의 구분은 ','로 나타냅니다. (string) (ex) 기쁨 60, 중립 40) (string)
       - 'likability' : 9, 3, -9, -15 중 하나의 값으로 나타남 (int)
 

@@ -1,7 +1,7 @@
 import 'package:palink_v2/data/models/chat/conversation_response.dart';
 
 class Conversation {
-  String day;
+  DateTime day;
   int userId;
   int characterId;
   int conversationId;
@@ -17,7 +17,7 @@ class Conversation {
   factory Conversation.fromResponse(ConversationResponse response) {
     return Conversation(
       conversationId: response.conversationId,
-      day: response.day,
+      day: DateTime.parse(response.day),
       userId: response.userId,
       characterId: response.characterId,
     );

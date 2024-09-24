@@ -15,8 +15,8 @@ class RejectionService {
       apiKey: dotenv.env['API_KEY']!,
       defaultOptions: const ChatOpenAIOptions(
         temperature: 0.4,
-        model: 'gpt-3.5-turbo',
-        maxTokens: 200,
+        model: 'gpt-4o-mini',
+        maxTokens: 50,
       ),
     );
 
@@ -53,7 +53,7 @@ class RejectionService {
 
       [출력 형식]
       거절 카테고리를 리스트로 반환하세요. 출력은 다음과 같은 형식으로 반환됩니다: 
-      - 출력은 'rejectionContent' 의 json 객체입니다.
+      - 출력은 'rejectionContent' 의 json 객체입니다. (\```json 로 시작하는 문자열을 생성하지 마세요. 전체는 50자 이내로 출력되어야합니다.)
       - 'rejectionContent' 는 ["거절 카테고리1", "거절 카테고리2", ..] 등의 string 리스트입니다.
     ''');
 

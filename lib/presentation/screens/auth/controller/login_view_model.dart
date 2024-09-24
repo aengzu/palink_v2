@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
-import 'package:palink_v2/domain/entities/auth/login_model.dart';
-import 'package:palink_v2/domain/entities/user/user.dart';
+import 'package:palink_v2/domain/model/auth/login_model.dart';
+import 'package:palink_v2/domain/model/user/user.dart';
 import 'package:palink_v2/domain/usecase/login_usecase.dart';
 import 'package:palink_v2/presentation/screens/main_screens.dart';
 
@@ -22,7 +21,8 @@ class LoginViewModel extends GetxController {
     errorMessage.value = '';
 
     try {
-      final result = await loginUseCase.execute(LoginModel(accountId: accountId, password: password));
+      final result = await loginUseCase
+          .execute(LoginModel(accountId: accountId, password: password));
       if (result != null) {
         user.value = result;
         Get.off(() => const MainScreens());
@@ -30,7 +30,7 @@ class LoginViewModel extends GetxController {
         _showError('로그인에 실패했습니다.');
       }
     } catch (e) {
-        _showError('로그인에 실패했습니다. $e');
+      _showError('로그인에 실패했습니다. $e');
     } finally {
       isLoading.value = false;
     }

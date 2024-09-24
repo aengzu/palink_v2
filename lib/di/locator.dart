@@ -40,6 +40,7 @@ import 'package:palink_v2/domain/usecase/generate_initial_message_usecase.dart';
 import 'package:palink_v2/domain/usecase/generate_response_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_ai_message_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_ai_messages_usecase.dart';
+import 'package:palink_v2/domain/usecase/get_chatroom_by_user.dart';
 import 'package:palink_v2/domain/usecase/get_random_mindset_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_user_info_usecase.dart';
 import 'package:palink_v2/domain/usecase/save_feedback_usecase.dart';
@@ -49,6 +50,7 @@ import 'package:palink_v2/presentation/screens/auth/controller/login_view_model.
 import 'package:palink_v2/presentation/screens/auth/controller/signup_view_model.dart';
 import 'package:palink_v2/presentation/screens/character_select/controller/character_select_viewmodel.dart';
 import 'package:palink_v2/presentation/screens/chatting/controller/tip_viewmodel.dart';
+import 'package:palink_v2/presentation/screens/mypage/controller/myfeedbacks_viewmodel.dart';
 import 'package:palink_v2/presentation/screens/mypage/controller/mypage_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/repository/mindset_repositoryImpl.dart';
@@ -137,6 +139,7 @@ void _setupUseCases() {
   getIt.registerFactory<GetAIMessagesUsecase>(() => GetAIMessagesUsecase());
   getIt.registerFactory<GetAIMessageUsecase>(() => GetAIMessageUsecase());
   getIt.registerFactory<SaveFeedbackUseCase>(() => SaveFeedbackUseCase());
+  getIt.registerFactory<GetChatroomByUser>(() => GetChatroomByUser(getIt<ChatRepository>(), getIt<UserRepository>()));
 
 
 }
@@ -147,6 +150,7 @@ void _setupViewModels() {
   getIt.registerFactory<MypageViewModel>(() => MypageViewModel(getUserInfoUseCase: getIt<GetUserInfoUseCase>()));
   getIt.registerLazySingleton<CharacterSelectViewModel>(() => CharacterSelectViewModel(fetchCharactersUsecase: getIt<FetchCharactersUsecase>()));
   getIt.registerFactory<TipViewModel>(() => TipViewModel());
+  getIt.registerFactory<MyfeedbacksViewmodel>(() => MyfeedbacksViewmodel());
 }
 
 Future<AppDatabase> _setupDatabase() async {

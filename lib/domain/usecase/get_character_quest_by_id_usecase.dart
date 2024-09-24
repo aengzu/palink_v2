@@ -1,5 +1,4 @@
-
-import 'package:palink_v2/domain/entities/character/character_quest.dart';
+import 'package:palink_v2/domain/model/character/character_quest.dart';
 import 'package:palink_v2/domain/repository/character_quest_repository.dart';
 
 class GetCharacterQuestsByIdUsecase {

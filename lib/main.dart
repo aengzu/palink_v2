@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:palink_v2/domain/entities/user/user.dart';
+import 'package:palink_v2/domain/model/user/user.dart';
 import 'package:palink_v2/domain/usecase/login_usecase.dart';
 import 'package:palink_v2/presentation/screens/auth/view/login_view.dart';
 import 'package:palink_v2/presentation/screens/main_screens.dart';

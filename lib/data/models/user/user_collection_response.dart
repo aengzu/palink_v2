@@ -1,4 +1,4 @@
-// data/entities/user_response.dart
+// data/model/user_response.dart
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_collection_response.g.dart';

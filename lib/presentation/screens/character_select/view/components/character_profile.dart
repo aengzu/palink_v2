@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
-import 'package:palink_v2/domain/entities/character/character.dart';
+import 'package:palink_v2/domain/model/character/character.dart';
 import 'package:sizing/sizing.dart';
 
 import '../../controller/character_select_viewmodel.dart';

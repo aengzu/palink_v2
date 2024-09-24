@@ -1,4 +1,4 @@
-// domain/entities/auth/login_model.dart
+// domain/model/auth/login_model.dart
 class LoginModel {
   final String accountId;
   final String password;
