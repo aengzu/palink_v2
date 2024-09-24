@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:palink_v2/domain/model/analysis/feedback.dart';
 
 part 'feedback_response.g.dart';
 
@@ -20,4 +21,14 @@ class FeedbackResponse {
 
   factory FeedbackResponse.fromJson(Map<String, dynamic> json) => _$FeedbackResponseFromJson(json);
   Map<String, dynamic> toJson() => _$FeedbackResponseToJson(this);
+
+  // FeedbackResponse를 도메인 모델인 Feedback으로 변환하는 메서드
+  Feedback toDomain() {
+    return Feedback(
+      conversationId: conversationId,
+      feedbackText: feedbackText,
+      finalLikingLevel: finalLikingLevel,
+      totalRejectionScore: totalRejectionScore,
+    );
+  }
 }
