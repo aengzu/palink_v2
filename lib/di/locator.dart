@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
-import 'package:langchain/langchain.dart';
-import 'package:langchain_openai/langchain_openai.dart';
 import 'package:palink_v2/core/constants/app_images.dart';
 import 'package:palink_v2/core/constants/persona_prompts.dart';
 import 'package:palink_v2/data/api/auth/auth_api.dart';
@@ -41,6 +39,7 @@ import 'package:palink_v2/domain/usecase/generate_response_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_ai_message_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_ai_messages_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_chatroom_by_user.dart';
+import 'package:palink_v2/domain/usecase/get_feedback_by_conversation_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_random_mindset_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_user_info_usecase.dart';
 import 'package:palink_v2/domain/usecase/save_feedback_usecase.dart';
@@ -50,6 +49,7 @@ import 'package:palink_v2/presentation/screens/auth/controller/login_view_model.
 import 'package:palink_v2/presentation/screens/auth/controller/signup_view_model.dart';
 import 'package:palink_v2/presentation/screens/character_select/controller/character_select_viewmodel.dart';
 import 'package:palink_v2/presentation/screens/chatting/controller/tip_viewmodel.dart';
+import 'package:palink_v2/presentation/screens/mypage/controller/feedback_history_viewmodel.dart';
 import 'package:palink_v2/presentation/screens/mypage/controller/myfeedbacks_viewmodel.dart';
 import 'package:palink_v2/presentation/screens/mypage/controller/mypage_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -140,8 +140,7 @@ void _setupUseCases() {
   getIt.registerFactory<GetAIMessageUsecase>(() => GetAIMessageUsecase());
   getIt.registerFactory<SaveFeedbackUseCase>(() => SaveFeedbackUseCase());
   getIt.registerFactory<GetChatroomByUser>(() => GetChatroomByUser(getIt<ChatRepository>(), getIt<UserRepository>()));
-
-
+  getIt.registerFactory<GetFeedbackByConversationUsecase>(() => GetFeedbackByConversationUsecase(getIt<FeedbackRepository>()));
 }
 
 void _setupViewModels() {

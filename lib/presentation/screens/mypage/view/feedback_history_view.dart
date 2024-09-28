@@ -1,0 +1,141 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:palink_v2/core/theme/app_colors.dart';
+import 'package:palink_v2/domain/model/character/character.dart';
+import 'package:palink_v2/presentation/screens/chatting/view/components/liking_bar.dart';
+import 'package:palink_v2/presentation/screens/common/appbar_perferred_size.dart';
+import 'package:palink_v2/presentation/screens/common/custom_btn.dart';
+import 'package:palink_v2/presentation/screens/main_screens.dart';
+import 'package:palink_v2/presentation/screens/mypage/controller/feedback_history_viewmodel.dart';
+import 'package:sizing/sizing.dart';
+
+class FeedbackHistoryView extends StatelessWidget {
+  final int chatroomId;
+  final FeedbackHistoryViewModel viewModel;
+  final Character character;
+
+  FeedbackHistoryView({required this.chatroomId, required this.character})
+      : viewModel = Get.put(FeedbackHistoryViewModel(chatroomId: chatroomId));
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Text('대화 최종 피드백'),
+        bottom: appBarBottomLine(),
+      ),
+      body: Obx(() {
+        // 피드백이 없는 경우
+        if (viewModel.feedbackNotFound.value) {
+          return const Center(
+            child: Text(
+              '피드백이 저장되지 않았습니다.',
+              style: TextStyle(fontSize: 18, color: Colors.grey),
+            ),
+          );
+        }
+
+        // 피드백 데이터가 로드되지 않은 경우
+        if (viewModel.feedback == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return Column(
+          children: [
+            SizedBox(
+              height: 0.8.sh, // 화면 높이의 75%
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      '평가',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    _buildProfileImage(),
+                    SizedBox(height: 0.045.sh),
+                    Container(
+                      padding: const EdgeInsets.all(15.0),
+                      width: 0.9.sw,
+                      color: AppColors.lightBlue,
+                      child: Text(
+                        viewModel.feedback!.feedbackText ?? '피드백 내용이 없습니다.',
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    SizedBox(height: 0.03.sh),
+                    const Text(
+                      '최종 호감도',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    LikingBar(viewModel.feedback!.finalLikingLevel),
+                    Text(
+                        '최종 호감도 ${viewModel.feedback!.finalLikingLevel}점'),
+                    SizedBox(height: 0.05.sh),
+                    const Text(
+                      '최종 거절 점수',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    Text('${viewModel.feedback!.totalRejectionScore}점'),
+                    SizedBox(height: 0.05.sh),
+                    CustomButton(
+                        label: '홈 화면으로',
+                        onPressed: () {
+                          Get.off(() => MainScreens());
+                        })
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      }),
+    );
+  }
+
+  // 프로필 이미지 표시, character가 null일 경우 대체 이미지 보여주기
+  Widget _buildProfileImage() {
+    if (character == null || character!.image == null) {
+      return Container(
+        width: 120,
+        height: 120,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade300, // 기본 회색 배경
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Icon(
+          Icons.person,
+          size: 80,
+          color: Colors.white,
+        ), // 기본 아이콘
+      );
+    }
+
+    // character가 null이 아니면 이미지 표시
+    return Container(
+      padding: const EdgeInsets.all(10),
+      width: 120,
+      height: 120,
+      child: Image.asset(character.image ?? ''),
+    );
+  }
+
+  // 쉼표로 구분된 문자열을 줄바꿈과 번호로 포맷하는 메서드
+  String _formatAsList(String commaSeparatedString) {
+    final items =
+        commaSeparatedString.split(',').map((item) => item.trim()).toList();
+    return items
+        .asMap()
+        .entries
+        .map((entry) => '${entry.key + 1}. ${entry.value}')
+        .join('\n');
+  }
+}

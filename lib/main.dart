@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:palink_v2/domain/model/user/user.dart';
 import 'package:palink_v2/domain/usecase/login_usecase.dart';
 import 'package:palink_v2/presentation/screens/auth/view/login_view.dart';
+import 'package:palink_v2/presentation/screens/chatting/view/quest_sample.dart';
 import 'package:palink_v2/presentation/screens/main_screens.dart';
 import 'package:sizing/sizing.dart';
 

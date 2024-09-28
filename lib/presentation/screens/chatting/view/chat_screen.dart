@@ -40,13 +40,14 @@ class ChatScreen extends StatelessWidget {
         backgroundColor: Colors.white, // 기본 배경색 = 하얀색
         appBar: AppBar(
           toolbarHeight: 0.1.sh,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey[100],
           title: ProfileSection(
             imagePath: viewModel.character.image,
             characterName: viewModel.character.name,
             questStatus: viewModel.questStatus,
             onProfileTapped: () =>
                 showQuestPopup(context), // 프로필 클릭 시 퀘스트 팝업 표시,
+            unachievedQuests: viewModel.getUnachievedQuests(),
           ),
           centerTitle: true,
           elevation: 0,
@@ -181,6 +182,9 @@ class ChatScreen extends StatelessWidget {
     if (!_isDialogOpen) {
       _isDialogOpen = true;
       final questInfo = await viewModel.getQuestInformation();
+      // questInfo를 '\n'을 기준으로 분리하여 리스트로 변환
+      List<String> questItems = questInfo.split('\n');
+
       await Get.dialog(
         Dialog(
           backgroundColor: Colors.white,
@@ -189,7 +193,7 @@ class ChatScreen extends StatelessWidget {
           ),
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+            const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -203,9 +207,18 @@ class ChatScreen extends StatelessWidget {
                   style: textTheme().bodySmall,
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  questInfo,
-                  style: textTheme().bodyMedium,
+                // questItems 리스트를 순회하며 각각 Text 위젯을 추가하고 사이에 SizedBox로 간격 추가
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: questInfo.split('\n').map((quest) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 6.0), // 각 항목 사이에 간격 추가
+                      child: Text(
+                        quest,
+                        style: textTheme().bodyMedium,
+                      ),
+                    );
+                  }).toList(),
                 ),
                 const SizedBox(height: 30),
                 CustomButtonMD(
@@ -223,4 +236,5 @@ class ChatScreen extends StatelessWidget {
       });
     }
   }
+
 }
