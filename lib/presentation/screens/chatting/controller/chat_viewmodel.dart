@@ -201,13 +201,21 @@ class ChatViewModel extends GetxController {
               ),
               const SizedBox(height: 20),
               Text(
-                '퀘스트는 프로필 상단 우측에 표시됩니다.\n퀘스트를 달성하면 퀘스트 아이콘 옆에 체크 표시가 나타납니다.\n퀘스트를 확인하고 싶다면 프로필을 클릭하세요',
+                '퀘스트는 프로필 상단 우측에 표시됩니다.\n퀘스트를 확인하고 싶다면 프로필 상단 우측을 클릭하세요',
                 style: textTheme().bodySmall,
               ),
               const SizedBox(height: 10),
-              Text(
-                questInfo,
-                style: textTheme().bodyMedium,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: questInfo.split('\n').map((quest) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 6.0), // 각 항목 사이에 간격 추가
+                    child: Text(
+                      quest,
+                      style: textTheme().bodyMedium,
+                    ),
+                  );
+                }).toList(),
               ),
               const SizedBox(height: 30),
               CustomButtonMD(
@@ -243,7 +251,7 @@ class ChatViewModel extends GetxController {
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.blue[700],
             colorText: Colors.white,
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
           );
         }
       }
@@ -281,28 +289,28 @@ class ChatViewModel extends GetxController {
   // 캐릭터별 퀘스트 내용을 정의한 맵
   final Map<String, List<String>> questContentMap = {
     '미연': [
-      '10회 안에 거절 성공하기',
-      '상대방이 처한 상황을 파악하기 위한 대화 시도하기',
-      '상대방의 감정에 대한 공감 표현하기',
-      '도와주지 못하는 합리적인 이유 제시하기',
-      '서로 양보해서 절충안 찾아보기',
+      '10회 안에 거절 성공',
+      '상대방이 처한 상황을 파악하기 위한 대화 시도',
+      '상대방의 감정에 대한 공감 표현 하기',
+      '도와주지 못하는 합리적인 이유 제시',
+      '서로 양보해서 절충안 찾기',
     ],
     '세진': [
-      '8회 안에 거절 성공하기',
+      '8회 안에 거절 성공',
       '이전 도움에 대한 감사 표현하기',
       '감정적인 요소를 포함하여 거절하기',
-      '도와주지 못하는 합리적인 이유 제시하기',
-      '서로 양보해서 절충안 찾아보기',
+      '도와주지 못하는 합리적인 이유 제시',
+      '서로 양보해서 절충안 찾기',
     ],
     '현아': [
-      '7회 안에 거절 성공하기',
+      '7회 안에 거절 성공',
       '시간 제한을 두고 거절하기',
       '상대방의 부탁에 대해 존중 표현하기',
-      '도와주지 못하는 합리적인 이유 제시하기',
+      '도와주지 못하는 합리적인 이유 제시',
       '집요한 요청에 대한 의사 표현하기',
     ],
     '진혁': [
-      '6회 안에 거절 성공하기',
+      '6회 안에 거절 성공',
       '거절 의사 명확히 표현하기',
       '상대방의 욕구를 고려하지 않는 대화 전략 사용하기',
       '상대방에게 감정적으로 대하지 않기',
@@ -345,7 +353,7 @@ class ChatViewModel extends GetxController {
   // 미달성 퀘스트 리스트를 반환하는 메서드
   List<String> getUnachievedQuests() {
     List<String> unachievedQuests = [];
-    for (int i = 0; i < questStatus.length; i++) {
+    for (int i = 1; i < questStatus.length; i++) {
       if (!questStatus[i]) {
         unachievedQuests
             .add(questContentMap[character.name]?[i] ?? '알 수 없는 퀘스트');

@@ -22,7 +22,7 @@ class GenerateTipUsecase {
     if (tipResponse != null) {
       // answer와 reason을 결합하여 하나의 문자열로 만들기
       String combinedTipText =
-          '${tipResponse.answer}\n 이유: ${tipResponse.reason}';
+          '${tipResponse.answer}';
       // TipRepository를 통해 팁 저장
       tipRepository.createTip(
         TipCreateRequest(
