@@ -53,9 +53,11 @@ class RejectionService {
 
       [출력 형식]
       거절 카테고리를 리스트로 반환하세요. 출력은 다음과 같은 형식으로 반환됩니다: 
-      - 출력은 'rejectionContent' 의 json 객체입니다. (\```json 로 시작하는 문자열을 생성하지 마세요. 전체는 50자 이내로 출력되어야합니다.)
-      - 'rejectionContent' 는 ["거절 카테고리1", "거절 카테고리2"] 등의 string 리스트입니다.
+      - 출력은 'rejectionContent' 의 JSON객체입니다. (전체는 50자 이내로 출력되어야합니다.)
+      - 'rejectionContent' 는 ["거절 카테고리1", "거절 카테고리2"] 등의 string 리스트입니다. 리스트에 포함되는 카테고리 개수는 0-1개입니다. 아무 카테고리에도 속하지 않는다면 rejectionContent는 빈 리스트입니다.
+    "rejectionContent": [] 을 JSON 객체로 반환하세요. ( 절대로 \'''json로 시작하는 문자열을 생성하지 않는다.)
     ''');
+
 
     final rejectionJudgmentChain = LLMChain(
       prompt: rejectionPrompt,

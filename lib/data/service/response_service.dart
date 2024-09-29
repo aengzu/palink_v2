@@ -30,7 +30,7 @@ class ResponseService {
       defaultOptions: const ChatOpenAIOptions(
         temperature: 0.8,
         model: 'gpt-4o-mini',
-        maxTokens: 80,
+        maxTokens: 100,
       ),
     );
 
@@ -54,7 +54,7 @@ class ResponseService {
         - 맥락을 유지하며 {userName}의 마지막 말에 대한 대답을 리턴해주세요. 당신은 이전에 당신이 했던 말을 그대로 반복하지 않습니다.
         - 이전에 부탁을 했다면 해당 맥락을 기억하며 대화를 해야합니다. 새로운 부탁이 아닌 해당 부탁을 이어주세요.
         - 대화 기록이 비어있다면 부탁을 요청하면서 대화를 시작하세요. 
-        - 'message'는 50자 이내로 출력하세요.
+        - 'message'는 80자 이내로 출력하세요.
         
         [대화기록]
         - {chatHistory}
