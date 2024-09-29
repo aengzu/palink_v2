@@ -12,7 +12,7 @@ class ProfileSection extends StatelessWidget {
   final String characterName;
   final RxList<bool> questStatus;
   final Function onProfileTapped; // 다이얼로그를 여는 함수
-  final List<String> unachievedQuests; // 미달성 퀘스트 리스트 추가
+  final RxList<String> unachievedQuests;
 
   ProfileSection({
     required this.imagePath,
@@ -32,7 +32,7 @@ class ProfileSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  QuestBox(questText: getCurrentQuest()), // 현재 퀘스트 표시
+                  Obx(() => QuestBox(questText: getCurrentQuest())), // 상태 변화를 감지하여 업데이트
                 ],
               ),
             ),

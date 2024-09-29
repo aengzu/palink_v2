@@ -31,7 +31,7 @@ class QuestSample extends StatelessWidget {
             questStatus: [false, true, false, false, false].obs,
             onProfileTapped: () =>
                 showQuestPopup(context), // 프로필 클릭 시 퀘스트 팝업 표시,
-            unachievedQuests: ['상대방이 처한 상황을 파악하기 위한 대화 시도', '이것은 미달성된 퀘스트이에요 가나다라마바사아자차가', '퀘스트3'],
+            unachievedQuests: ['상대방이 처한 상황을 파악하기 위한 대화 시도', '이것은 미달성된 퀘스트이에요 가나다라마바사아자차가', '퀘스트3'].obs,
           ),
           centerTitle: true,
           elevation: 0,

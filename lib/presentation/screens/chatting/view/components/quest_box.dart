@@ -4,7 +4,7 @@ import 'package:palink_v2/core/theme/app_colors.dart';
 class QuestBox extends StatelessWidget {
   final String questText;
 
-  QuestBox({super.key, required this.questText});
+  const QuestBox({super.key, required this.questText});
 
   @override
   Widget build(BuildContext context) {

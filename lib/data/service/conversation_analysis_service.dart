@@ -23,7 +23,7 @@ class ConversationAnalysisService {
       defaultOptions: const ChatOpenAIOptions(
         temperature: 0.8,
         model: "gpt-4o-mini",
-        maxTokens: 300,
+        maxTokens: 320,
       ),
     );
 
@@ -41,11 +41,11 @@ class ConversationAnalysisService {
 
 답변으로 'evaluation'(string), 'usedRejection'(string) 을 반드시 JSON 객체로 리턴하세요. (\```json 로 시작하는 문자열을 생성하지 마세요. 전체는 260자 이내로 출력되어야합니다.)
       
- 'evaluation'은 사용자의 대화 능력을 AI의 입장에서 180자 이내로 평가한 문자열입니다. (string)
+ 'evaluation'은 사용자의 대화 능력을 AI의 입장에서 200자 이내로 평가한 문자열입니다. (string)
  'evalution' 은 사용자의 대화능력을 평가할 뿐 아니라 사용자의 대화 능력을 개선할 수 있는 피드백을 제공해야합니다. 
- 대화 기록에서 인용할 만한 텍스트가 있다면 직접적으로 인용하여 지적 및 칭찬을 해주세요.  또한, 대화 기록에서 사용자의 말이 character 의 감정을 상하게 할 부분이 있거나,  
+ 대화 기록에서 인용할 만한 텍스트가 있다면 직접적으로 인용하여 지적 및 칭찬을 해도됩니다.  또한, 대화 기록에서 사용자의 말이 character 의 감정을 상하게 할 부분이 있거나,  
  사용자가 과하게 자기 표현을 못하는 경우에 이를 지적해주세요.
- 미달성된 퀘스트를 보며 사용자에게 조언을 할 수 있습니다.
+ 미달성된 퀘스트를 보며 다음에는 달성을 위해 노력하도록 격려해주세요.
  - 'usedRejection'은 사용자가 대화에서 사용한 거절 방법을 나타내는 문자열입니다. 대화 기록에서 사용한 거절 카테고리를 중복 없이 쉼표로 구별하여 나열해주세요. (,(쉼표)로 구분한 string)
     ''');
 

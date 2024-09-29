@@ -5,6 +5,7 @@ import 'package:palink_v2/core/theme/app_fonts.dart';
 import 'package:palink_v2/domain/model/chat/message.dart';
 import 'package:sizing/sizing.dart';
 import 'package:intl/intl.dart';
+import 'feeling_bar.dart';
 import 'liking_bar.dart';
 
 class ChatBubbles extends StatefulWidget {
@@ -12,6 +13,7 @@ class ChatBubbles extends StatefulWidget {
   final bool isSender;
   final String characterImg;
   final int affinityScore;
+  final String feeling;
   final Function(Message, String) onReactionAdded;
 
   ChatBubbles({
@@ -20,6 +22,7 @@ class ChatBubbles extends StatefulWidget {
     required this.characterImg,
     required this.affinityScore,
     required this.onReactionAdded,
+    required this.feeling,
   });
 
   @override
@@ -60,12 +63,12 @@ class _ChatBubblesState extends State<ChatBubbles> {
       children: [
         if (!widget.isSender)
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(left: 5.0),
+                    margin: const EdgeInsets.only(left: 5.0, top: 8.0),
                     child: CircleAvatar(
                       backgroundColor: Colors.transparent,
                       radius: 30,
@@ -73,6 +76,7 @@ class _ChatBubblesState extends State<ChatBubbles> {
                     ),
                   ),
                   LikingBar(widget.affinityScore),
+                  FeelingBar(feeling: widget.feeling),
                 ],
               ),
               Flexible(
@@ -80,7 +84,7 @@ class _ChatBubblesState extends State<ChatBubbles> {
                   children: [
                     Container(
                         margin: EdgeInsets.only(
-                            top: 10, bottom: 5, right: 0.25.sw, left: 0.05.sw),
+                            right: 0.25.sw, left: 0.05.sw, top: 8.0, bottom: 8.0),
                         padding: EdgeInsets.symmetric(
                             horizontal: 0.04.sw, vertical: 0.011.sh),
                         decoration: BoxDecoration(
@@ -101,7 +105,6 @@ class _ChatBubblesState extends State<ChatBubbles> {
                                 children: [
                                   Text(
                                     timeAgo(widget.message.timestamp),
-                                    // <-- 여기에 적용
                                     style: textTheme().bodySmall?.copyWith(
                                           color: Colors.grey,
                                           fontSize: 11,
@@ -129,7 +132,7 @@ class _ChatBubblesState extends State<ChatBubbles> {
             children: [
               Container(
                 margin: EdgeInsets.only(
-                    top: 10, bottom: 5, right: 0.05.sw, left: 0.33.sw),
+                    top: 8.0, bottom: 8.0, right: 0.05.sw, left: 0.33.sw),
                 padding: EdgeInsets.symmetric(
                     horizontal: 0.05.sw, vertical: 0.01.sh),
                 decoration: BoxDecoration(

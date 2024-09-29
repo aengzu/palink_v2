@@ -6,6 +6,7 @@ class Message {
   int affinityScore;
   List<int> rejectionScore;
   List<String> reactions;
+  String? feeling;
 
 
   Message({
@@ -13,6 +14,7 @@ class Message {
     required this.sender,
     required this.messageText,
     required this.timestamp,
+    this.feeling,
     int? affinityScore,
     List<int>? rejectionScore,
     List<String>? reactions,}) : reactions = reactions ?? [], affinityScore = affinityScore ?? 50, rejectionScore = rejectionScore ?? [];
@@ -26,6 +28,7 @@ class Message {
     int? affinityScore,
     List<int>? rejectionScore,
     List<String>? reactions,
+    String? feeling,
   }) {
     return Message(
       id: id ?? this.id,
@@ -35,7 +38,9 @@ class Message {
       affinityScore: affinityScore ?? this.affinityScore,
       rejectionScore: rejectionScore ?? this.rejectionScore,
       reactions: reactions ?? this.reactions,
+      feeling: feeling ?? this.feeling,
     );
   }
 }
+
 

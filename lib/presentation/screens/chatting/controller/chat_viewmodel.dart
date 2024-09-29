@@ -29,6 +29,7 @@ class ChatViewModel extends GetxController {
   var isLoading = false.obs;
   var questStatus = List<bool>.filled(5, false).obs; // 퀘스트 달성 여부를 나타내는 리스트
   var isQuestPopupShown = false.obs;
+  var unachievedQuests = <String>[].obs;
 
   var aiResponse;
   var isEnd;
@@ -42,9 +43,12 @@ class ChatViewModel extends GetxController {
     required this.character,
   });
 
+
+  // 퀘스트 달성 상태 업데이트
   void updateQuestStatus(int questIndex) {
     if (questIndex >= 0 && questIndex < questStatus.length) {
       questStatus[questIndex] = true;
+      updateUnachievedQuests();
     }
   }
 
@@ -52,6 +56,7 @@ class ChatViewModel extends GetxController {
   void onInit() {
     super.onInit();
     _loadMessages(); // 첫 AI 메시지를 화면에 로드
+    updateUnachievedQuests(); // 미달성 퀘스트 초기화
   }
 
   @override
@@ -120,7 +125,7 @@ class ChatViewModel extends GetxController {
       messageText: aiResponse.text,
       timestamp: DateTime.now().toIso8601String(),
       affinityScore: 50 + aiResponse.affinityScore,
-      // 매핑
+      feeling: aiResponse.feeling,
       rejectionScore: aiResponse.rejectionScore,
       id: messageId, // 매핑
     );
@@ -269,7 +274,7 @@ class ChatViewModel extends GetxController {
       int requiredChats = _getRequiredChatLimitsForCharacter(character.name);
       // 제한 대화 횟수보다 적으면서 && 거절 점수가 5점을 넘으면 퀘스트 달성
       return chatCount.value <= requiredChats &&
-          aiResponse.finalRejectionScore > 7;
+          aiResponse.finalRejectionScore > 10;
     }
 
     // 부정적인 거절 카테고리들
@@ -375,6 +380,16 @@ class ChatViewModel extends GetxController {
         return 6; // 진혁은 6회 대화 제한
       default:
         return 0;
+    }
+  }
+
+  // 미달성 퀘스트 리스트를 업데이트하는 메서드
+  void updateUnachievedQuests() {
+    unachievedQuests.clear(); // 기존 리스트 초기화
+    for (int i = 1; i < questStatus.length; i++) {
+      if (!questStatus[i]) {
+        unachievedQuests.add(questContentMap[character.name]?[i] ?? '알 수 없는 퀘스트');
+      }
     }
   }
 }

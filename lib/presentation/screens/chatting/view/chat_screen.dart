@@ -47,7 +47,7 @@ class ChatScreen extends StatelessWidget {
             questStatus: viewModel.questStatus,
             onProfileTapped: () =>
                 showQuestPopup(context), // 프로필 클릭 시 퀘스트 팝업 표시,
-            unachievedQuests: viewModel.getUnachievedQuests(),
+            unachievedQuests: viewModel.unachievedQuests,
           ),
           centerTitle: true,
           elevation: 0,
@@ -92,7 +92,7 @@ class ChatScreen extends StatelessWidget {
                         ),
                       ),
                     )
-                  : SizedBox.shrink();
+                  : const SizedBox.shrink();
             }),
             Positioned(
               bottom: 110,

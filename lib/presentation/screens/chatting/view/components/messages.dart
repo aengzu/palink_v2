@@ -27,6 +27,7 @@ class Messages extends StatelessWidget {
         itemBuilder: (context, index) {
           final message = messages[index];
           final like = messages[index].affinityScore;
+          final feeling = messages[index].feeling;
           // 첫 번째 메시지인 경우, sender가 true여도 왼쪽에 배치
           final bool isFirstMessage = index == messages.length - 1;
           final isSender = isFirstMessage ? false : message.sender;
@@ -46,6 +47,7 @@ class Messages extends StatelessWidget {
                           isSender: isSender,
                           characterImg: characterImg,
                           affinityScore: like,
+                          feeling: feeling ?? '중립 100',
                           onReactionAdded: (Message msg, String reaction) {
                             onReactionAdded(message, reaction);
                           },
@@ -75,6 +77,7 @@ class Messages extends StatelessWidget {
                 isSender: isSender,
                 characterImg: characterImg,
                 affinityScore: like,
+                feeling: feeling ?? '중립 100',
                 onReactionAdded: (Message msg, String reaction) {
                   onReactionAdded(msg, reaction);
                 },

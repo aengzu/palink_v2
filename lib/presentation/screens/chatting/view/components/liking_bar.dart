@@ -16,7 +16,7 @@ class LikingBar extends StatelessWidget {
           border: Border.all(color: AppColors.pink, width: 1),
           borderRadius: BorderRadius.circular(7),
         ),
-        margin: EdgeInsets.only(bottom: 10, top: 10, left: 5),
+        margin: const EdgeInsets.only(bottom: 2, top: 10, left: 5),
         child: LinearProgressIndicator(
           value: affinityScore / 100,
           backgroundColor: Colors.grey[200],

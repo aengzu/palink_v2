@@ -54,6 +54,7 @@ class FeedbackView extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   LikingBar(50 + viewModel.analysisDto.finalAffinityScore),
+                  const SizedBox(height: 5),
                   Text('최종 호감도 ${50 + viewModel.analysisDto.finalAffinityScore}점'),
                   SizedBox(height: 0.05.sh),
                   const Text(
