@@ -7,6 +7,7 @@ import 'package:palink_v2/presentation/screens/mypage/view/component/profile_sec
 import 'package:palink_v2/presentation/screens/mypage/view/component/user_info_section.dart';
 import 'package:palink_v2/presentation/screens/mypage/view/myfeedbacks_view.dart';
 import '../../common/appbar_perferred_size.dart';
+import 'myconversations_view.dart';
 
 class MypageView extends StatelessWidget {
   final MypageViewModel mypageViewmodel = Get.put(getIt<MypageViewModel>());
@@ -64,14 +65,14 @@ class MypageView extends StatelessWidget {
                   children: [
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      title: const Text('지난 피드백 보러가기'),
-                      onTap: () => Get.to(() => MyfeedbacksView()),
+                      title: const Text('대화 기록 보러가기'),
+                      onTap: () => Get.to(() => MyconversationsView()),
                       trailing: const Icon(Icons.arrow_forward_ios),
                     ),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      title: const Text('내 친구들 보러가기'),
-                      onTap: () => _showComingSoonDialog(context),
+                      title: const Text('지난 피드백 보러가기'),
+                      onTap: () => Get.to(() => MyfeedbacksView()),
                       trailing: const Icon(Icons.arrow_forward_ios),
                     ),
                     ListTile(
