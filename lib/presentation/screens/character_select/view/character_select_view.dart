@@ -58,7 +58,7 @@ class CharacterSelectView extends StatelessWidget {
               child: Obx(() {
                 // characters가 RxList로 선언되어 있으므로 .value 접근 없이 직접 사용
                 if (viewModel.characters.isEmpty) {
-                  return Center(child: Text('No characters available.'));
+                  return const Center(child: Text('No characters available.'));
                 }
                 return CharacterList(characters: viewModel.characters);
               }),

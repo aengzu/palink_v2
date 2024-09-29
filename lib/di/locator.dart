@@ -165,7 +165,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
     CharacterEntity(
       characterId: 1,
       name: '미연',
-      type: '동정유발형',
+      type: '감성형',
       requestStrength: 1,
       prompt: PersonaPrompts.miyeonPersona,
       description: '''미연은 매우 감성적인 타입이에요.💦
@@ -182,7 +182,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
     CharacterEntity(
       characterId: 2,
       name: '세진',
-      type: '은혜갚음형',
+      type: '논리형',
       requestStrength: 2,
       prompt: PersonaPrompts.sejinPersona,
       description: '''세진은 논리적이고 책임감이 강한 타입이에요.⚖️
