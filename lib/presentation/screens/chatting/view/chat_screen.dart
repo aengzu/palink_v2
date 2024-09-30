@@ -46,7 +46,7 @@ class ChatScreen extends StatelessWidget {
             characterName: viewModel.character.name,
             questStatus: viewModel.questStatus,
             onProfileTapped: () =>
-                showQuestPopup(context), // 프로필 클릭 시 퀘스트 팝업 표시,
+                viewModel.showQuestPopup(context), // 프로필 클릭 시 퀘스트 팝업 표시,
             unachievedQuests: viewModel.unachievedQuests,
           ),
           centerTitle: true,
@@ -177,6 +177,7 @@ class ChatScreen extends StatelessWidget {
       );
 
   bool _isDialogOpen = false;
+
 
   void showQuestPopup(BuildContext context) async {
     if (!_isDialogOpen) {

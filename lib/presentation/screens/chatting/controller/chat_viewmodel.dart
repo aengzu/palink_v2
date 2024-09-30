@@ -181,14 +181,18 @@ class ChatViewModel extends GetxController {
   // 대화 첫 진입 시 퀘스트 팝업을 한 번만 띄우는 메서드
   Future<void> showQuestPopupIfFirstTime(BuildContext context) async {
     if (!isQuestPopupShown.value) {
-      await _showQuestPopup(context);
+      await showQuestPopup(context);
       isQuestPopupShown.value = true; // 팝업이 한 번 뜨면 이후에는 뜨지 않도록 설정
     }
   }
 
   // 퀘스트 팝업 표시 메서드
-  Future<void> _showQuestPopup(BuildContext context) async {
+  Future<void> showQuestPopup(BuildContext context) async {
+    // 퀘스트 정보를 가져옵니다.
     final questInfo = await getQuestInformation();
+    // 퀘스트 문자열을 '\n'으로 분리하여 리스트로 변환
+    List<String> questItems = questInfo.split('\n');
+
     await Get.dialog(
       Dialog(
         backgroundColor: Colors.white,
@@ -205,19 +209,37 @@ class ChatViewModel extends GetxController {
                 style: textTheme().titleMedium,
               ),
               const SizedBox(height: 20),
-              Text(
-                '퀘스트는 프로필 상단 우측에 표시됩니다.\n퀘스트를 확인하고 싶다면 프로필 상단 우측을 클릭하세요',
-                style: textTheme().bodySmall,
-              ),
-              const SizedBox(height: 10),
+              // 퀘스트 리스트 표시
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: questInfo.split('\n').map((quest) {
+                children: questItems.map((quest) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 6.0), // 각 항목 사이에 간격 추가
-                    child: Text(
-                      quest,
-                      style: textTheme().bodyMedium,
+                    padding: const EdgeInsets.only(bottom: 6.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          questStatus[questItems.indexOf(quest)] // 해당 퀘스트의 달성 상태 확인
+                              ? Icons.check_box
+                              : Icons.check_box_outline_blank,
+                          color: questStatus[questItems.indexOf(quest)]
+                              ? Colors.blueAccent
+                              : Colors.grey,
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            quest,
+                            maxLines: null, // 최대 줄 수 제한 없음
+                            overflow: TextOverflow.visible, // 넘치는 텍스트를 표시
+                            style: questStatus[questItems.indexOf(quest)]
+                                ? const TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                              color: Colors.black,
+                            )
+                                : const TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }).toList(),
@@ -235,6 +257,7 @@ class ChatViewModel extends GetxController {
       ),
     );
   }
+
 
   // 퀘스트 달성을 확인하고 퀘스트 내용을 표시하는 메서드
   Future<void> _handleQuestAchievements(AIResponse aiResponse) async {

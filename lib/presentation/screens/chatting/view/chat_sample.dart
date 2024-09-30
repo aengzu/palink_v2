@@ -9,6 +9,7 @@ import 'package:palink_v2/presentation/screens/chatting/controller/tip_viewmodel
 import 'package:palink_v2/presentation/screens/chatting/view/components/chat_profile_section.dart';
 import 'package:palink_v2/presentation/screens/common/custom_button_md.dart';
 import 'package:sizing/sizing.dart';
+import '../../../../domain/model/chat/quest.dart';
 import 'components/messages.dart';
 import 'components/tip_button.dart';
 
@@ -133,9 +134,12 @@ class ChatSample extends StatelessWidget {
 
 
   void showQuestPopup(BuildContext context) async {
-    final questInfo = '상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기';
-    // questInfo를 '\n'을 기준으로 분리하여 리스트로 변환
-    List<String> questItems = questInfo.split('\n');
+    // 예시 퀘스트 목록
+    final List<Quest> quests = [
+      Quest(title: '상대방이 처한 상황을 파악하기 위한 대화 시도', isAchieved: true),
+      Quest(title: '미달성된 퀘스트입니다', isAchieved: false),
+      Quest(title: '퀘스트3', isAchieved: false),
+    ];
 
     await Get.dialog(
       Dialog(
@@ -144,8 +148,7 @@ class ChatSample extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Padding(
-          padding:
-          const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -154,20 +157,35 @@ class ChatSample extends StatelessWidget {
                 style: textTheme().titleMedium,
               ),
               const SizedBox(height: 20),
-              Text(
-                '퀘스트는 프로필 상단 우측에 표시됩니다.\n퀘스트를 달성하면 퀘스트 아이콘 옆에 체크 표시가 나타납니다.\n 퀘스트를 확인하고 싶다면 프로필을 클릭하세요',
-                style: textTheme().bodySmall,
-              ),
-              const SizedBox(height: 10),
-              // questItems 리스트를 순회하며 각각 Text 위젯을 추가하고 사이에 SizedBox로 간격 추가
+              // 퀘스트 리스트 표시
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: questInfo.split('\n').map((quest) {
+                children: quests.map((quest) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 6.0), // 각 항목 사이에 간격 추가
-                    child: Text(
-                      quest,
-                      style: textTheme().bodyMedium,
+                    padding: const EdgeInsets.only(bottom: 6.0),
+                    child: Row(
+                      children: [
+                        // 체크 표시 및 텍스트
+                        Icon(
+                          quest.isAchieved ? Icons.check_box : Icons.check_box_outline_blank_sharp,
+                          color: quest.isAchieved ? Colors.blueAccent : Colors.grey,
+                        ),
+                        const SizedBox(width: 10),
+                        // 텍스트에 선 긋기 및 자동 줄 바꿈
+                        Expanded(
+                          child: Text(
+                            quest.title,
+                            maxLines: null, // 최대 줄 수 제한 없음
+                            overflow: TextOverflow.visible, // 넘치는 텍스트를 표시
+                            style: quest.isAchieved
+                                ? const TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                              color: Colors.black,
+                            )
+                                : const TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }).toList(),
@@ -185,6 +203,7 @@ class ChatSample extends StatelessWidget {
       ),
     );
   }
+
 
 }
 final List<Message> dummyMessages = [
