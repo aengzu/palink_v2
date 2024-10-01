@@ -137,7 +137,7 @@ Map<String, int> getRejectionScoresByCharacter(Character character) {
     case '진혁':
       return {
         "부탁 내용 확인": 1,
-        "이유 있는 거절": 4,
+        "이유 있는 거절": 3,
         "아쉬움 표현": 3,
         "단호한 거절": 3,
         "반복된 요청에 재차 단호한 거절": 2,

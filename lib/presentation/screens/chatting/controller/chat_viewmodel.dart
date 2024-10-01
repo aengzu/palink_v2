@@ -298,7 +298,7 @@ class ChatViewModel extends GetxController {
       int requiredChats = _getRequiredChatLimitsForCharacter(character.name);
       // 제한 대화 횟수보다 적으면서 && 거절 점수가 5점을 넘으면 퀘스트 달성
       return chatCount.value <= requiredChats &&
-          aiResponse.finalRejectionScore > 10;
+          aiResponse.finalRejectionScore >= 10;
     }
 
     // 부정적인 거절 카테고리들

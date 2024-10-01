@@ -28,7 +28,7 @@ class ChatLoadingScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 0.65.sh,
+              height: 0.7.sh,
               child: SingleChildScrollView(
                 child: Column(
                     children: [
