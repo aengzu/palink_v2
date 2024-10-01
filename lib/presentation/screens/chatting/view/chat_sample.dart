@@ -60,7 +60,7 @@ class ChatSample extends StatelessWidget {
             ),
             // 팁 버튼이 열렸을 때 배경을 어둡게 만드는 레이어 추가
             Positioned(
-              bottom: 110,
+              bottom: 114,
               right: 20,
               child: TipButton(
                   tipContent: '팁 내용이 담김',
@@ -78,31 +78,25 @@ class ChatSample extends StatelessWidget {
 
   Widget _sendMessageField() => SafeArea(
     child: Container(
-      height: 0.07.sh,
       decoration: const BoxDecoration(
         boxShadow: [
-          BoxShadow(color: Color.fromARGB(18, 0, 0, 0), blurRadius: 10)
+          BoxShadow(color: Color.fromARGB(18, 0, 0, 0), blurRadius: 10),
         ],
       ),
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end, // Row의 요소를 아래쪽에 정렬
         children: [
           const SizedBox(width: 10),
           Expanded(
             child: TextField(
-              maxLines: null,
+              minLines: 1, // 최소 줄 수
+              maxLines: 3, // 최대 줄 수
               keyboardType: TextInputType.multiline,
+              autofocus: true,
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  onPressed: () {
-                  },
-                  icon: const Icon(Icons.send),
-                  color: Colors.blue,
-                  iconSize: 25,
-                ),
                 hintText: "여기에 메시지를 입력하세요",
-                hintMaxLines: 1,
                 contentPadding: EdgeInsets.symmetric(
                     horizontal: 0.05.sw, vertical: 0.01.sh),
                 hintStyle: const TextStyle(
@@ -127,10 +121,23 @@ class ChatSample extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(width: 10), // 텍스트 필드와 버튼 사이의 간격 추가
+          Align(
+            alignment: Alignment.bottomCenter, // 전송 버튼을 아래쪽에 고정
+            child: IconButton(
+              onPressed: () {
+                // 메시지 전송 기능 추가
+              },
+              icon: const Icon(Icons.send),
+              color: Colors.blue,
+              iconSize: 25,
+            ),
+          ),
         ],
       ),
     ),
   );
+
 
 
   void showQuestPopup(BuildContext context) async {

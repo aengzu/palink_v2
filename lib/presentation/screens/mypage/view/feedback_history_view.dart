@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_colors.dart';
 import 'package:palink_v2/domain/model/character/character.dart';
-import 'package:palink_v2/presentation/screens/chatting/view/components/liking_bar.dart';
 import 'package:palink_v2/presentation/screens/common/appbar_perferred_size.dart';
 import 'package:palink_v2/presentation/screens/main_screens.dart';
 import 'package:palink_v2/presentation/screens/mypage/controller/feedback_history_viewmodel.dart';
@@ -66,14 +65,6 @@ class FeedbackHistoryView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 0.03.sh),
-                    const Text(
-                      '최종 호감도',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
-                    LikingBar(viewModel.feedback!.finalLikingLevel),
-                    Text('최종 호감도 ${viewModel.feedback!.finalLikingLevel}점'),
-                    SizedBox(height: 0.05.sh),
                     const Text(
                       '최종 거절 점수',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

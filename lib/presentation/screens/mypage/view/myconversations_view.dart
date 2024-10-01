@@ -24,7 +24,7 @@ class MyconversationsView extends StatelessWidget {
       body: GetBuilder<MyfeedbacksViewmodel>(
         builder: (viewModel) {
           if (viewModel.chatrooms.isEmpty) {
-            return const Center(child: Text('피드백이 없습니다.'));
+            return const Center(child: Text('대화 기록이 없습니다.'));
           }
           // 첫 번째 아이템으로 스크롤
           WidgetsBinding.instance.addPostFrameCallback((_) {

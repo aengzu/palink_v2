@@ -53,7 +53,7 @@ class QuestSample extends StatelessWidget {
 
 
   void showQuestPopup(BuildContext context) async {
-      final questInfo = '상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기';
+      const questInfo = '상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기\n상대방이 처한 상황을 파악하기 위한 대화 시도하기';
       // questInfo를 '\n'을 기준으로 분리하여 리스트로 변환
       List<String> questItems = questInfo.split('\n');
 

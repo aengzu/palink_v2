@@ -95,7 +95,7 @@ class ChatScreen extends StatelessWidget {
                   : const SizedBox.shrink();
             }),
             Positioned(
-              bottom: 110,
+              bottom: 114,
               right: 20,
               child: Obx(() {
                 return TipButton(
@@ -116,65 +116,70 @@ class ChatScreen extends StatelessWidget {
   }
 
   Widget _sendMessageField(ChatViewModel viewModel) => SafeArea(
-        child: Container(
-          height: 0.07.sh,
-          decoration: const BoxDecoration(
-            boxShadow: [
-              BoxShadow(color: Color.fromARGB(18, 0, 0, 0), blurRadius: 10)
-            ],
-          ),
-          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-          child: Row(
-            children: [
-              const SizedBox(width: 10),
-              Expanded(
-                child: TextField(
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  textCapitalization: TextCapitalization.sentences,
-                  controller: viewModel.textController,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        if (viewModel.textController.text.isNotEmpty) {
-                          viewModel.sendMessage();
-                          viewModel.textController.clear();
-                        }
-                      },
-                      icon: const Icon(Icons.send),
-                      color: Colors.blue,
-                      iconSize: 25,
-                    ),
-                    hintText: "여기에 메시지를 입력하세요",
-                    hintMaxLines: 1,
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 0.05.sw, vertical: 0.01.sh),
-                    hintStyle: const TextStyle(
-                      fontSize: 16,
-                    ),
-                    fillColor: Colors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                      borderSide: const BorderSide(
-                        color: Colors.white,
-                        width: 0.2,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                      borderSide: const BorderSide(
-                        color: Colors.black26,
-                        width: 0.2,
-                      ),
-                    ),
+    child: Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(color: Color.fromARGB(18, 0, 0, 0), blurRadius: 10),
+        ],
+      ),
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end, // Row의 요소를 아래쪽에 정렬
+        children: [
+          const SizedBox(width: 10),
+          Expanded(
+            child: TextField(
+              minLines: 1, // 최소 줄 수
+              maxLines: 3, // 최대 줄 수
+              keyboardType: TextInputType.multiline,
+              autofocus: true,
+              textCapitalization: TextCapitalization.sentences,
+              controller: viewModel.textController,
+              decoration: InputDecoration(
+                hintText: "여기에 메시지를 입력하세요",
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal: 0.05.sw, vertical: 0.01.sh),
+                hintStyle: const TextStyle(
+                  fontSize: 16,
+                ),
+                fillColor: Colors.white,
+                filled: true,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: const BorderSide(
+                    color: Colors.white,
+                    width: 0.2,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: const BorderSide(
+                    color: Colors.black26,
+                    width: 0.2,
                   ),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
-      );
+          const SizedBox(width: 10), // 텍스트 필드와 버튼 사이의 간격 추가
+          Align(
+            alignment: Alignment.bottomCenter, // 전송 버튼을 아래쪽에 고정
+            child: IconButton(
+              onPressed: () {
+                if (viewModel.textController.text.isNotEmpty) {
+                  viewModel.sendMessage();
+                  viewModel.textController.clear();
+                }
+              },
+              icon: const Icon(Icons.send),
+              color: Colors.blue,
+              iconSize: 25,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 
   bool _isDialogOpen = false;
 
