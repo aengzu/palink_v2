@@ -25,20 +25,16 @@ class MyfeedbacksView extends StatelessWidget {
           if (viewModel.chatrooms.isEmpty) {
             return const Center(child: Text('피드백이 없습니다.'));
           }
-          // 첫 번째 아이템으로 스크롤
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (viewModel.chatrooms.isNotEmpty) {
-              _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-            }
-          });
+          // 데이터 순서 뒤집기
+          var reversedChatrooms = viewModel.chatrooms.reversed.toList();
 
           return ListView.builder(
             controller: _scrollController,
-            itemCount: viewModel.chatrooms.length,
-            reverse: true,
+            itemCount: reversedChatrooms.length,
+            reverse: false,
 
             itemBuilder: (context, index) {
-              var chatroom = viewModel.chatrooms[index];
+              var chatroom = reversedChatrooms[index];
               var character = viewModel.characters[chatroom.characterId];
               return Column(
                 children: [

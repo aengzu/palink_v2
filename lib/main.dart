@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             } else if (snapshot.hasData && snapshot.data != null) {
-              return ChatSample(); // 로그인된 상태라면 홈 화면으로 이동
+              return const MainScreens(); // 로그인된 상태라면 홈 화면으로 이동
             } else {
               return LoginView(); // 로그인되지 않은 상태라면 로그인 화면으로 이동
             }

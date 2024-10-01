@@ -48,7 +48,7 @@ class QuestBox extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center, // 아이콘과 텍스트를 가운데 정렬
             children: [
-              const Icon(Icons.keyboard_arrow_right, color: Colors.indigoAccent, size: 16), // 체크 아이콘 추가
+              const Icon(Icons.keyboard_arrow_right, color: Colors.white70, size: 16), // 체크 아이콘 추가
               const SizedBox(width: 1.0), // 아이콘과 텍스트 사이의 간격
               Flexible(
                 // 텍스트를 유연하게 줄바꿈할 수 있도록 함

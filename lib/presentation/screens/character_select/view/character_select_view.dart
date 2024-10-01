@@ -52,7 +52,7 @@ class CharacterSelectView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 0.1.sh),
-            Text('아래의 친구들 중에서 선택해주세요.', style: textTheme().titleMedium),
+            const Text('아래의 친구들 중에서 선택해주세요.', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             SizedBox(height: 0.05.sh),
             Expanded(
               child: Obx(() {

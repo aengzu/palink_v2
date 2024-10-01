@@ -45,11 +45,11 @@ class CharacterProfile extends StatelessWidget {
   }
 
   Widget _buildProfileDescription() {
-    return Text(character.type, style: textTheme().bodyMedium);
+    return Text(character.type, style: const TextStyle(fontSize: 17.0));
   }
 
   Widget _buildAskLevel() {
     return Text('레벨: ${character.requestStrength}',
-        style: textTheme().bodyMedium);
+        style:  const TextStyle(fontSize: 17.0));
   }
 }

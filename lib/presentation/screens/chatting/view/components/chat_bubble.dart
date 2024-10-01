@@ -128,7 +128,9 @@ class _ChatBubblesState extends State<ChatBubbles> {
                               Text(
                                 widget.message.messageText,
                                 softWrap: true,
-                                style: textTheme().bodySmall,
+                                style: const TextStyle(
+                                  fontSize: 13.0, color: Colors.black,
+                                ),
                               ),
                               const SizedBox(height: 5),
                               Row(
@@ -175,7 +177,9 @@ class _ChatBubblesState extends State<ChatBubbles> {
                   children: [
                     Text(
                       widget.message.messageText,
-                      style: textTheme().bodySmall,
+                      style: const TextStyle(
+                        fontSize: 13.0, color: Colors.black,
+                      )
                     ),
                     const SizedBox(height: 5),
                     Row(

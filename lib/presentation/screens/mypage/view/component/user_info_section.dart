@@ -31,8 +31,8 @@ class UserInfoCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: textTheme().bodyMedium),
-          Text(value, style: textTheme().bodyMedium),
+          Text(label, style: const TextStyle(fontSize: 16.0)),
+          Text(value, style: const TextStyle(fontSize: 16.0)),
         ],
       ),
     );
