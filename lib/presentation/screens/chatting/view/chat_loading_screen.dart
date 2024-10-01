@@ -45,7 +45,6 @@ class ChatLoadingScreen extends StatelessWidget {
                         EdgeInsets.symmetric(horizontal: 0.07.sw, vertical: 0.02.sh),
                         child: _buildStyledDescription(viewModel.character.description!),
                       ),
-
                     ],
                   ),
               ),
@@ -95,7 +94,7 @@ class ChatLoadingScreen extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 16.0), // 타이틀과 나머지 텍스트 간 간격
+        const SizedBox(height: 18.0), // 타이틀과 나머지 텍스트 간 간격
         for (var i = 1; i < lines.length; i++) ...[
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,10 +113,13 @@ class ChatLoadingScreen extends StatelessWidget {
           ),
           // 마지막 아이템을 제외하고 Divider를 추가
           if (i < lines.length - 1)
-            const Divider(
-              color: Colors.grey, // 선 색깔
-              thickness: 0.5, // 선 두께
-              height: 16.0, // 위아래 간격
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 4.0),
+              child: Divider(
+                color: Colors.grey, // 선 색깔
+                thickness: 0.5, // 선 두께
+                height: 16.0, // 위아래 간격
+              ),
             ),
         ],
       ],
@@ -129,10 +131,12 @@ class ChatLoadingScreen extends StatelessWidget {
   void _startChat() {
     final conversationId = viewModel.conversation.value?.conversationId;
     final tip = viewModel.initialTip.value; // 새로운 팁 변수 사용
+    final initialIsEnd = viewModel.isEnd.value; // 새로운 isEnd 변수 사용
 
     Get.off(() => ChatScreen(
       viewModel: Get.put(ChatViewModel(chatRoomId: conversationId!, character: viewModel.character)),
       initialTip: tip,
+      initialIsEnd: initialIsEnd,
     ));
   }
 }

@@ -135,13 +135,14 @@ class ChatViewModel extends GetxController {
   Future<void> _checkIfConversationEnded(
       AIResponse aiResponse, bool isEnd) async {
     int requiredChats = _getRequiredChatLimitsForCharacter(character.name);
-    debugPrint('Required Chats: ${chatCount.value}');
+    debugPrint('Required Chats: ${requiredChats}');
+    debugPrint('최종 거절점수: ${aiResponse.finalRejectionScore}');
     // 캐릭터별 제한된 대화 횟수를 넘었거나 AI 응답에서 isEnd가 true일 경우 // 거절 점수 달성 시 대화 종료
     if (chatCount.value > requiredChats ||
         isEnd ||
         aiResponse.finalRejectionScore < -5 ||
         questStatus[0] ||
-        aiResponse.finalRejectionScore > 10) {
+        aiResponse.finalRejectionScore >= 10) {
       var fetchedMindset = await getRandomMindsetUseCase.execute();
       navigateToChatEndScreen(fetchedMindset!);
     }
@@ -279,7 +280,7 @@ class ChatViewModel extends GetxController {
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.blue[700],
             colorText: Colors.white,
-            duration: const Duration(seconds: 2),
+            duration: const Duration(seconds: 3),
           );
         }
       }

@@ -6,11 +6,11 @@ import 'package:palink_v2/domain/repository/open_ai_repository.dart';
 class GenerateAnalyzeUsecase {
   final OpenAIRepository aiRepository = getIt<OpenAIRepository>();
 
-  Future<AnalysisResponse?> execute(String chatHistory, String unachievedQuests, int finalRejectionScore) async {
+  Future<AnalysisResponse?> execute(String chatHistory, String description, int finalRejectionScore) async {
 
     AnalysisRequest input = AnalysisRequest(
       chatHistory: chatHistory,
-      quest: unachievedQuests,
+      description: description,
       finalRejectionScore: finalRejectionScore,
     );
 

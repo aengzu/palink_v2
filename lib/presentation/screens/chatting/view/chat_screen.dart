@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_colors.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
+import 'package:palink_v2/data/models/mindset/mindset_response.dart';
 import 'package:palink_v2/di/locator.dart';
 import 'package:palink_v2/presentation/screens/chatting/controller/chat_viewmodel.dart';
 import 'package:palink_v2/presentation/screens/chatting/controller/tip_viewmodel.dart';
@@ -15,11 +16,13 @@ class ChatScreen extends StatelessWidget {
   final ChatViewModel viewModel;
   final TipViewModel tipViewModel = Get.put(getIt<TipViewModel>());
   final String initialTip; // 첫번째 AI 메시지에 대한 팁
+  final bool initialIsEnd;
 
   ChatScreen({
     super.key,
     required this.viewModel,
     required this.initialTip,
+    required this.initialIsEnd,
   });
 
   @override
@@ -28,6 +31,11 @@ class ChatScreen extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       viewModel.showQuestPopupIfFirstTime(context);
     });
+
+    if (initialIsEnd) {
+      debugPrint('initialIsEnd is true');
+      viewModel.navigateToChatEndScreen("거절을 승낙하여 대화가 종료되었어요" as MindsetResponse);
+    }
 
     // 초기 팁 업데이트
     tipViewModel.updateTip(initialTip);

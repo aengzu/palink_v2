@@ -7,10 +7,12 @@ part 'analysis_response.g.dart';
 class AnalysisResponse {
   final String evaluation;
   final String usedRejection;
+  final String type;
 
   AnalysisResponse({
     required this.evaluation,
     required this.usedRejection,
+    required this.type,
   });
 
   factory AnalysisResponse.fromJson(Map<String, dynamic> json) =>

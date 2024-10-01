@@ -12,6 +12,7 @@ AnalysisDto _$AnalysisDtoFromJson(Map<String, dynamic> json) => AnalysisDto(
       finalAffinityScore: (json['final_affinity_score'] as num).toInt(),
       unachievedQuests: json['unachievedQuests'] as String,
       usedRejection: json['usedRejection'] as String,
+      type: json['type'] as String,
     );
 
 Map<String, dynamic> _$AnalysisDtoToJson(AnalysisDto instance) =>
@@ -21,4 +22,5 @@ Map<String, dynamic> _$AnalysisDtoToJson(AnalysisDto instance) =>
       'final_affinity_score': instance.finalAffinityScore,
       'unachievedQuests': instance.unachievedQuests,
       'usedRejection': instance.usedRejection,
+      'type': instance.type,
     };

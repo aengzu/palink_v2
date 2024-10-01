@@ -63,13 +63,13 @@ class ChatEndLoadingViewModel extends GetxController {
       final String unachievedQuestsString = unachievedQuests.join(', ');
 
       AnalysisResponse? response = await generateAnalyzeUsecase.execute(
-          chatHistoryString, unachievedQuestsString, finalRejectionScore);
+          chatHistoryString, character.description!, finalRejectionScore);
       AnalysisDto? analysisDto = AnalysisDto(
         finalRejectionScore: finalRejectionScore,
         finalAffinityScore: finalAffinityScore,
         unachievedQuests: unachievedQuestsString,
         evaluation: response!.evaluation,
-        usedRejection: response.usedRejection,
+        usedRejection: response.usedRejection, type: response.type,
       );
       if (analysisDto == null) {
         return;

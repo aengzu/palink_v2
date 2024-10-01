@@ -11,6 +11,7 @@ class AnalysisDto {
   final int finalAffinityScore;
   final String unachievedQuests;
   final String usedRejection;
+  final String type;
 
   AnalysisDto({
     required this.evaluation,
@@ -18,6 +19,7 @@ class AnalysisDto {
     required this.finalAffinityScore,
     required this.unachievedQuests,
     required this.usedRejection,
+    required this.type,
   });
 
   // JSON으로부터 AnalysisDTO 객체를 생성합니다.

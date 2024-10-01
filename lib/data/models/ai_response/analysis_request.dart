@@ -6,12 +6,12 @@ part 'analysis_request.g.dart';
 @JsonSerializable()
 class AnalysisRequest {
   final String chatHistory;
-  final String quest;
+  final String description;
   final int finalRejectionScore;
 
   AnalysisRequest({
     required this.chatHistory,
-    required this.quest,
+    required this.description,
     required this.finalRejectionScore,
   });
 

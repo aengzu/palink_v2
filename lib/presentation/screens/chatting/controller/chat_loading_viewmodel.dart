@@ -18,6 +18,7 @@ class ChatLoadingViewModel extends GetxController {
   final Character character;
   var conversation = Rxn<Conversation>();
   var initialTip = ''.obs;
+  var isEnd = false.obs;
   var isLoading = true.obs;
   var errorMessage = ''.obs;
   var user = Rxn<User>();
@@ -52,6 +53,7 @@ class ChatLoadingViewModel extends GetxController {
             await _createInitialMessage(conversationId, user.value!.name);
         if (result != null) {
           initialTip.value = result['tip'] as String;
+          isEnd.value = result['isEnd'] as bool;
         }
       }
     } catch (e) {

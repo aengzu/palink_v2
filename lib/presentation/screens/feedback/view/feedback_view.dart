@@ -32,9 +32,11 @@ class FeedbackView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    '평가',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  const Text('내 거절 유형은', style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black38)),
+                  const SizedBox(height: 2),
+                  Text(
+                    viewModel.analysisDto.type,
+                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   _buildProfileImage(),
                   SizedBox(height: 0.045.sh),
@@ -102,6 +104,10 @@ class FeedbackView extends StatelessWidget {
 
   // 쉼표로 구분된 문자열을 줄바꿈과 번호 또는 화살표로 포맷하는 메서드
   String _formatAsList(String commaSeparatedString) {
+    // 문자열이 비어있거나 공백만 포함할 경우 '사용한 거절 없음' 반환
+    if (commaSeparatedString.trim().isEmpty) {
+      return '사용한 거절 없음';
+    }
     final items = commaSeparatedString.split(',').map((item) => item.trim()).toList();
     return items.asMap().entries.map((entry) => '${entry.key + 1}. ${entry.value}').join('\n');
   }
