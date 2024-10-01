@@ -31,6 +31,7 @@ class Messages extends StatelessWidget {
           // 첫 번째 메시지인 경우, sender가 true여도 왼쪽에 배치
           final bool isFirstMessage = index == messages.length - 1;
           final isSender = isFirstMessage ? false : message.sender;
+          final rejectionScore = messages[index].rejectionScore;
 
           return GestureDetector(
             onLongPress: () {
@@ -51,6 +52,7 @@ class Messages extends StatelessWidget {
                           onReactionAdded: (Message msg, String reaction) {
                             onReactionAdded(message, reaction);
                           },
+                          rejectionScore: rejectionScore
                         ),
                         onReactionTap: (reaction) {
                           if (reaction == '➕') {
@@ -81,6 +83,7 @@ class Messages extends StatelessWidget {
                 onReactionAdded: (Message msg, String reaction) {
                   onReactionAdded(msg, reaction);
                 },
+                rejectionScore: rejectionScore,
               ),
             ),
           );

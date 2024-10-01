@@ -35,11 +35,11 @@ class GenerateInitialMessageUsecase {
     MessageResponse? messageResponse;
     AIResponse? aiResponse;
     if (aiMessageResponse != null) {
-      // 호감도 분석 생성
-      LikingResponse? likingResponse = await aiRepository.judgeSentiment(userMessage, aiMessageResponse!.message);
+      // 호감도 분석 삭제
+      // LikingResponse? likingResponse = await aiRepository.judgeSentiment(userMessage, aiMessageResponse!.message);
 
       // 매퍼를 통해 AIResponse로 변환
-      aiResponse = aiMessageResponse.toInitialAIResponse(likingResponse!);
+      aiResponse = aiMessageResponse.toInitialAIResponse();
 
       // 메시지 저장
       var messageRequest = aiResponse.toInitialMessageRequest();

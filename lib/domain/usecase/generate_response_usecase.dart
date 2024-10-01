@@ -48,13 +48,13 @@ class GenerateResponseUsecase {
     AIResponse? aiResponse;
     if (aiMessageResponse != null) {
       // 호감도 분석 생성
-      LikingResponse? likingResponse = await aiRepository.judgeSentiment(userMessage, aiMessageResponse!.message);
+      // LikingResponse? likingResponse = await aiRepository.judgeSentiment(userMessage, aiMessageResponse!.message);
 
       // 거절 점수 판정
       RejectionResponse? rejectionResponse = await aiRepository.judgeRejection(userMessage);
 
       // 매퍼를 통해 AIResponse로 변환
-      aiResponse = aiMessageResponse.toAIResponse(likingResponse!, rejectionResponse!, character);
+      aiResponse = aiMessageResponse.toAIResponse(rejectionResponse!, character);
 
       // 메시지 저장
       var messageRequest = aiResponse.toMessageRequest();

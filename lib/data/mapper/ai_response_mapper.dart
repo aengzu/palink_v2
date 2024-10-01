@@ -28,12 +28,12 @@ extension InitialAIResponseMapper on AIResponse {
 }
 
 extension InitialAIMessageResponseMapper on AIMessageResponse {
-  AIResponse toInitialAIResponse(LikingResponse likingResponse) {
+  AIResponse toInitialAIResponse() {
     return AIResponse(
       text: message,
-      feeling: likingResponse.feeling,
+      feeling: '중립 100',
       // LikabilityResponse의 feeling을 AIResponse의 feeling으로 매핑
-      affinityScore: likingResponse.likability,
+      affinityScore: 50,
       // 호감도 점수 매핑
       rejectionScore: [],
       rejectionContent: [],
@@ -46,7 +46,7 @@ extension InitialAIMessageResponseMapper on AIMessageResponse {
 }
 
 extension AIMessageResponseMapper on AIMessageResponse {
-  AIResponse toAIResponse(LikingResponse likingResponse,
+  AIResponse toAIResponse(
       RejectionResponse rejectionResponse, Character character) {
     final rejectionScores = getRejectionScoresByCharacter(character);
 
@@ -57,10 +57,9 @@ extension AIMessageResponseMapper on AIMessageResponse {
 
     return AIResponse(
       text: message,
-      // ChatResponse의 텍스트를 AIResponse의 텍스트로 설정
-      feeling: likingResponse.feeling,
-      // 감정 분석 결과를 그대로 매핑
-      affinityScore: likingResponse.likability,
+      // feeling, 호감도 삭제인데 데이터 모델 수정에 시간이 부족하여 기본값 설정
+      feeling: '중립 100',
+      affinityScore: 50,
       // 호감도 점수 매핑
       rejectionScore: rejectionScoreList,
       // 계산된 rejectionScore 리스트

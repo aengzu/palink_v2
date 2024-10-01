@@ -28,6 +28,7 @@ class OpenAIRepositoryImpl implements OpenAIRepository {
     return rejectionService.judgeRejection(userMessage);
   }
 
+  // 2024.10.1. 사용 제거
   @override
   Future<LikingResponse?> judgeSentiment(String userMessage, String aiMessage) {
     return sentimentAnalysisService.analyzeSentiment(userMessage, aiMessage);
