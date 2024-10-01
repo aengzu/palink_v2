@@ -168,10 +168,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       type: '감성형',
       requestStrength: 1,
       prompt: PersonaPrompts.miyeonPersona,
-      description: '''미연은 매우 감성적인 타입이에요.💦
-      부탁이 거절되면 실망하거나 슬퍼할 수 있어요
-      미연은 내성적이지만 친구들에게는 따뜻하고 배려심이 많아 깊은 관계를 맺고 있으며, 친구들의 고민을 잘 들어줘요
-      미연의 부탁을 공감하고 이해하며 부드럽게 거절하는 것이 중요해요''',
+      description: '''#감성적 #공감 #부드러운_거절\n부탁이 거절되면 실망하거나 슬퍼할 수 있어요\n미연은 내성적이지만 친구들에게는 따뜻하고 배려심이 많아 깊은 관계를 맺고 있어요\n잘 부탁하지 않는 성격이라 부탁을 할 때는 정말 힘든 상황일 확률이 높아요\n미연의 부탁을 공감하고 이해하며 부드럽게 거절하는 것이 중요해요''',
       image: ImageAssets.char1,
       quest: '''거절 성공하기
 상대방이 처한 상황을 파악하기 위한 대화 시도하기
@@ -185,11 +182,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       type: '논리형',
       requestStrength: 2,
       prompt: PersonaPrompts.sejinPersona,
-      description: '''세진은 논리적이고 책임감이 강한 타입이에요.⚖️
-      항상 이득과 손해를 따지며, 과거에 도와줬던 일에 대해서는 반드시 상대방이 갚아야 한다고 생각해요.
-      이성적이고 차분하게 문제를 해결하려고 노력하며, 감정에 휘둘리지 않아요.
-      세진은 예전에 당신을 도와준 적이 있어요.
-      세진의 부탁을 거절할 때는 이유를 명확하게 설명하고, 대안을 제시하는 것이 중요해요.''',
+      description: '''#논리적 #책임감이강한 #차분함\n항상 이득과 손해를 따지며, 과거에 도와줬던 일에 대해서는 반드시 상대방이 갚아야 한다고 생각해요.\n이성적이고 차분하게 문제를 해결하려고 노력하며, 감정에 휘둘리지 않아요.\n세진은 예전에 당신을 도와준 적이 있어요.\n거절 시 분명한 이유와 대안을 제시하면 세진이 납득하기 쉬워요''',
       image: ImageAssets.char2,
       quest: '''거절 성공하기
 이전 도움에 대한 감사 표현하기
@@ -203,10 +196,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       type: '집요형',
       requestStrength: 3,
       prompt: PersonaPrompts.hyunaPersona,
-      description: '''현아는 틱톡 스타고 외향적인 성격이에요.☀️
-      포기하지 않고 끈기 있게 부탁을 반복해요.
-      처음엔 거절하는 이유를 설명하고 부드럽게 거절하지만, 정도가 강해지면 단호한 태도로 거절해야 해요.
-      현아는 솔직하고 감정 표현이 풍부해요''',
+      description: '''#외향적 #틱톡스타 #솔직함\n포기하지 않고 끈기 있게 부탁을 반복해요\n현아는 솔직하고 감정 표현이 풍부해요\n처음엔 거절하는 이유를 설명하고 부드럽게 거절하지만, 정도가 강해지면 단호한 태도로 거절해야 해요\n거절이 어렵다면 \'시간 제한\' 전략을 사용해보세요''',
       quest: '''거절 성공하기
 시간 제한을 두고 거절하기
 상대방의 부탁에 대해 존중 표현하기
@@ -220,15 +210,12 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       type: '분노형',
       requestStrength: 4,
       prompt: PersonaPrompts.jinhyukPersona,
-      description: '''진혁은 단순하고 직설적인 성격으로, 감정 표현이 격렬하고 분노 조절을 잘 못해요.🔥
-      진혁의 솔직하고 거침없는 성격 때문에 상처받는 친구가 많아요.
-      진혁은 예전에 같은 반이어서 친해졌지만 최근에는 약간 멀어진 사이에요.
-      진혁의 부탁을 거절할 때 우물쭈물 거절하면 진혁이 부탁을 반복할 수 있어요. ''',
+      description: '''#직설적 #거침없음 #단순함\n진혁의 솔직하고 거침없는 성격 때문에 상처받는 친구가 많아요.\n단순하고 직설적인 말투로 감정을 숨기지 않아요\n우유부단한 태도는 오히려 상황을 악화시킬 수 있으니 주의하세요\n대화 시에는 단호하면서도 간결한 거절로 의사를 명확히 전달하세요 ''',
       image: ImageAssets.char4,
       quest: '''거절 성공하기
-타협하지 않기
+거절 의사 명확히 표현하기
 논리적 근거 제시하기
-자신의 주장을 일관성 있게 유지하기
+일관성 있게 주장 유지하기
 상대방의 무례에 대한 불편함 명확히 표현하기''',
     ),
   ];

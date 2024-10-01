@@ -11,12 +11,12 @@ class CharacterList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-      padding: EdgeInsets.symmetric(horizontal: 0.03.sw),
-      crossAxisCount: 2,
-      mainAxisSpacing: 30,
-      children: characters
-          .map((character) => CharacterProfile(character: character))
-          .toList(),
+        padding: EdgeInsets.symmetric(horizontal: 0.03.sw),
+        crossAxisCount: 2,
+        mainAxisSpacing: 30,
+        children: characters
+            .map((character) => CharacterProfile(character: character))
+            .toList(),
     );
   }
 }

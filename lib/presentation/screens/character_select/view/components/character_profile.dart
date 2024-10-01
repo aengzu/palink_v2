@@ -18,14 +18,16 @@ class CharacterProfile extends StatelessWidget {
       onTap: () {
         viewModel.selectCharacter(character);
       },
-      child: Column(
-        children: [
-          _buildProfileImage(),
-          SizedBox(height: 0.01.sh),
-          _buildProfileName(),
-          _buildProfileDescription(),
-          _buildAskLevel(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildProfileImage(),
+            const SizedBox(height: 6),
+            _buildProfileName(),
+            _buildProfileDescription(),
+            _buildAskLevel(),
+          ],
+        ),
       ),
     );
   }
