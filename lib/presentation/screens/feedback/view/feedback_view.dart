@@ -47,22 +47,6 @@ class FeedbackView extends StatelessWidget {
                       style: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(height: 0.03.sh),
-                  const Text(
-                    '최종 호감도',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  LikingBar(50 + viewModel.analysisDto.finalAffinityScore),
-                  const SizedBox(height: 5),
-                  Text('최종 호감도 ${50 + viewModel.analysisDto.finalAffinityScore}점'),
-                  SizedBox(height: 0.05.sh),
-                  const Text(
-                    '사용한 거절 방법',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(_formatAsList(viewModel.analysisDto.usedRejection)),
                   SizedBox(height: 0.05.sh),
                   const Text(
                     '최종 거절 점수',
@@ -70,6 +54,13 @@ class FeedbackView extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text('${viewModel.analysisDto.finalRejectionScore}점'),
+                  SizedBox(height: 0.05.sh),
+                  const Text(
+                    '사용한 거절 방법',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(_formatAsList(viewModel.analysisDto.usedRejection)),
                   SizedBox(height: 0.05.sh),
                   const Text(
                     '미달성 퀘스트',
