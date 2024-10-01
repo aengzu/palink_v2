@@ -75,8 +75,8 @@ class _ChatBubblesState extends State<ChatBubbles> {
                       backgroundImage: AssetImage(widget.characterImg),
                     ),
                   ),
-                  LikingBar(widget.affinityScore),
-                  FeelingBar(feeling: widget.feeling),
+                  // LikingBar(widget.affinityScore),
+                  // FeelingBar(feeling: widget.feeling),
                 ],
               ),
               Flexible(
