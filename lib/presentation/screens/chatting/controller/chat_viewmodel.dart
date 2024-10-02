@@ -144,6 +144,11 @@ class ChatViewModel extends GetxController {
         questStatus[0] ||
         aiResponse.finalRejectionScore >= 10) {
       var fetchedMindset = await getRandomMindsetUseCase.execute();
+
+      // 3초 대기
+      await Future.delayed(const Duration(seconds: 3));
+
+      // 대화 종료 화면으로 이동
       navigateToChatEndScreen(fetchedMindset!);
     }
   }
