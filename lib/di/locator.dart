@@ -74,7 +74,10 @@ Future<void> setupLocator() async {
 
 void _setupDio() {
   getIt.registerLazySingleton<Dio>(() {
-    final dio = Dio(BaseOptions(baseUrl: dotenv.env['BASE_URL']!));
+    final dio = Dio(BaseOptions(baseUrl: dotenv.env['BASE_URL']!,
+      connectTimeout: const Duration(seconds: 3), // Convert Duration to milliseconds
+      receiveTimeout: const Duration(seconds: 3), // Convert Duration to milliseconds
+     ));
 
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
@@ -198,7 +201,7 @@ Future<void> _initializeDatabase(CharacterDao characterDao, MindsetDao mindsetDa
       prompt: PersonaPrompts.hyunaPersona,
       description: '''#외향적 #틱톡스타 #솔직함\n포기하지 않고 끈기 있게 부탁을 반복해요\n현아는 솔직하고 감정 표현이 풍부해요\n처음엔 거절하는 이유를 설명하고 부드럽게 거절하지만, 정도가 강해지면 단호한 태도로 거절해야 해요\n거절이 어렵다면 \'시간 제한\' 전략을 사용해보세요''',
       quest: '''거절 성공하기
-시간 제한을 두고 거절하기
+시간이 부족하다고 말하기
 상대방의 부탁에 대해 존중 표현하기
 도와주지 못하는 합리적인 이유 제시하기
 집요한 요청에 대한 의사 표현하기''',

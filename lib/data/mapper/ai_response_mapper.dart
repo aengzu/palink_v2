@@ -95,6 +95,7 @@ Map<String, int> getRejectionScoresByCharacter(Character character) {
         "세 글자 이하의 성의없는 답변": -2,
         "티나는 거짓말": -4,
         "욕설 또는 인신공격": -4,
+        "거절 승낙": -6,
       };
     case '세진':
       return {
@@ -116,6 +117,7 @@ Map<String, int> getRejectionScoresByCharacter(Character character) {
         "세 글자 이하의 성의없는 답변": -1,
         "티나는 거짓말": -4,
         "욕설 또는 인신공격": -4,
+        "거절 승낙": -6,
       };
     case '현아':
       return {
@@ -133,6 +135,7 @@ Map<String, int> getRejectionScoresByCharacter(Character character) {
         "세 글자 이하의 성의없는 답변": -1,
         "주제에서 벗어난 말": -1,
         "욕설 또는 인신공격": -4,
+        "거절 승낙": -6,
       };
     case '진혁':
       return {
@@ -149,6 +152,7 @@ Map<String, int> getRejectionScoresByCharacter(Character character) {
         "원인을 상대방에게 돌리기": -3,
         "주제에서 벗어난 말": -1,
         "욕설 또는 인신공격": -4,
+        "거절 승낙": -6,
       };
     default:
       return {};

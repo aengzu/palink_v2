@@ -64,13 +64,6 @@ class FeedbackHistoryView extends StatelessWidget {
                         style: const TextStyle(fontSize: 15),
                       ),
                     ),
-                    SizedBox(height: 0.03.sh),
-                    const Text(
-                      '최종 거절 점수',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
-                    Text('${viewModel.feedback!.totalRejectionScore}점'),
                     SizedBox(height: 0.05.sh),
                   ],
                 ),

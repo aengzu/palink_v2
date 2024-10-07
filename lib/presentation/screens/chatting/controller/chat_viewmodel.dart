@@ -30,6 +30,8 @@ class ChatViewModel extends GetxController {
   var questStatus = List<bool>.filled(5, false).obs; // 퀘스트 달성 여부를 나타내는 리스트
   var isQuestPopupShown = false.obs;
   var unachievedQuests = <String>[].obs;
+  // "단호한 거절" 횟수를 누적할 변수 추가
+  var firmRejectionCount = 0.obs;
 
   var aiResponse;
   var isEnd;
@@ -105,9 +107,16 @@ class ChatViewModel extends GetxController {
         }
         chatCount.value += 1;
 
+        // "단호한 거절" 카테고리 카운트 업데이트
+        if (aiResponse.rejectionContent.contains('단호한 거절')) {
+          firmRejectionCount.value += 1;
+        }
+
         _handleQuestAchievements(aiResponse!); // aiResponse
         _checkIfConversationEnded(aiResponse, isEnd); // 대화 종료 여부 확인
         textController.clear(); // 메시지 입력창 초기화
+        // 조건을 체크하고 토스트 메시지 띄우기
+        checkQuestGuideConditions();
       } else {
         print('AI 응답이 없습니다');
       }
@@ -136,17 +145,15 @@ class ChatViewModel extends GetxController {
       AIResponse aiResponse, bool isEnd) async {
     int requiredChats = _getRequiredChatLimitsForCharacter(character.name);
     debugPrint('Required Chats: ${requiredChats}');
-    debugPrint('최종 거절점수: ${aiResponse.finalRejectionScore}');
-    // 캐릭터별 제한된 대화 횟수를 넘었거나 AI 응답에서 isEnd가 true일 경우 // 거절 점수 달성 시 대화 종료
+    // 캐릭터별 제한된 대화 횟수를 넘었거나 AI 응답에서 isEnd가 true일 경우
     if (chatCount.value > requiredChats ||
         isEnd ||
-        aiResponse.finalRejectionScore < -5 ||
-        questStatus[0] ||
-        aiResponse.finalRejectionScore >= 10) {
+        questStatus[0]
+       ) {
       var fetchedMindset = await getRandomMindsetUseCase.execute();
 
       // 3초 대기
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 2));
 
       // 대화 종료 화면으로 이동
       navigateToChatEndScreen(fetchedMindset!);
@@ -269,9 +276,11 @@ class ChatViewModel extends GetxController {
   Future<void> _handleQuestAchievements(AIResponse aiResponse) async {
     if (aiResponse.rejectionContent != null &&
         aiResponse.rejectionContent.isNotEmpty) {
-      for (int questIndex = 0;
-          questIndex < questContentMap[character.name]!.length;
-          questIndex++) {
+      // 퀘스트 1~4를 먼저 처리
+      for (int questIndex = 1;
+      questIndex < questContentMap[character.name]!.length;
+      questIndex++) {
+
         bool isQuestAchieved = _isQuestAchieved(questIndex, aiResponse);
         if (isQuestAchieved && !questStatus[questIndex]) {
           updateQuestStatus(questIndex);
@@ -289,8 +298,25 @@ class ChatViewModel extends GetxController {
           );
         }
       }
+
+      // 퀘스트 0을 마지막에 처리
+      if (_isQuestAchieved(0, aiResponse) && !questStatus[0]) {
+        updateQuestStatus(0);
+        String questContent = questContentMap[character.name]?[0] ?? '알 수 없는 퀘스트';
+
+        // 퀘스트 0번 달성 메시지 출력
+        Get.snackbar(
+          "퀘스트 달성!",
+          "퀘스트 달성! $questContent",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.blue[700],
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
+        );
+      }
     }
   }
+
 
   // 퀘스트 달성 여부를 판단하는 메서드
   bool _isQuestAchieved(int questIndex, AIResponse aiResponse) {
@@ -298,16 +324,23 @@ class ChatViewModel extends GetxController {
     List<String> questConditions =
         questConditionMap[character.name]?[questIndex] ?? [];
 
-    // 퀘스트 1: 대화 횟수 기반 퀘스트 처리
+    // "단호한 거절"이 2회 이상 발생하면 "반복된 요청에 재차 단호한 거절"을 리스트에 추가
+    if (firmRejectionCount.value >= 2 && !rejectionContent.contains('반복된 요청에 재차 단호한 거절')) {
+      rejectionContent.add('반복된 요청에 재차 단호한 거절');
+    }
+
+    // 퀘스트 1: 다른 퀘스트(1-4)가 모두 달성된 경우에만 처리
     if (questIndex == 0) {
-      int requiredChats = _getRequiredChatLimitsForCharacter(character.name);
-      // 제한 대화 횟수보다 적으면서 && 거절 점수가 5점을 넘으면 퀘스트 달성
-      return chatCount.value <= requiredChats &&
-          aiResponse.finalRejectionScore >= 10;
+      // 다른 모든 퀘스트(1-4)가 달성되었는지 확인
+      for (int i = 1; i <= 4; i++) {
+        if (!_isQuestAchieved(i, aiResponse)) {
+          return false; // 하나라도 달성되지 않았다면 퀘스트 0을 달성할 수 없음
+        }
+      }
     }
 
     // 부정적인 거절 카테고리들
-    const negativeRejectionCategories = ["티나는 거짓말", "욕설 또는 인신공격"];
+    const negativeRejectionCategories = ["티나는 거짓말", "욕설 또는 인신공격", "거절 승낙", "무시하거나 냉담한 반응", "비꼬는 태도", "이유 없는 거절", "주제에서 벗어난 말", "세 글자 이하의 성의없는 답변", "원인을 상대로 돌리기"];
 
     // 거절 카테고리 중 부정적인 카테고리가 포함된 경우 퀘스트 달성 방지
     if (rejectionContent
@@ -338,7 +371,7 @@ class ChatViewModel extends GetxController {
     ],
     '현아': [
       '거절 성공하기',
-      '시간 제한을 두고 거절하기',
+      '시간이 부족하다고 말하기',
       '상대방의 부탁에 대해 존중 표현하기',
       '도와주지 못하는 합리적인 이유 제시',
       '집요한 요청에 대한 의사 표현하기',
@@ -355,28 +388,28 @@ class ChatViewModel extends GetxController {
   // 캐릭터별 퀘스트 조건을 정의한 맵 (거절 카테고리와 매핑)
   final Map<String, List<List<String>>> questConditionMap = {
     '미연': [
-      [], // 퀘스트 1: 10회 안에 거절 성공하기 (특정 거절 카테고리 없음)
+      [], // 퀘스트 1: 거절 성공하기 (특정 거절 카테고리 없음)
       ['부탁 내용 확인'], // 퀘스트 2: 상대방이 처한 상황을 파악하기 위한 대화 시도하기
       ['아쉬움 표현', '도와주고 싶은 마음 표현', '상황에 대한 공감'], // 퀘스트 3: 감정에 대한 공감 표현
-      ['거절해야 하는 상황 설명'], // 퀘스트 4: 도와주지 못하는 이유 제시
+      ['이유 있는 거절'], // 퀘스트 4: 도와주지 못하는 이유 제시
       ['대안 제시'], // 퀘스트 5: 서로 양보해서 절충안 찾기
     ],
     '세진': [
-      [], // 퀘스트 1: 8회 안에 거절 성공하기
+      [], // 퀘스트 1: 거절 성공하기
       ['과거 배려에 대한 감사함 표시'], // 퀘스트 2: 감사 표현하기
-      ['수락하지 못함에 대한 아쉬움 표현'], // 퀘스트 3: 감정적인 요소 포함하여 거절
-      ['이유 있는 거절', '거절해야 하는 상황 설명'], // 퀘스트 4: 이유 있는 거절 제시
+      ['수락하지 못함에 대한 아쉬움 표현', "도와주고 싶은 마음 표현"], // 퀘스트 3: 감정적인 요소 포함하여 거절
+      ['이유 있는 거절'], // 퀘스트 4: 이유 있는 거절 제시
       ['대안 제시'], // 퀘스트 5: 타협안 제시
     ],
     '현아': [
-      [], // 퀘스트 1: 7회 안에 거절 성공하기
+      [], // 퀘스트 1: 거절 성공하기
       ['시간 제한'], // 퀘스트 2: 시간 제한을 두고 거절
       ['상황에 대한 공감'], // 퀘스트 3: 존중 표현
       ['이유 있는 거절'], // 퀘스트 4: 이유 있는 거절 제시
       ['반복된 요청에 재차 단호한 거절'], // 퀘스트 5: 집요한 요청에 대한 의사 표현
     ],
     '진혁': [
-      [], // 퀘스트 1: 6회 안에 거절 성공하기
+      [], // 퀘스트 1: 거절 성공하기
       ['단호한 거절'], // 퀘스트 2: 타협하지 않기
       ['이유 있는 거절'], // 퀘스트 3: 논리적 근거 제시하기
       ['반복된 요청에 재차 단호한 거절'], // 퀘스트 4: 일관성 있게 주장 유지하기
@@ -421,4 +454,32 @@ class ChatViewModel extends GetxController {
       }
     }
   }
+
+  // 조건을 체크하고 토스트 메시지를 띄우는 메서드
+  void checkQuestGuideConditions() {
+    // Check for the specific rejection category '거절 승낙'
+    if (aiResponse.rejectionContent.contains('거절 승낙')) {
+      showToastMessage('거절을 승낙하지 말고 한 번 다시 거절해보세요!'); // Show the toast message
+    }
+
+    // Existing condition for chat count
+    if (chatCount.value > 6) {
+      showToastMessage('한 번 퀘스트를 따르며 거절을 해보세요! 😊');
+    }
+  }
+
+  void showToastMessage(String message) {
+    Get.snackbar(
+      '대화 팁!', // Empty title
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.black.withOpacity(0.6), // Semi-transparent black background
+      colorText: Colors.white, // White text
+      margin: const EdgeInsets.all(16), // Margin around the toast
+      borderRadius: 8.0, // Rounded corners
+      duration: const Duration(seconds: 3), // Duration to show the message
+    );
+  }
+
+
 }

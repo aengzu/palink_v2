@@ -51,14 +51,7 @@ class FeedbackView extends StatelessWidget {
                   ),
                   SizedBox(height: 0.05.sh),
                   const Text(
-                    '최종 거절 점수',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  Text('${viewModel.analysisDto.finalRejectionScore}점'),
-                  SizedBox(height: 0.05.sh),
-                  const Text(
-                    '사용한 거절 방법',
+                    '사용한 방법',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
