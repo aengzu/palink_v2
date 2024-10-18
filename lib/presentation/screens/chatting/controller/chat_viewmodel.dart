@@ -296,6 +296,14 @@ class ChatViewModel extends GetxController {
             colorText: Colors.white,
             duration: const Duration(seconds: 3),
           );
+
+          // 퀘스트 2, 3, 4, 5가 모두 달성되었는지 확인
+          if (areMainQuestsAchieved()) {
+            // 대화 종료 로직 (예: 대화 종료 화면으로 이동)
+            var fetchedMindset = await getRandomMindsetUseCase.execute();
+            await Future.delayed(const Duration(seconds: 2));
+            navigateToChatEndScreen(fetchedMindset!);
+          }
         }
       }
 
@@ -416,6 +424,12 @@ class ChatViewModel extends GetxController {
       ['명확한 경계 설정'], // 퀘스트 5: 무례에 대한 불편함 명확히 표현하기
     ],
   };
+
+  // 퀘스트 2, 3, 4, 5가 모두 달성되었는지 확인하는 메서드
+  bool areMainQuestsAchieved() {
+    // 퀘스트 2, 3, 4, 5가 모두 true인지 확인
+    return questStatus[1] && questStatus[2] && questStatus[3] && questStatus[4];
+  }
 
   // 미달성 퀘스트 리스트를 반환하는 메서드
   List<String> getUnachievedQuests() {
