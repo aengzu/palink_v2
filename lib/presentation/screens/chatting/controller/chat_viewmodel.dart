@@ -449,11 +449,11 @@ class ChatViewModel extends GetxController {
       case '미연':
         return 11; // 미연은 10회 대화 제한
       case '세진':
-        return 10; // 세진은 8회 대화 제한
+        return 11; // 세진은 8회 대화 제한
       case '현아':
-        return 9; // 현아는 7회 대화 제한
+        return 11; // 현아는 7회 대화 제한
       case '진혁':
-        return 8; // 진혁은 6회 대화 제한
+        return 11; // 진혁은 6회 대화 제한
       default:
         return 0;
     }
