@@ -8,4 +8,5 @@ abstract class AuthRepository {
   Future<User?> signUp(SignupModel signUpModel);
 
   Future<User?> getUserFromPreferences();
+  Future<void> logout();
 }

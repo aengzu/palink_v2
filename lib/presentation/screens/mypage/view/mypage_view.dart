@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palink_v2/core/theme/app_fonts.dart';
 import 'package:palink_v2/di/locator.dart';
+import 'package:palink_v2/presentation/screens/chatting/view/components/custom_btn_small.dart';
 import 'package:palink_v2/presentation/screens/mypage/controller/mypage_viewmodel.dart';
 import 'package:palink_v2/presentation/screens/mypage/view/component/profile_section.dart';
 import 'package:palink_v2/presentation/screens/mypage/view/component/user_info_section.dart';
@@ -87,6 +88,12 @@ class MypageView extends StatelessWidget {
                       onTap: () => _showComingSoonDialog(context),
                       trailing: const Icon(Icons.arrow_forward_ios),
                     ),
+                    ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      title: const Text('로그아웃'),
+                      onTap: () => mypageViewmodel.logout(),
+                      trailing: const Icon(Icons.arrow_forward_ios),
+                    )
                   ],
                 ),
               ),

@@ -42,6 +42,7 @@ import 'package:palink_v2/domain/usecase/get_chatroom_by_user.dart';
 import 'package:palink_v2/domain/usecase/get_feedback_by_conversation_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_random_mindset_usecase.dart';
 import 'package:palink_v2/domain/usecase/get_user_info_usecase.dart';
+import 'package:palink_v2/domain/usecase/logout_usecase.dart';
 import 'package:palink_v2/domain/usecase/save_feedback_usecase.dart';
 import 'package:palink_v2/domain/usecase/send_user_message_usecase.dart';
 import 'package:palink_v2/domain/usecase/sign_up_usecase.dart';
@@ -144,12 +145,13 @@ void _setupUseCases() {
   getIt.registerFactory<SaveFeedbackUseCase>(() => SaveFeedbackUseCase());
   getIt.registerFactory<GetChatroomByUser>(() => GetChatroomByUser(getIt<ChatRepository>(), getIt<UserRepository>()));
   getIt.registerFactory<GetFeedbackByConversationUsecase>(() => GetFeedbackByConversationUsecase(getIt<FeedbackRepository>()));
+  getIt.registerFactory<LogoutUsecase>(() => LogoutUsecase(getIt<AuthRepository>()));
 }
 
 void _setupViewModels() {
   getIt.registerFactory<LoginViewModel>(() => LoginViewModel(loginUseCase: getIt<LoginUseCase>()));
   getIt.registerFactory<SignupViewModel>(() => SignupViewModel(signUpUseCase: getIt<SignUpUseCase>()));
-  getIt.registerFactory<MypageViewModel>(() => MypageViewModel(getUserInfoUseCase: getIt<GetUserInfoUseCase>()));
+  getIt.registerFactory<MypageViewModel>(() => MypageViewModel(getUserInfoUseCase: getIt<GetUserInfoUseCase>(), logoutUseCase: getIt<LogoutUsecase>()));
   getIt.registerLazySingleton<CharacterSelectViewModel>(() => CharacterSelectViewModel(fetchCharactersUsecase: getIt<FetchCharactersUsecase>()));
   getIt.registerFactory<TipViewModel>(() => TipViewModel());
   getIt.registerFactory<MyfeedbacksViewmodel>(() => MyfeedbacksViewmodel());
