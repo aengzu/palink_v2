@@ -25,6 +25,15 @@
 
 
 ## SHOWCASES
+- 전체 데모 영상
+
+
+https://github.com/user-attachments/assets/14608270-134c-464f-a5c8-2b1af5091ead
+
+
+
+
+
 - 4개의 다른 캐릭터 페르소나
   - 미연, 진혁, 세진, 현아
 <p float="left">
@@ -45,7 +54,6 @@
 
 https://github.com/user-attachments/assets/2b7a9242-dcd6-48e5-8ebe-93d1f78053e8
 
-(시연 영상 : [https://www.youtube.com/watch?v=K5g2jtDPIS0](https://youtu.be/Uuezni8XDKY) )
 
 ## Deploy
 - 웹앱 배포 : Amazon S3 (CloudFront 와 연동)
