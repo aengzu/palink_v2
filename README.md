@@ -47,10 +47,14 @@ If users struggle to find an appropriate response during a conversation, they ca
 ## Prompt Structure
 **1. Response Generation Prompt**
 - Generates appropriate replies for the conversation based on the user's statements.
+
 **2. Refusal Detection Prompt**
 - Analyzes the user's statements to detect refusal patterns or categories.
+
+
 **3. Tip Generation Prompt**
 - Provides example responses or tips to guide the user when they struggle to reply.
+
 **4. Final Analysis Prompt**
 - Evaluates the entire conversation to deliver comprehensive feedback and insights for improvement.
 
