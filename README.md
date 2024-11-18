@@ -41,11 +41,7 @@ If users struggle to find an appropriate response during a conversation, they ca
 ## Stack
 ![기술스택](https://github.com/user-attachments/assets/bf0a8b75-d4c6-4ef8-8a42-95e640ef62cb)
 
-
-## Feedback
-![018](https://github.com/aengzu/palink_v2/assets/102356873/bbdc07bd-149b-48a2-9b37-e93ce682c4b0)
-
-## Flow
+## Flow
 ![작동 메커니즘](https://github.com/user-attachments/assets/f0a7e74f-338e-4458-a28f-8ee76b039df2)
 
 ## Prompt Structure
