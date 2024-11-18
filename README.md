@@ -18,7 +18,6 @@ PALINK is a system designed to enhance self-expression by allowing users to prac
 
 
 ## Content
-We have adjusted the prompts to create four different characters with distinct personas. This allows users to practice refusal scenarios tailored to each character type.
 ![015](https://github.com/aengzu/palink_v2/assets/102356873/a4d9b79d-6694-4d0c-b440-03f87384969f)
 
 ## Stack
@@ -44,6 +43,7 @@ https://github.com/user-attachments/assets/14608270-134c-464f-a5c8-2b1af5091ead
 
 - 4개의 다른 캐릭터 페르소나
   - 미연, 진혁, 세진, 현아
+  - We have adjusted the prompts to create four different characters with distinct personas. This allows users to practice refusal scenarios tailored to each character type.
 <p float="left">
   <img src="https://github.com/user-attachments/assets/c89d9da7-7120-4b44-b03a-f664517c5825" width="200" />
   <img src="https://github.com/user-attachments/assets/9970cf03-0e97-48fd-a942-94bec70048b1" width="200" /> 
