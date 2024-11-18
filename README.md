@@ -1,8 +1,7 @@
 ## PALINK 
 
-[Title] Role-Playing System for Improving Friend Relationships Using LLM
+**Role-Playing System for Improving Friend Relationships Using LLM**
 
-[Content]
 A lack of self-expression becomes most apparent in situations where one needs to refuse a request.
 
 PALINK is a system designed to enhance self-expression by allowing users to practice communication skills through simulated conversations with a virtual friend, focusing on the theme of "refusing requests."
