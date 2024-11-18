@@ -45,18 +45,18 @@ If users struggle to find an appropriate response during a conversation, they ca
 ![작동 메커니즘](https://github.com/user-attachments/assets/f0a7e74f-338e-4458-a28f-8ee76b039df2)
 
 ## Prompt Structure
-1. Response Generation Prompt
+**1. Response Generation Prompt**
 - Generates appropriate replies for the conversation based on the user's statements.
-2. Refusal Detection Prompt
+**2. Refusal Detection Prompt**
 - Analyzes the user's statements to detect refusal patterns or categories.
-3. Tip Generation Prompt
+**3. Tip Generation Prompt**
 - Provides example responses or tips to guide the user when they struggle to reply.
-4. Final Analysis Prompt
+**4. Final Analysis Prompt**
 - Evaluates the entire conversation to deliver comprehensive feedback and insights for improvement.
 
 
 ## SHOWCASES
-- 전체 데모 영상 (Demo)
+- Demo
 
 
 https://github.com/user-attachments/assets/14608270-134c-464f-a5c8-2b1af5091ead
