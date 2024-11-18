@@ -13,9 +13,10 @@ PALINK is a system designed to enhance self-expression by allowing users to prac
 ![009](https://github.com/aengzu/palink_v2/assets/102356873/129ba3de-a3a2-490d-889b-e87813a67f8c)
 
 ## Our GOAL
-[Goal]
+**[Goal]**
 The goal of this study is to develop a role-playing-based interpersonal practice system aimed at improving interpersonal relationship issues and to validate its effectiveness.
-[Key Elements for Achieving the Goal]
+
+**[Key Elements for Achieving the Goal]**
 1. Conversation simulation with a virtual friend
 2. Practice of communication techniques
 3. Real-time conversation evaluation and guidance
