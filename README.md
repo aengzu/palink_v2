@@ -18,6 +18,17 @@ PALINK is a system designed to enhance self-expression by allowing users to prac
 
 
 ## Content
+1. Role-Playing Therapy Technique
+Role-playing therapy involves recreating interpersonal scenarios to experience therapeutic effects. Leveraging this technique, users engage in role-playing with AI characters in specific situations, such as practicing refusals.
+
+2. Positive Mindset Formation
+Before loading screens or the start of a conversation, the system displays encouraging phrases to help users build confidence and foster a positive mindset.
+
+3. Quest-Based Learning
+Users receive guidance through quests, allowing them to follow structured steps to learn effective refusal techniques. Quests are detected by prompts designed to identify refusal categories, which are then processed in the code to track quest progress.
+
+4. Tip Assistance and Feedback
+If users struggle to find an appropriate response during a conversation, they can use a "Tip" button to receive textual guidance. Once the conversation ends, the dialogue history is analyzed using a prompt, and comprehensive final feedback is provided.
 ![015](https://github.com/aengzu/palink_v2/assets/102356873/a4d9b79d-6694-4d0c-b440-03f87384969f)
 
 ## Stack
