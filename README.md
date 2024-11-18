@@ -36,6 +36,9 @@ Users receive guidance through quests, allowing them to follow structured steps 
 
 **4. Tip Assistance and Feedback**
 If users struggle to find an appropriate response during a conversation, they can use a "Tip" button to receive textual guidance. Once the conversation ends, the dialogue history is analyzed using a prompt, and comprehensive final feedback is provided.
+
+<br>
+
 ![015](https://github.com/aengzu/palink_v2/assets/102356873/a4d9b79d-6694-4d0c-b440-03f87384969f)
 
 ## Stack
