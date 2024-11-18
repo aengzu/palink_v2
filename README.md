@@ -46,12 +46,12 @@ If users struggle to find an appropriate response during a conversation, they ca
 ![018](https://github.com/aengzu/palink_v2/assets/102356873/bbdc07bd-149b-48a2-9b37-e93ce682c4b0)
 
 ## 핵심 Flow
-- Flow 1 : 캐릭터 선택 → 로딩 중(대화창 및 초기 메시지 생성) → 대화창 및 초기 메시지 생성 완료
+- Flow 1 : 캐릭터 선택 → 로딩 중(대화창 및 초기 메시지 생성) → 대화창 및 초기 메시지 생성 완료 
 ![채팅방생성 drawio (1)](https://github.com/user-attachments/assets/4b8dd0c1-a31e-4329-9786-8ff25b38013a)
 
 
 ## SHOWCASES
-- 전체 데모 영상
+- 전체 데모 영상 (Demo)
 
 
 https://github.com/user-attachments/assets/14608270-134c-464f-a5c8-2b1af5091ead
@@ -60,8 +60,8 @@ https://github.com/user-attachments/assets/14608270-134c-464f-a5c8-2b1af5091ead
 
 
 
-- 4개의 다른 캐릭터 페르소나
-  - 미연, 진혁, 세진, 현아
+- 4개의 다른 캐릭터 페르소나 (Four Different Character Personas)
+  - 미연, 진혁, 세진, 현아 (Miyeon, Jinhyuk, Sejin, Hyuna)
   - We have adjusted the prompts to create four different characters with distinct personas. This allows users to practice refusal scenarios tailored to each character type.
 <p float="left">
   <img src="https://github.com/user-attachments/assets/c89d9da7-7120-4b44-b03a-f664517c5825" width="200" />
@@ -70,13 +70,13 @@ https://github.com/user-attachments/assets/14608270-134c-464f-a5c8-2b1af5091ead
   <img src="https://github.com/user-attachments/assets/8e6fa0c2-1683-4ba4-bbef-0f7d6551cc13" width="200" /> 
 </p>
 
-- 팁 기능
+- 팁 기능 (Tip Feature via Button (Example Answer Generation))
 <p float="left">
   <img src="https://github.com/user-attachments/assets/ec728301-46c7-492d-8837-b9317ef3ae92" width="200" />
   <img src="https://github.com/user-attachments/assets/136bf50d-1130-41a6-b4ed-0042a44e1148" width="200" /> 
 </p>
 
-- 퀘스트 제공 및 탐지
+- 퀘스트 제공 및 탐지 (Quest Provision and Detection Tailored to Each Persona)
 (퀘스트 달성 시 토스트 메시지 (퀘스트 3 ‘상대방이 처한 상황 파악하기’가 달성된 모습))
 
 https://github.com/user-attachments/assets/2b7a9242-dcd6-48e5-8ebe-93d1f78053e8
