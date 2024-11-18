@@ -9,7 +9,7 @@ PALINK is a system designed to enhance self-expression by allowing users to prac
 ![014](https://github.com/aengzu/palink_v2/assets/102356873/dbaf5178-7f2d-4fe7-8434-204332f6fef0)
 
 ## Background
-
+A survey conducted with 57 Korean adolescents asked, "What do you think needs improvement in your interpersonal relationships? Please select the option that applies to you." The majority (47.4%) identified "awareness of others" as the key area for improvement. This tendency is closely linked to a lack of self-expression.
 ![009](https://github.com/aengzu/palink_v2/assets/102356873/129ba3de-a3a2-490d-889b-e87813a67f8c)
 
 ## Our GOAL
