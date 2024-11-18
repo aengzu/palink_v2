@@ -92,11 +92,11 @@ https://github.com/user-attachments/assets/2b7a9242-dcd6-48e5-8ebe-93d1f78053e8
 
 
 ## Deploy
-- 웹앱 배포 : Amazon S3 (CloudFront 와 연동)
-- DB 서버 배포 : Amazon EC2
+- Futter WebApp Deployment: Amazon S3 (Integrated with CloudFront)
+- FastAPI Server Deployment : Amazon EC2
 - DB : Amazon RDS
 
-Flutter 웹앱으로 배포를 하였으나, AI API 비용상의 문제로 링크 비공개 처리하였습니다 🥲
+The Flutter web app was successfully deployed, but due to the cost issues with the AI API, the link has been set to private 🥲.
 
 
 ## Getting Started
