@@ -40,7 +40,8 @@ If users struggle to find an appropriate response during a conversation, they ca
 ![015](https://github.com/aengzu/palink_v2/assets/102356873/a4d9b79d-6694-4d0c-b440-03f87384969f)
 
 ## Stack
-![016](https://github.com/aengzu/palink_v2/assets/102356873/1873440f-7c14-4ba1-a122-302ced4330fb)
+![기술스택](https://github.com/user-attachments/assets/bf0a8b75-d4c6-4ef8-8a42-95e640ef62cb)
+
 
 ## Feedback
 ![018](https://github.com/aengzu/palink_v2/assets/102356873/bbdc07bd-149b-48a2-9b37-e93ce682c4b0)
@@ -48,6 +49,16 @@ If users struggle to find an appropriate response during a conversation, they ca
 ## 핵심 Flow
 - Flow 1 : 캐릭터 선택 → 로딩 중(대화창 및 초기 메시지 생성) → 대화창 및 초기 메시지 생성 완료 
 ![채팅방생성 drawio (1)](https://github.com/user-attachments/assets/4b8dd0c1-a31e-4329-9786-8ff25b38013a)
+
+## Prompt Structure
+1. Response Generation Prompt
+- Generates appropriate replies for the conversation based on the user's statements.
+2. Refusal Detection Prompt
+- Analyzes the user's statements to detect refusal patterns or categories.
+3. Tip Generation Prompt
+- Provides example responses or tips to guide the user when they struggle to reply.
+4. Final Analysis Prompt
+- Evaluates the entire conversation to deliver comprehensive feedback and insights for improvement.
 
 
 ## SHOWCASES
