@@ -18,6 +18,7 @@ PALINK is a system designed to enhance self-expression by allowing users to prac
 
 
 ## Content
+We have adjusted the prompts to create four different characters with distinct personas. This allows users to practice refusal scenarios tailored to each character type.
 ![015](https://github.com/aengzu/palink_v2/assets/102356873/a4d9b79d-6694-4d0c-b440-03f87384969f)
 
 ## Stack
