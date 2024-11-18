@@ -1,4 +1,4 @@
-## Quest-Based Conversation Practice Simulation (LLM) Project (KOREAN)
+## Quest-Based Conversation Practice Simulation (LLM) Project
 
 **Role-Playing System for Improving Friend Relationships Using LLM**
 
