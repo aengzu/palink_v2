@@ -22,7 +22,6 @@ The goal of this study is to develop a role-playing-based interpersonal practice
 3. Real-time conversation evaluation and guidance
 
 ![012](https://github.com/aengzu/palink_v2/assets/102356873/efb257bf-a165-499e-93a2-efa2f31e5ca2)
-![013](https://github.com/aengzu/palink_v2/assets/102356873/220aaf0a-7496-4fa4-a536-880f27e1ed0d)
 
 
 ## Content
@@ -46,9 +45,8 @@ If users struggle to find an appropriate response during a conversation, they ca
 ## Feedback
 ![018](https://github.com/aengzu/palink_v2/assets/102356873/bbdc07bd-149b-48a2-9b37-e93ce682c4b0)
 
-## 핵심 Flow
-- Flow 1 : 캐릭터 선택 → 로딩 중(대화창 및 초기 메시지 생성) → 대화창 및 초기 메시지 생성 완료 
-![채팅방생성 drawio (1)](https://github.com/user-attachments/assets/4b8dd0c1-a31e-4329-9786-8ff25b38013a)
+## Flow
+![작동 메커니즘](https://github.com/user-attachments/assets/f0a7e74f-338e-4458-a28f-8ee76b039df2)
 
 ## Prompt Structure
 1. Response Generation Prompt
