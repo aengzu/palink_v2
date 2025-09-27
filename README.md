@@ -11,7 +11,8 @@ A lack of self-expression becomes most apparent in situations where one needs to
 
 PALINK is a system designed to enhance self-expression by allowing users to practice communication skills through simulated conversations with a virtual friend, focusing on the theme of "refusing requests."
 
-![014](https://github.com/aengzu/palink_v2/assets/102356873/dbaf5178-7f2d-4fe7-8434-204332f6fef0)
+<img width="1920" height="1080" alt="제목을-입력해주세요_-012" src="https://github.com/user-attachments/assets/b80b3549-b2e0-4eeb-9740-e85f4eefeb96" />
+
 
 ### Background
 A survey conducted with 57 Korean adolescents asked, "What do you think needs improvement in your interpersonal relationships? Please select the option that applies to you." The majority (47.4%) identified "awareness of others" as the key area for improvement. This tendency is closely linked to a lack of self-expression.
