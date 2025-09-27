@@ -44,7 +44,8 @@ If users struggle to find an appropriate response during a conversation, they ca
 
 <br>
 
-![015](https://github.com/aengzu/palink_v2/assets/102356873/a4d9b79d-6694-4d0c-b440-03f87384969f)
+<img width="1920" height="1080" alt="제목을-입력해주세요_-014" src="https://github.com/user-attachments/assets/6f27e7a5-8b95-4641-9a78-cc14bf86a364" />
+
 
 ### Stack
 ![기술스택](https://github.com/user-attachments/assets/bf0a8b75-d4c6-4ef8-8a42-95e640ef62cb)
