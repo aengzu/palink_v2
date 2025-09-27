@@ -27,7 +27,8 @@ The goal of this study is to develop a role-playing-based interpersonal practice
 2. Practice of communication techniques  
 3. Real-time conversation evaluation and guidance  
 
-![012](https://github.com/aengzu/palink_v2/assets/102356873/efb257bf-a165-499e-93a2-efa2f31e5ca2)
+<img width="1920" height="1080" alt="제목을-입력해주세요_-009" src="https://github.com/user-attachments/assets/45979c72-5bce-49b8-a933-8db4a8822439" />
+
 
 ### Content
 **1. Role-Playing Therapy Technique**  
